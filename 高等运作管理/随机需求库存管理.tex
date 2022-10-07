@@ -1,0 +1,48 @@
+\documentclass{../notes}
+
+\title{随机需求下的库存管理}
+
+\begin{document}
+    \maketitle
+
+    研究需求随机时的库存管理。
+
+    随机库存控制模型：
+
+    \begin{enumerate}
+        \item 周期检查策略：单周期、有限周期、无限周期（影响因素：固定订货成本）；事件顺序、基于期末库存计算成本
+        \item 连续检查策略
+        \item 计算最优策略与最优参数
+    \end{enumerate}
+
+    常用概率分布：泊松分布（顾客到达）、正态分布（消费量）
+
+    \section*{报童模型}
+
+    特点：只能订一次货、产品易变质、新旧产品不可混合
+
+    参数：\begin{enumerate}
+        \item 需求$D$，$D$服从概率密度函数$f$，分布函数$F$
+        \item 订货量$Q$
+        \item 缺货成本$c_u$、库存成本$c_o$
+    \end{enumerate}
+
+    将成本表示为随机变量$D$和决策变量$Q$的函数，通过确定$Q$使得函数的期望最小。即$C(Q, D) = c_0\max\{0, Q-D\} + c_u\max\{0, D-Q\}$，计算期望成本函数$C(Q) = \cexpt{C(Q, D)}Q$
+
+    \begin{align}
+        \text{期望缺货量}\quad & n(Q) = \expt{(X-Q)^+} = \int_Q^\infty (x-Q)f(x)\dd x \\
+        \text{期望持有库存}\quad & \bar n(Q) = \expt{(Q-X)^+} = \int_{0}^Q (Q-x)f(x)\dd x \\
+        \text{期望成本}\quad & C(Q) = c_u n(Q) + c_o\bar n(Q)
+    \end{align}
+
+    结论：$C'(Q) = c_oF(Q) + c_u(1-F(Q))$，因此最优订货量满足
+
+    \begin{equation}
+        F(Q) = \prob{D\leq Q} = \frac{c_u}{c_o+c_u}
+    \end{equation}
+
+    \begin{itemize}
+        \item 当$c_u$增加时，缺货导致的损失增加，零售商倾向于提高订货量以避免缺货损失
+        \item 计算正态分布需求下的最优成本？
+    \end{itemize}
+\end{document}
