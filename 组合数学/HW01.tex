@@ -1,0 +1,70 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumitem}
+
+\newcommand{\pe}[2]{P_{#1}^{#2}}
+\newcommand{\co}[2]{C_{#1}^{#2}}
+
+\input{../symbols.tex}
+
+\title{HW01}
+\author{皇甫硕龙}
+
+\begin{document}
+    \maketitle
+    \paragraph*{1.3}
+
+    \begin{enumerate}[label=\textbf{(\arabic*)}, itemsep=0.2em]
+        \item 男生不相邻，相当于把$m$个男生放置$n$个女生组成的$n+1$空隙中，则为$\pe{n+1}{m}$，由于女生排列存在顺序，总的排列数为$\pe nn\pe{n+1}{m}$
+        \item 将女生视为整体后的排列数为$\pe{m+1}{m+1}$，女生内部有$\pe{n}{n}$种排列，因此总排列数为$\pe{m+1}{m+1}\pe{n}{n}$
+        \item 将男生A和女生B视为整体，排列数为$\pe{m+n-1}{m+n-1}$，A和B有$\pe 22$种排列，因此总排列数为$\pe 22\pe{m+n-1}{m+n-1}$
+    \end{enumerate}
+
+    \paragraph*{1.8}
+
+    已知$10^{40} = 2^{40}\times 5^{40}, 20^{30} = 2^{60}\times 5^{30}$，因此两者的公因数可以写作$2^i5^j, 0\leq i\leq 40, 0\leq j\leq 30$，因此共有$41\times 31 = 1271$个公因数。
+
+    \paragraph*{1.16} 使用隔板法，组合数为$\prod _{i=n-1}^{r-1}i = \co{n-1}{r-1}$
+    \paragraph*{1.19} 使用隔板法，1作为隔板分割0，可以从两端开始，因此组合数为$\co{m+1}{n}$
+    \paragraph*{1.27} 
+    
+    \begin{enumerate}[label=\textbf{(\arabic*)}, itemsep=0.2em]
+        \item 女宾不相邻时，5位女宾周围共有5个空隙，需要放入6位男宾。不考虑男宾时，方案数为$\pe 55/5$，考虑男宾，男宾共有$\pe 66$种排列顺序，因此总的排列数为$\pe 55\pe 66/5$
+        \item 所有女宾在一起时，方案数为$\pe 55\pe 77 / 7 = \pe 55\pe 66$
+        \item 将A和两位男宾视为一个整体，方案数为$\pe 99 / 9$，女宾和周围两位男宾共有$\pe 62$种排列方法，因此总的方案数位$\pe 62\pe 99 / 9 = \pe 62\pe 88$
+    \end{enumerate}
+
+    \paragraph*{1.33} 每盒至少$k$个球，相当于移去$n(k - 1)$个球后每盒至少$1$个球，则总的排列数为$\co{r - n(k-1) - 1}{n - 1}$
+
+    \paragraph*{1.45} 
+    
+    \begin{enumerate}[label=\textbf{(\arabic*)}, itemsep=0.2em]
+        \item 设取$i$个互不相同的球，则可取$n - i$个相同的球
+        
+        \begin{equation}
+            \sum_{i=0}^{n} \co{n}{i} = 2^n
+        \end{equation}
+
+        \item 同上，结果为
+        
+        \begin{equation}
+            \sum_{i=0}^{n} \co{2n+1}i = 2^{2n}
+        \end{equation}
+
+    \end{enumerate}
+    
+    \paragraph*{1.48} 由题，格路法到达$x + y = k (x\geq y)$的点的总方案数量为
+
+    \begin{equation}
+        \sum_{i=1}^{p} \co ki
+    \end{equation}
+
+    式中$p$为$x + y = k$落在区域$x\geq 0, y\leq n, y\geq x$内的整数点的数量。
+
+    \begin{enumerate}
+        \item[$k\leq n$时] 有$p = \left\lfloor k/2 \right\rfloor$
+        \item[$k> n$时] 有$p = n - \left\lfloor k/2 \right\rfloor$ 
+    \end{enumerate}
+
+\end{document}

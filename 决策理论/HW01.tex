@@ -1,0 +1,41 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\title{决策理论 HW01}
+\author{皇甫硕龙}
+
+\input{../symbols.tex}
+
+\begin{document}
+    \maketitle
+
+    \paragraph*{1}
+
+    设$P_i, i=1, 2, 3$为第$i$位投赞成票的概率，随机变量$X$为投赞成票的人数，则$X\sim B(3, p)$
+
+    \begin{equation}
+        P(Y) = P(X\geq 2) = p^3 +  3p^2(1 - p)
+    \end{equation}
+
+    \begin{equation}
+        \begin{aligned}
+            P(F|Y) &= \frac{P(F\cap Y)}{P(Y)} \\
+            &= \frac{p(p^2 + 2p(1-p))}{p^3 +  3p^2(1 - p)} \\
+            &= \frac{2-p}{3-2p}
+        \end{aligned}
+    \end{equation}
+
+    因此，$\lim_{p\rightarrow 0} P(F|Y) = 2/3, \lim_{p\rightarrow 1} P(F|Y) = 1$。当$p\rightarrow 0$时，$1-p\rightarrow 1$，有$p^3\ll 3p^2(1-p)$，因此在已知通过的前提下大概率为2票通过，则每个人投赞成票的概率趋向于$2/3$。反之，当$p\rightarrow 1$时，$1-p\rightarrow 0$，有$p^3\gg 3p^2(1-p)$，因此在已知通过的前提下大概率为3票通过，则每个人投赞成票的概率趋向于$1$。
+
+    \paragraph*{2} 降水量以一年为周期随季节波动，夏季降雨多，冬季降雨少。而每年同期的降水量可以视为独立同分布。因此，可以使用随季节变化的预测模型进行预测。设$1\leq i$，令$X_i$为一年内第$i$周的降水量，观测期为$n$年，得到$X_i$的一系列观测值$x_{ij}$。如式\eqnref{eq:1}定义第$i$周的季节因子$c_i$，则$E(X_i/c_i) = E(X_j/c_j), \forall i\not = j$。从而将季节序列转化为平稳序列，可以使用滑动窗口或指数平滑等方式进行预测。
+
+    \begin{equation}
+        c_i = \frac{\bar{X}_{i\cdot}}{\bar{X}_{\cdot\cdot}}
+        \label{eq:1}
+    \end{equation}
+    
+    该种预测方法没有考虑$X_i$并非同分布，因此$V(X_i)$通常不相等。反映在现实生活中，如中国大多数城市属温带大陆性气候，夏季高温多雨，冬季干旱少雨。夏季温度升高，形成低压区，受到太平洋季风的影响，造成降雨。因此降雨的强度取决于季风的强度，而季风的强度受到更多因素的影响，使得夏季国内同时期降水量变化幅度较大。而冬季温度降低，形成低压区，降水量普遍较少，变化幅度小。季节因子$c_i$只消除了$X_i$均值之间的差异，而没有考虑$X_i$方差之间的差异。在夏季，$X_i$变化幅度更大，更容易出现异常值（即远高于正常观测水平的降水），而季节性周期预测方法不容易预测出此类异常值。
+
+    高于正常水平的降水量出现概率较低，通常为数十年发生一次。根据生活经验，发生严重的气候灾害前，通常会出现一系列严重程度较低的气候反常现象。因此，可以通过观测反常气候的出现周期来预测气候灾害。如使用机器学习模型或基于概率的马尔科夫链等模型进行预测。
+\end{document}

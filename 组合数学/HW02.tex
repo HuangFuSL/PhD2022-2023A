@@ -1,0 +1,88 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumitem}
+
+\usepackage{setspace}
+
+\setstretch{1.5}
+
+\title{全排列生成算法}
+\author{皇甫硕龙}
+
+\begin{document}
+    \maketitle
+
+    按照四种全排列生成算法计算83674521的前2022个全排列。
+
+    \paragraph*{字典序算法}
+
+    已知：$2022 = 2\times 6! + 4\times 5! + 4\times 4! + 1\times 3!$，向前递推关系按照共同前缀从短到长进行：
+
+    \begin{enumerate}[label=\textit{第\arabic*步}, itemsep=0.2em]
+        \item 从前缀$83$到前缀$81$，其中共包含$2\times 6!$个可能的全排列，因此$83674521$的前$2\times 6!$个全排列为$81674532$；
+        \item 从前缀$816$到前缀$812$，其中共包含$4\times 5!$个可能的全排列，因此$81674532$的前$4\times 5!$个全排列为$81275643$；
+        \item 从前缀$8127$到前缀$8123$，其中共包含$4\times 4!$个可能的全排列，因此$81275643$的前$4\times 5!$个全排列为$81236754$；
+        \item 从前缀$81236$到前缀$81235$，其中共包含$3!$个可能的全排列，因此$81236754$的前$4\times 5!$个全排列为$81235764$；
+    \end{enumerate}
+
+    在字典序算法下，$83674521$的前2022个全排列为$81235764$。
+
+    \paragraph*{SJT算法}
+
+    已知$2022 = 6 + 8\times(0 + 7\times (0 + 6\times (1 + 5\times 1)))$，即$(0011006)_\downarrow$。
+
+    \begin{enumerate}[label=\textit{第\arabic*步}, itemsep=0.2em]
+        \item 对于$83674521$，相当于将8反推6步，将剩余序列$3674521$反推$(001100)_\downarrow = 252$步；
+        \item 对于$3647521$，相当于7的的位置不变，然后将剩余序列$364521$反推$(00110)_\downarrow = 36$步；
+        \item 对于$364521$，相当于6的位置不变，然后将剩余序列$34521$反推$(0011)_\downarrow = 6$步；
+        \item 对于$34521$，相当于将5反推1步，然后将剩余序列$3421$反推1步。
+    \end{enumerate}
+
+    因此，有
+
+    \begin{enumerate}[label=\textit{第\arabic*步}, itemsep=0.2em]
+        \item $3421$将4反推1步得到$3241$；
+        \item $3241$插入5后得到$32541$，$32541$将5反推1步得到$32451$；
+        \item $32451$插入6后得到$362451$；
+        \item $362451$插入7得到$3627451$；
+        \item $3627451$插入8得到$83627451$，将8反推6步得到$36274581$。
+    \end{enumerate}
+
+    在SJT算法下，$83674521$的前2022个全排列为$36274581$。
+
+    \paragraph*{递增进位制数法}
+
+    已知$2022 = 2\times \left(3\times \left(1 + 4\times \left(4 + 5\times \left( 4 + 6\times 2\right)\right)\right)\right)$，即$2022 = (244100)_\uparrow$。
+
+    根据中介数的定义，$83674521$对应的中介数为$(7044221)_\uparrow$，因此前2022个排列对应的中介数为$(7044221)_\uparrow - (244100)_\uparrow = (6500121)_\uparrow$，与$(6500121)_\uparrow$对应的排列为：
+
+    \begin{enumerate}[label=\textit{第\arabic*步}, itemsep=0.2em]
+        \item 第1位右侧有6个小于第1位的数字，因此第1位为7
+        \item 第2位右侧有5个小于第2位的数字，因此第2位为6
+        \item 第3位右侧有0个小于第3位的数字，因此第3位为1
+        \item 第4位右侧有0个小于第4位的数字，因此第4位为2
+        \item 第5位右侧有1个小于第5位的数字，因此第5位为4
+        \item 第6位右侧有2个小于第6位的数字，因此第6位为8
+        \item 第7位右侧有1个小于第7位的数字，因此第7位为5
+    \end{enumerate}
+
+    在递增进位制数法下，$83674521$的前2022个全排列位$76124853$。
+
+    \paragraph*{递减进位制数法} 已知$2022 = (0011006)_\downarrow$
+    
+    已知$83674521$对应的中介数为$(7044221)_\uparrow = (1224407)_\downarrow$
+    则前2022个排列对应的中介数为$(1224407)_\downarrow - (0011006)_\downarrow = (1213401)_\downarrow$，即$(1043121)_\uparrow$
+
+    \begin{enumerate}[label=\textit{第\arabic*步}, itemsep=0.2em]
+        \item 第1位右侧有1个小于第1位的数字，因此第1位为2
+        \item 第2位右侧有0个小于第2位的数字，因此第2位为1
+        \item 第3位右侧有4个小于第3位的数字，因此第3位为7
+        \item 第4位右侧有3个小于第4位的数字，因此第4位为6
+        \item 第5位右侧有1个小于第5位的数字，因此第5位为4
+        \item 第6位右侧有2个小于第6位的数字，因此第6位为8
+        \item 第7位右侧有1个小于第7位的数字，因此第7位为5
+    \end{enumerate}
+
+    在递减进位制数法下，$83674521$的前2022个全排列位$21764853$。
+\end{document}

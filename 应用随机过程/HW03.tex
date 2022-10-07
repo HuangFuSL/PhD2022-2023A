@@ -1,0 +1,293 @@
+\documentclass{article}
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\title{应用随机过程 HW03}
+\author{皇甫硕龙}
+
+\input{../symbols.tex}
+
+\begin{document}
+    \maketitle
+
+    \paragraph*{1.11} 已知$\{B_n, n\geq 1\}$是$\Omega$的一个分解，则有
+
+    \begin{eqnarray}
+        \bigcup _{i=1}^\infty B_i &= \Omega \label{eq:1.11-1} \\
+        B_i \cap B_j &= \varnothing & \forall i\not = j \label{eq:1.11-2}
+    \end{eqnarray}
+
+    根据\eqref{eq:1.11-1}，有$A = A\cap \Omega = A\cap \left(\bigcup _{i=1}^\infty B_i\right) = \bigcup _{i=1}^\infty AB_i$，又因\eqref{eq:1.11-2}，有
+
+    \begin{equation}
+        \prob A = \prob {\bigcup _{i=1}^\infty AB_i} = \sum_{i=1}^\infty \prob{AB_i}
+    \end{equation}
+
+    因此，等式右边
+
+    \begin{equation}
+        \begin{aligned}
+            &\sum_{i=1}^\infty \cprob {B_i}C \cprob A{B_iC} \\
+            =&\sum_{i=1}^\infty \frac{\prob{B_iC}}{\prob C} \frac{\prob {AB_iC}}{\prob {B_iC}} \\
+            =&\sum_{i=1}^\infty \frac{\prob {AB_iC}}{C} \\
+            =&\frac{\prob {AC}}{C} \\
+            =&\cprob AC
+        \end{aligned}
+    \end{equation}
+
+    \paragraph*{1.28}
+
+    $E[E(X|Y)|Y, Z] = E(X|Y)$证明如下：
+
+    \begin{equation}
+        \begin{aligned}
+            E[E(X|Y)|Y, Z] &= \sum_j \sum_i E[E(X|Y)|Y=y_i, Z=z_j]I_{\{y=y_i, z=z_j\}} \\
+            &= \sum_j \sum_i E[E(X|Y)|Y=y_i, Z=z_j]I_{\{y=y_i\}I_{\{z=z_j\}}} \\
+            &= \sum_j \sum_i E[E(X|Y)|Y=y_i]I_{\{y=y_i\}}I_{\{z=z_j\}} \\
+            &= \sum_i E[E(X|Y)|Y=y_i]I_{\{y=y_i\}} \\
+            &= E(X|Y)
+        \end{aligned}
+    \end{equation}
+
+    $E[E(X|Y, Z)|Y] = E(X|Y)$证明如下：
+
+    \begin{equation}
+        \begin{aligned}
+            E[E(X|Y, Z)|Y] &= \sum_i E[E(X|Y, Z)|Y=y_i]I_{\{y=y_i\}} \\
+            &= \sum_i E[E(X|Y=y_i, Z)]I_{\{y=y_i\}} \\
+            &= \sum_j \sum_i E[E(X|Y=y_i, Z=z_j)]I_{\{y=y_i\}}I_{\{z=z_j\}} \\
+            &= \sum_i E(X|Y=y_i)I_{\{y=y_i\}} \\
+            &= E(X|Y)
+        \end{aligned}
+    \end{equation}
+
+    \paragraph*{3.1}
+
+    \subparagraph*{(1)} $X_0$经两步转移到$X_2$，又已知$X_0 = 3$，则
+
+    \begin{equation}
+        \begin{aligned}
+            E(X_2) & = \begin{bmatrix}
+                0 & 0 & 1
+            \end{bmatrix}\bs{P}_1^2 \begin{bmatrix}
+                1 \\ 2 \\ 3
+            \end{bmatrix} \\
+            &=\begin{bmatrix}
+                0 & 0 & 1
+            \end{bmatrix}\begin{bmatrix}
+                1 & 0 & 0 \\
+                \frac 13 & \frac 29 & \frac 49 \\
+                \frac 19 & \frac 29 & \frac 23 \\
+            \end{bmatrix} \begin{bmatrix}
+                1 \\ 2 \\ 3
+            \end{bmatrix} \\
+            &= \frac{23}{9}
+        \end{aligned}
+    \end{equation}
+
+    $E(X_2|X_1)$是随机变量，
+
+    \begin{eqnarray}
+        E(X_2|X_1) = \frac 73 & x_1 = 2 \\
+        E(X_2|X_1) = \frac 83 & x_1 = 3 
+    \end{eqnarray}
+
+    $\pi_i(2) = \prob{X_2 = i}$可以按照如下方式计算：
+
+    \begin{equation}
+        \begin{aligned}
+            \pi_i(2) &= \begin{bmatrix}
+                0 & 0 & 1
+            \end{bmatrix}\bs{P}_1^2 \\
+            &= \begin{bmatrix}
+                \frac 19 & \frac 29 & \frac 23
+            \end{bmatrix}
+        \end{aligned}
+    \end{equation}
+
+    $E(X_3|X_2)$是随机变量
+
+    \begin{eqnarray}
+        E(X_3|X_2) = 1 & x_2 = 1 \\
+        E(X_3|X_2) = \frac 73 & x_2 = 2 \\
+        E(X_3|X_2) = \frac 83 & x_2 = 3 
+    \end{eqnarray}
+
+    \subparagraph*{(2)} 
+
+    对于$\cprob{T=k}{X_0=3}$，有：
+
+    \begin{equation}
+        \begin{aligned}
+            \cprob{T=1}{X_0=3} &= 0 \\
+            \cprob{T=2}{X_0=3} &= \frac 19 \\
+            \cprob{T=3}{X_0=3} &= \frac {2}{27} \\
+            \cprob{T\land 4}{X_0 = 3} &= \frac {100}{27}
+        \end{aligned}
+    \end{equation}
+
+    \subparagraph*{(3)} 
+
+    对于$T_{11}$，有：
+
+    \begin{equation}
+        \begin{aligned}
+            \prob{T_{11}=1} &= 0 \\
+            \prob{T_{11}=2} &= \frac 13 \\
+            \prob{T_{11}=3} &= \frac 29 \\
+            \cdots \\
+            \prob{T_{11}=k} &= \frac{2^{k-2}}{3^{k-1}}
+        \end{aligned}
+    \end{equation}
+
+    因此$E(T_{11}) = \sum_{k=2}^\infty k\frac{2^{k-2}}{3^{k-1}} = 4$
+
+    \paragraph*{3.2} 解方程$\det (A - \lambda I) = 0$，即
+
+    \begin{equation}
+        \begin{vmatrix}
+            1 - a - \lambda & a \\
+            b & 1 - b - \lambda \\
+        \end{vmatrix} = 0
+    \end{equation}
+
+    解得$\lambda_1 = 1, \lambda_2 = 1 - a - b$，对应的特征向量为$x_1 = \begin{bmatrix} 1 & 1 \end{bmatrix}^T, x_2 = \begin{bmatrix} a & -b \end{bmatrix}$
+
+    设$k = (1 - a - b)^n$
+
+    \begin{equation}
+        \begin{aligned}
+            \bs P^n &= D\Lambda^n D^{-1}  \\
+            &= \frac{1}{a+b}\begin{bmatrix}
+                1 & a \\
+                1 & -b \\
+            \end{bmatrix}\begin{bmatrix}
+                1 & 0 \\
+                0 & k
+            \end{bmatrix}\begin{bmatrix}
+                b & a \\
+                1 & -1 \\
+            \end{bmatrix} \\
+            &= \frac {1}{a+b}\begin{bmatrix}
+                b + ak & a - ak \\
+                b - bk & a + bk \\
+            \end{bmatrix} \\
+            &= \frac {1}{a+b}\left(\begin{bmatrix}
+                b & a \\
+                b & a
+            \end{bmatrix} + k\begin{bmatrix}
+                a & -a \\s
+                -b & b
+            \end{bmatrix}\right)
+        \end{aligned}
+    \end{equation}
+
+    将$k = (1 - a - b)^n$代入即可
+
+    \paragraph*{3.3} 根据$\bs \Phi(z)$的定义，只需证
+
+    \begin{equation}
+        (\bs I- z\bs P)\left(\bs I + z\bs P + z^2\bs P^2 \dots \right) = \bs I
+    \end{equation}
+
+    将等式左边展开，得
+
+    \begin{equation}
+        \begin{aligned}
+            \left(\bs I + z\bs P + z^2\bs P^2 + \dots\right) + \left(z\bs P + z^2\bs P^2 + \dots \right) = \bs I
+        \end{aligned}
+    \end{equation}
+
+    \paragraph*{3.8} \subparagraph*{(1)} $\bs P$的特征值为$\lambda_1 = 1/2, \lambda_2 = 3/4, \lambda_3 = 1$，对应的特征向量为：
+
+    \begin{equation}
+        x_1 = \begin{bmatrix}
+            1 \\ 0 \\ 0
+        \end{bmatrix} \quad
+        x_2 = \begin{bmatrix}
+            1 \\ 1 \\ 0
+        \end{bmatrix} \quad
+        x_3 = \begin{bmatrix}
+            1 \\ 1 \\ 1
+        \end{bmatrix}
+    \end{equation}
+
+    从而$\bs P^n$可以按如下方式计算：
+
+    \begin{equation}
+        \begin{aligned}
+            \bs P^n &= D\Lambda^n D^{-1} \\
+            &= \begin{bmatrix}
+                1 & 1 & 1 \\
+                0 & 1 & 1 \\
+                0 & 0 & 1 \\
+            \end{bmatrix}\begin{bmatrix}
+                (1/2)^n & 0 & 0 \\
+                0 & (3/4)^n & 0 \\
+                0 & 0 & 1 \\
+            \end{bmatrix}\begin{bmatrix}
+                1 & -1 & 0 \\
+                0 & 1 & -1 \\
+                0 & 0 & 1 \\
+            \end{bmatrix} \\
+            &= \begin{bmatrix}
+                (1/2)^n & (3/4)^n - (1/2)^n & 1 - (3/4)^n \\
+                0 & (3/4)^n & 1 - (3/4)^n \\
+                0 & 0 & 1
+            \end{bmatrix}
+        \end{aligned}
+    \end{equation}
+
+    因此，$\prob{T_{13} = k} = \frac 14 \left(1 - \left(1 - \left(\frac 34\right)^{k-1}\right)\right) = \frac{3^{k-1}}{4^k}$，从而$ET_{13} = \sum_{k=1}^\infty k\prob{T_{13} = k} = 4$
+
+    \subparagraph*{(2)} 由于状态$2$不能反向向状态$1$转变，状态$3$不能反向向状态$2$转变，则：
+
+    \begin{equation}
+        \begin{aligned}
+            f_{11} &= \frac 12 \\
+            f_{22} &= \frac 34 \\
+            f_{33} &= 1
+        \end{aligned}
+    \end{equation}
+
+    \subparagraph*{(3)} 根据\textbf{(1)}，当$n\rightarrow \infty$时，有
+
+    \begin{equation}
+        \bs P^n = \begin{bmatrix}
+            0 & 0 & 1 \\
+            0 & 0 & 1 \\
+            0 & 0 & 1
+        \end{bmatrix}
+    \end{equation}
+
+    \paragraph*{3.13} 只需证明
+
+    \begin{equation}
+        \cprob{R_{i+1} = a_{i+1}}{R_0=a_0,\dots,R_i=a_i} = \cprob{R_{i+1} = a_{i+1}}{R_i=a_i}
+    \end{equation}
+
+    由于$X_i$相互独立，因此$\max\{X_1, \dots X_i\}$与$X_{i+1}$相互独立。因此$R_{i+1} = \max\{a_i, X_{i+1}\}$的分布只与$R_i$的状态有关，而与$R_{0},\dots,R_{i-1}$无关，因此$\{R_i, i\geq 1\}$是马尔可夫链。
+
+    转移概率为
+
+    \begin{equation}
+        p_{ij} = \begin{cases}
+            \alpha_{j} & j > i \\
+            \sum_{k=i}^j \alpha_{k} & j = i \\
+            0 & j < i
+        \end{cases}
+    \end{equation}
+
+    \paragraph*{3.17}
+
+    \begin{equation}
+        \begin{aligned}
+            &\cprob{X_{n+1}=j}{X_k\in B_k, 0\leq k\leq n-1, X_n=i} \\
+            =&\sum_{b_{mk}\in B_k} \cprob{X_{n+1}=j}{X_k\in B_{k}, 0\leq k\leq n-1, X_n = i} \\
+            =&\sum_{b_{mk}\in B_k} \frac{\prob {X_{n+1}=j, X_n=i, X_k=b_{mk}, 0\leq k\leq n-1}}{\prob{X_k\in B_{k}, 0\leq k\leq n-1}\prob{X_n=i}} \\
+            =&\frac{\prob {X_{n+1}=j, X_n=i}}{\prob{X_n=i}} \sum_{b_{mk}\in B_k} \frac{\prob {X_k=b_{mk}, 0\leq k\leq n-1}}{\prob{X_k\in B_{k}, 0\leq k\leq n-1}} \\
+            =&\cprob{X_{n+1}=j}{X_n=i}
+        \end{aligned}
+    \end{equation}
+\end{document}

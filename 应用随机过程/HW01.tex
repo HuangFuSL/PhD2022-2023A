@@ -1,0 +1,179 @@
+\documentclass{article}
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\title{应用随机过程 HW01}
+\author{皇甫硕龙}
+\begin{document}
+    \maketitle
+    \paragraph*{1.1} \textbf{(2)} 先证$P(\varnothing) = 0$，已知定义在可测空间$(\Omega, \mathcal F)$上的概率满足$P(\Omega) = 1$。根据可测空间定义，$\Omega^C = \varnothing \in \mathcal F$，设一组集合$B_i$满足
+
+    \begin{equation}
+        B_i = \left\{\begin{aligned}
+            & \Omega & i = 1 \\
+            & \varnothing & i > 1
+        \end{aligned}\right.
+    \end{equation}
+
+    根据概率定义，概率测度$P(A)$满足
+
+    \begin{equation}
+        \forall A_i \in \mathcal{F}, i\in \mathbb{Z}^+; A_i\cap A_j =\varnothing, j\not = i \Rightarrow P\left(\bigcup _{i=1}^\infty  A_i \right)=\sum_{i=1}^\infty P\left(A_i\right)
+        \label{eq:1.1.2.1}
+    \end{equation}
+
+    则$P(\Omega) =  P(\Omega \cup \varnothing) = P(\Omega) + P(\varnothing)$，即$P(\varnothing) = 0$。
+    
+    由于$\forall A, \varnothing \cap A = \varnothing$，令$A_{n+1}, A_{n+2}, \dots = \varnothing$，根据\ref{eq:1.1.2.1}式，有
+
+    \begin{equation}
+        P\left(\bigcup_{i=1}^n A_i\right) = P\left(\bigcup_{i=1}^\infty A_i\right) = \sum_{i=1}^\infty P\left(A_i\right) = \sum_{i=1}^n P\left(A_i\right)
+        \label{eq:1.1.2.2}
+    \end{equation}
+
+    即证。
+
+    \textbf{(3) a.} 设概率空间$(\Omega, \mathcal F, P)$，对于任意集合$A$，先证$P\left(A^C\right) = 1 - P(A)$。
+
+    根据\ref{eq:1.1.2.2}式可知，若$A\cap B = \varnothing$，则$P(A\cup B) = P(A) + P(B)$。而$A, A^C$满足$A\cap A^C = \varnothing, A\cup A^C = \Omega$。则$P(A) + P\left(A^C\right) = P\left(A\cup A^C\right) = P(\Omega) = 1$，即$P\left(A^C\right) = 1 - P(A)$。
+
+    根据集合差运算的定义，$A - B = A\cap B^C$，而$A = (A\cap B) \cup \left(A\cap B^C\right)$。且由于$B\cap B^C = \varnothing$，则$(A\cap B) \cap \left(A\cap B^C\right) = A \cap \left(B\cap B^C\right)= \varnothing$。则有
+
+    \begin{equation}
+        P(A - B) + P(A\cap B) = P((A\cap B^C)\cup (A\cap B)) = P(A)
+        \label{eq:1.1.2.3}
+    \end{equation}
+
+    即$P(A - B) = P(A) - P(AB)$。
+
+    \textbf{b.} 先证明$\left(A\cap B^C\right) \cup B = A\cup B$。已知$A^C\cap B^C = (A\cup B)^C$，则$\Omega = (A\cap B)\cup \left(A\cap B^C\right) \cup \left(A^C \cap B\right) \cup \left(A^C\cap B^C\right) = \left(A\cap B^C\right) \cup B \cup (A\cup B)^C$。
+
+    由于$A\cap B^C, B, (A\cup B)^C$互不相交，根据\ref{eq:1.1.2.2}式、\ref{eq:1.1.2.3}式可知
+
+    \begin{equation}
+        P\left(A\cap B^C\right) + P(B) + 1 - P(A\cup B) = 1
+    \end{equation}
+
+    即$P(A\cup B) = P\left(A\cap B^C\right) + P(B) = P(A) + P(B) - P(AB)$。
+
+    \paragraph*{1.3} \begin{equation}
+        \begin{aligned}
+            \sigma(\mathcal A) = \{&\varnothing, \\
+            & A\cap B, A^C\cap B, A\cap B^C, A^C\cap B^C, \\
+            & A, A^C, B, B^C, (A\cap B)\cup(A^C\cap B^C), (A^C\cap B)\cup (A\cap B^C), \\
+            & A\cup B, A^C\cup B, A\cup B^C, A^C\cup B^C, \\
+            & \Omega\}
+        \end{aligned}
+    \end{equation}
+
+    \paragraph*{1.4} \textbf{(1) a.} 显然有$A\subset \bigcap _{n=1} ^{\infty} A_n$，只需证$\bigcap _{n=1} ^{\infty} A_n \subset A$。假设$\bigcap _{n=1} ^{\infty} A_n \not\subset A$，即$\exists x_0\in \bigcap _{n=1} ^{\infty} A_n, x\not\in A$。已知$\lim_{n\rightarrow \infty} 1/n = 0$，即
+
+    \begin{equation}
+        \forall \varepsilon \in \mathbb R^+, \exists N \in \mathbb N, \forall n > N, |1/n - 0| = 1/n < \varepsilon
+    \end{equation}
+
+    则对于$x_0$，存在$N_0\in \mathbb N$，使得$x_0\not \in A_{N_0 + 1}$，与假设矛盾。因此$A = \bigcap _{n=1} ^{\infty} A_n$。
+
+    \textbf{b.} 显然有$\bigcup _{n=1}^\infty B_n\subset B$，只需证$B\subset \bigcup _{n=1}^\infty B_n$，假设$B\not\subset \bigcup _{n=1}^\infty B_n$，即$\exists x_0\in B, x_0\not \in \bigcup _{n=1}^\infty B_n$。已知$\lim_{n\rightarrow \infty} a - 1/n = a$，即
+
+    \begin{equation}
+        \forall \varepsilon \in \mathbb R^+, \exists N\in \mathbb N, \forall n > N, |a - 1/n - a| = 1/n < \varepsilon
+    \end{equation}
+
+    则对于$x_0$，存在$N_0\in \mathbb N$，使得$x_0 \in B_{N_0 + 1}$，与假设矛盾。因此$B = \bigcup _{n=1}^\infty B_n$。
+
+    \textbf{(2)} 已知$\mathcal F$为样本空间$\Omega$上的集类，根据$\sigma$域的定义，$\sigma(\mathcal F)$满足：
+
+    \begin{enumerate}
+        \item $\forall A\in \sigma(\mathcal F), A^C\in \sigma(\mathcal F)$
+        \item $\forall A_1, A_2, \dots \in \sigma(\mathcal F), \bigcup _{i=1}^\infty A_i \in \sigma(\mathcal F)$
+        \item $\varnothing \in \sigma(\mathcal F)$
+    \end{enumerate}
+
+    由于$(-\infty, a] = \bigcup_{i = 1}^{\infty}(a-i, a-i+1)$，因此$\forall a\in \mathbb R, (-\infty, a]\in \sigma(\mathcal A_2)$，即$\mathcal A_1\subset \sigma(\mathcal A_2)$
+
+    由于$(a, b] = (-\infty, b]\cap (a, +\infty)$，因此，$\forall a, b\in \mathbb R， (a, b]\in \sigma(\mathcal A_1)$，即$\mathcal A_2\subset \sigma(\mathcal A_1)$
+
+
+    \paragraph*{1.5} 已知$A, B, C$两两独立，则
+
+    \begin{equation}
+        \begin{aligned}
+            P(AB) &= P(A)P(B) \\
+            P(BC) &= P(B)P(C) \\
+            P(AC) &= P(A)P(C) \\
+            P(ABC) &= P(A)P(B)P(C)
+        \end{aligned}
+    \end{equation}
+
+    由于$P(AB|C) = P(ABC) / P(C) = P(A)P(B) = P(AB)$，因此$AB$与$C$独立。
+
+    由于$A - B = AB^C$，首先证明$A, B$相互独立等价于$A, B^C$相互独立。由于$AB\cup AB^C = A, AB\cap AB^C = \varnothing$，则$P(AB) + P(AB^C) = P(A)$，则$P(B^C | A) = P(AB^C) / P(A) = (P(A) - P(AB)) / P(A) = 1 - P(B) = P(B^C)$，即$A, B^C$相互独立，因此$A, B^C, C$两两独立，因此$AB^C$即$A-B$与$C$独立。
+
+    已知$A, B, C$两两独立，则$A^C, B^C, C$两两独立，则$A^CB^C$与$C$独立，则$(A^CB^C)^C$即$A\cup B$与$C$独立。
+
+    \paragraph*{1.6} \textbf{(1)} 已知$X$为连续型分布的随机变量，则$\forall x\in \mathbb R, P(X=x) = 0$。
+
+    \begin{itemize}
+        \item $P(a < X \leqslant b) = F(b) - F(a)$
+        \item $P(X > a) = 1 - F(a)$
+        \item $P(X \geqslant a) = 1 - F(a)$
+    \end{itemize}
+
+    \textbf{(2)} 
+
+    \begin{itemize}
+        \item $P(X < a) = F(a)$
+        \item $P(a\leqslant X < b) = F(b) - F(a)$
+        \item $P(a\leqslant X \leqslant b) = F(b) - F(a)$
+    \end{itemize}
+
+    \paragraph*{1.7}
+
+    已知$X$为离散型随机变量，设$X$的取值范围为可数数列$\{x_n| x_i\in\mathbb R, i=1, \dots, n\}$。若$X+Y$为随机变量，则$X + Y:=\{\omega | X(\omega) + Y(\omega) \leqslant a\}\in \mathcal F$，而$X$为离散型随机变量，则
+
+    \begin{equation}
+        \{\omega | X(\omega) + Y(\omega) \leqslant a\} = \bigcup_{i=1}^n\{\omega | X(\omega) = x_i \land Y(\omega) \leqslant a - x_i\}
+    \end{equation}
+
+    而由于$X, Y$均为随机变量，则$\{\omega | X(\omega) = x_i\}\in \mathcal F, \{\omega | Y(\omega) \leqslant a - x_i\}\in \mathcal F$，因此$\{\omega | X(\omega) = x_i \land Y(\omega) \leqslant a - x_i\} \in \mathcal F$，即$X + Y$为随机变量
+
+    若$XY$为随机变量，有$XY:= \{\omega | X(\omega)Y(\omega) \leqslant a\}$，即
+
+    \begin{equation}
+        \begin{aligned}
+            \{\omega | X(\omega) + Y(\omega) \leqslant a\} &= \bigcup_{i=1}^n\{\omega | X(\omega) = x_i \land  x_iY(\omega) \leqslant a\} \\
+            &= \bigcup_{i=1}^n\left(\{\omega | X(\omega) = x_i\} \cap \{x_iY(\omega) \leqslant a\} \right)
+        \end{aligned}
+    \end{equation}
+
+    同理可得$\bigcup_{i=1}^n\left(\{\omega | X(\omega) = x_i\} \cap \{x_iY(\omega) \leqslant a\} \right)\in \mathcal F$，因此$XY$为随机变量。
+
+    若$X\land Y$为随机变量，有$X\land Y:= \{\omega | X(\omega)\leqslant a\land Y(\omega) \leqslant a\} = \{\omega | X(\omega)\leqslant a\}\cap \{\omega | Y(\omega) \leqslant a\}\in \mathcal F$，因此$X\land Y$为随机变量。
+
+    \paragraph*{1.8} 已知$X, Y, Z$相互独立，则$F(x, y, z) = F_X(x)F_Y(y)F_Z(z)$。已知$X$为离散型随机变量，设$X$的取值范围为可数数列$\{x_n| x_i\in\mathbb R, i=1, \dots, n\}$。
+    
+    考虑随机变量$X + Y$的分布函数$F_{X+Y}(a)$，有：
+
+    \begin{equation}
+        \begin{aligned}
+            F_{X+Y}(a) &= P(X + Y \leqslant a) = \sum_{i=1}^{n}P(X = x_i, Y \leqslant a - x_i) \\
+            &= \sum_{i=1}^{n}P(X=x_i)F(a - x_i)
+        \end{aligned}
+    \end{equation}
+
+    因此$F_(X + Y)(a)F_Z(b) = \sum_{i=1}^{n}P(X=x_i)F(a - x_i)F_Z(b)$，由于$X, Y, Z$两两独立，则$P(X=x_i)F(a - x_i)F_Z(b) = P(X=x_i, Y\leqslant a-x_i, Z\leqslant b) = P(X+Y\leqslant a, Z\leqslant b)$，即$X+Y$与$Z$独立。
+
+    考虑随机变量$XY$的分布函数$F_{XY}(a)$，有
+
+    \begin{equation}
+        \begin{aligned}
+            F_{XY}(a) &= P(XY \leqslant a) = \sum_{i=1}^{n}P(X = x_i, x_iY\leqslant a) \\
+            &= \sum_{i=1}^nP(X=x_i)P(x_iY\leqslant a)
+        \end{aligned}
+    \end{equation}
+
+    因此$F_(XY)(a)F_Z(b) = \sum_{i=1}^{n}P(X=x_i)P(x_iY\leqslant a)F_Z(b)$，由于$X, Y, Z$两两独立，则$P(X=x_i)P(x_iY\leqslant a)F_Z(b) = P(X=x_i, x_iY\leqslant a, Z\leqslant b) = P(XY\leqslant a, Z\leqslant b)$，即$XY$与$Z$独立。
+
+\end{document}

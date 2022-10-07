@@ -1,0 +1,219 @@
+\documentclass{article}
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\title{应用随机过程 HW02}
+\author{皇甫硕龙}
+
+\input{../symbols.tex}
+
+\begin{document}
+    \maketitle
+
+    \paragraph*{1.14} \textbf{(a)} 已知$N$为取值位于$\N_+$上的随机变量，则$E(N) = \sum_{i=1}^\infty iP(N = i)$，由于$P(N \geqslant n) = \sum_{i=n}^\infty P(N=i)$，则
+
+    \begin{equation}
+        \begin{aligned}
+            E(N) &= \sum_{i = 1}^\infty iP(N = i) \\
+            &= P(N\geq 1) + \sum_{i = 2}^\infty (i - 1)P(N = i) \\
+            &= \cdots \\
+            &= P(N\geq 1) + P(N\geq 2) + \cdots \\
+            &= \sum_{i = 1} ^ \infty P(N\geq i)
+        \end{aligned}
+    \end{equation}
+
+    而由于$P(N \geq n) = P(N > n) + P(N = n)$，则$\sum_{i = 1} ^ \infty P(N\geq i) = \sum_{i = 0} ^ \infty P(N > i)$
+
+    \textbf{(b)} 已知$X$为非负随机变量，即$f(x) = 0, \forall x < 0$。根据分部积分，
+
+    \begin{equation}
+        \begin{aligned}
+            E(X^n) &= \int_{0}^{\infty} x^n\dd F(x) \\
+            &= \int_{0}^{\infty} -x^n\dd (1-F(x)) \\
+            &= \left. -x^n(1-F(x))\right |^\infty_0 - \int_0^\infty (1-F(x))\dd x^n \\
+            &= \int_0^\infty nx^{n-1}(1-F(x))\dd x
+        \end{aligned}
+    \end{equation}
+
+    \textbf{(c)} 由\textbf{(b)}，当$n = 1$时，有$E(X) = \int_{0}^{\infty} (1 - F(x))\dd x$。
+
+    \paragraph*{1.15} 已知$N(x; \mu, \sigma^2) = \frac{1}{\sqrt{2\pi}\sigma}\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)$，则$F(X|X\geq 0) = P(X\leq x | X\geq 0)$，则
+
+    \begin{equation}
+        \begin{aligned}
+            P(X\leq x | X\geq 0) &= P(0\leq X\leq x | X\geq 0) \\
+            &= \frac{F(x; \mu, \sigma^2) - F(0; \mu, \sigma^2)}{1 - F(0; \mu, \sigma^2)} \\
+            &= 1 - \frac{1 - F(x; \mu, \sigma^2)}{1 - F(0; \mu, \sigma^2)}
+        \end{aligned}
+    \end{equation}
+
+    因此
+
+    \begin{equation}
+        \begin{aligned}
+            E(X | X\geq 0) &= \int _0 ^\infty xf(x | X\geq 0)\dd x \\
+            &= \int_0^\infty 1 - F(x | X\geq 0)\dd x \\
+            &= \int_0^\infty \frac{1 - F(x; \mu, \sigma^2)}{1 - F(0; \mu, \sigma^2)} \dd x \\
+            &= \frac{1}{1 - F(0; \mu, \sigma^2)}E(X; \mu, \sigma^2) \\
+            &= \frac{\mu}{1 - F(0; \mu, \sigma^2)}
+        \end{aligned}
+    \end{equation}
+
+    当$\mu = 2, \sigma = 1$时，$E(X|X\geq 0) = 2 / (1 - F(0; 2, 1)) = 2.05$。
+
+    \paragraph*{1.18}
+
+    当给定$N$时，$\sum_{i=1}^NX_i \sim B(N, p)$，设$\xi$的概率密度函数为$f(\xi; p)$，则：
+
+    \begin{equation}
+        \begin{aligned}
+            P(\xi = \xi_0; p) &= \sum_{i=\xi_0}^\infty P(N = i)P(\xi = \xi_0 | N = i) \\
+            &= \sum_{i=\xi_0}^\infty \frac{\lambda ^i}{i!}\frac{i!}{\xi_0!(i - \xi_0)!}p^{\xi_0}(1-p)^{i - \xi_0}e^{-\lambda} \\
+            &= e^{-p\lambda}\frac{(p\lambda)^{\xi_0}}{\xi_0!}\sum_{j=0}^\infty \frac{(\lambda-p\lambda)^{j}}{j!}e^{p\lambda-\lambda} \\
+            &= e^{-p\lambda}\frac{(p\lambda)^{\xi_0}}{\xi_0!}
+        \end{aligned}
+    \end{equation}
+
+    因此$\xi$服从参数为$p\lambda$的泊松分布，则$D\xi = E\xi = p\lambda$。
+
+    \paragraph*{1.19} \textbf{(1)} 已知服从泊松分布的$N_i$满足：
+
+    \begin{equation}
+        P(N_i = n_i) = \frac{\lambda^{n_i}}{n_i!}e^{-\lambda}
+    \end{equation}
+
+    又因$N_1, N_2, N_3$两两独立，则
+
+    \begin{equation}
+        \begin{aligned}
+            P(N_1 + N_2 = n) &= \sum_{i=0}^n P(N_1 = i)P(N_2 = n - i) \\
+            &= \sum_{i=0}^n \frac{\lambda_1^i}{i!}e^{-\lambda_1}\frac{\lambda_2^{n - i}}{(n - i)!}e^{-\lambda_2} \\
+            &= \frac{e^{-(\lambda_1 +\lambda_2)}}{n!}\sum_{i=0}^n \binom{i}{n} \lambda_1^i \lambda_2^{n-i} \\
+            &= \frac{(\lambda_1+\lambda_2)^n e^{-(\lambda_1 +\lambda_2)}}{n!}
+        \end{aligned}
+    \end{equation}
+
+    \textbf{(2)}
+
+    \begin{equation}
+        \begin{aligned}
+            P(N_1 = k | N_1 + N_2 = n) &= \frac{P(N_1 = k, N_2 = n - k)}{P(N_1 + N_2 = n)} \\
+            &= \frac{\lambda_1^k e^{-\lambda_1}}{k!}\frac{\lambda_2^{n-k} e^{-\lambda_2}}{(n-k)!}\frac{n!}{(\lambda_1+\lambda_2)^{n} e^{-(\lambda_1 + \lambda_2)}} \\
+            &= \binom{k}{n} \frac{\lambda_1^k\lambda_2^{n-k}}{(\lambda_1+\lambda_2)^{n}}
+        \end{aligned}
+    \end{equation}
+
+    \textbf{(3)} 已知$N_1, N_2, N_3$两两独立，根据\textbf{1.8}，有$N_1 + N_2$与$N_3$独立。
+
+    \textbf{(4)} 已知$P(N_1 = k | N_1 + N_2 = n)$，
+
+    \begin{equation}
+        \begin{aligned}
+            E(N_1 | N_1 + N_2 = n) &= \sum_{k=0}^n kP(N_1 = k | N_1 + N_2 = n) \\
+            &= \sum_{k=0}^n k\binom{k}{n} \frac{\lambda_1^k\lambda_2^{n-k}}{(\lambda_1+\lambda_2)^{n}} \\
+            &= n\sum_{k=1}^n \binom{k-1}{n-1} \frac{\lambda_1^k\lambda_2^{n-k}}{(\lambda_1+\lambda_2)^{n}} \\
+            &= \frac{n\lambda_1}{\lambda_1 + \lambda_2}
+        \end{aligned}
+    \end{equation}
+
+    先计算$P(N_1 + N_2 = n | N_1 = k)$，有
+
+    \begin{equation}
+        \begin{aligned}
+            P(N_1 + N_2 = n | N_1 = k) &= \frac{P(N_1 + N_2 = n, N_1 = k)}{P(N_1 = k)} = P(N_2 = n - k)
+        \end{aligned}
+    \end{equation}
+
+    因此
+
+    \begin{equation}
+        \begin{aligned}
+            E(N_1 + N_2 | N_1 = k) &= \sum_{i=k}^\infty iP(N_2 = i - k) \\
+            &= \sum_{j=0}^\infty (j + k)P(N_2 = j) \\
+            &= \lambda_2 + k
+        \end{aligned}
+    \end{equation}
+
+    \paragraph*{1.21}
+
+    已知：$DX = E^2X - EX^2, D(X|Y) = E^2(X|Y) - E(X^2|Y)$
+
+    \begin{equation}
+        \begin{aligned}
+            DX &= E(D(X|Y)) + D(E(X|Y)) \\
+            &= E(E^2(X|Y)) - E(E(X^2|Y)) + E^2(E(X|Y)) - E(E^2(X|Y)) \\
+            &= E^2(E(X|Y)) - E(E(X^2|Y)) \\
+            &= E(E(X|Y))\times E(E(X|Y)) - E(X^2) \\
+            &= E^2X - EX^2 \\
+            &= DX
+        \end{aligned}
+    \end{equation}
+
+    \paragraph*{1.25} $X=x$的概率$P(X = x) = \binom{x}{n}p^{x}(1-p)^{n-x}$，$Y=y$的概率密度函数$f(y) = \frac{1}{\sqrt{2\pi}\sigma}\exp\left(-\frac{(y-\mu)^2}{2\sigma^2}\right)$，则
+
+    \begin{equation}
+        \begin{aligned}
+            F(X + Y\leq z) &= \sum_{i=0}^n P(X=i)F(z - i) \\
+            &= \sum_{i=0}^n \binom{i}{n}p^{i}(1-p)^{n-i} F(z - i)
+        \end{aligned}
+    \end{equation}
+
+    因此
+
+    \begin{equation}
+        \begin{aligned}
+            f(X + Y\leq z) &= \frac{\dd F(X + Y\leq z)}{\dd z} \\
+            &= \sum_{i=0}^n \binom{i}{n}p^{i}(1-p)^{n-i} f(z - i) \\
+            &= \sum_{i=0}^n \binom{i}{n}p^{i}(1-p)^{n-i} \frac{1}{\sqrt{2\pi}\sigma}\exp\left(-\frac{(z-i-\mu)^2}{2\sigma^2}\right)
+        \end{aligned}
+    \end{equation}
+
+    \paragraph*{附加题 1}
+
+    \begin{equation}
+        \begin{aligned}
+            \phi(i) &= E(e^{itx}) \\
+            &= \int_0^\infty e^{itx}\lambda e^{-\lambda x}\dd x \\
+            &= \lambda\int_0^\infty e^{(it - \lambda)x}\dd x \\
+            &= \frac{\lambda}{it-\lambda}(\cos tx + \mathbf{i}\sin tx)\left.e^{-\lambda x}\right|^\infty_0 \\
+            &= \frac{\lambda}{\lambda - it}
+        \end{aligned}
+    \end{equation}
+
+    \paragraph*{附加题 2}
+    设随机变量$X, Y$的联合概率密度函数$f(x, y)$
+    \begin{equation}
+        f(x, y) = \left\{
+        \begin{aligned}
+            &\frac{21}{4}x^2y & x^2\leq y\leq 1 \\
+            &0 &\mathrm{otherwise}
+        \end{aligned}
+        \right.
+    \end{equation}
+    \begin{enumerate}
+        \item 求$X$的边际分布函数$f_X(x)$
+        \item 给定$x\in (-1, 1)$，求$E(Y|X=x)$
+        \item 求$E(Y|X)$
+    \end{enumerate}
+
+    \textbf{(1)}
+    \begin{equation}
+        \begin{aligned}
+            f_X(x) &= \int_{x^2}^1 f(x, y)\dd y \\
+            &= \frac{21}{4}x^2\int_{x^2}^1 y\dd y \\
+            &= \frac{21}{8}\left(x^2 - x^6\right)
+        \end{aligned}
+    \end{equation}
+
+    \textbf{(2)}
+    \begin{equation}
+        \begin{aligned}
+            E(Y|X = x) &= \int_{x^2}^{1} y\frac{2f(x, y)}{f_X(x)}\dd y \\
+            &= \int_{x^2}^{1} y\frac{2y}{1 - x^4}\dd y \\
+            &= \frac{2(1 - x^6)}{3(1 - x^4)}
+        \end{aligned}
+    \end{equation}
+
+    \textbf{(3)} $E(Y|X) = E(Y|X = x), x\in [-1, 1]$
+\end{document}
