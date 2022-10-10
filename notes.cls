@@ -3,6 +3,38 @@
 
 \RequirePackage{amsmath}
 \RequirePackage{amssymb}
+\RequirePackage{geometry}
+
+\savegeometry{standard}
+\newgeometry{
+    top=1in,
+    bottom=1in,
+    left=1.25in,
+    right=1.25in,
+}
+\savegeometry{word-normal}
+\newgeometry{
+    top=0.5in,
+    bottom=0.5in,
+    left=0.5in,
+    right=0.5in,
+}
+\savegeometry{word-narrow}
+\newgeometry{
+    top=1in,
+    bottom=1in,
+    left=0.75in,
+    right=0.75in,
+}
+\savegeometry{word-moderate}
+\newgeometry{
+    top=1in,
+    bottom=1in,
+    left=2in,
+    right=2in,
+}
+\savegeometry{word-wide}
+\loadgeometry{standard}
 
 \author{皇甫硕龙}
 
