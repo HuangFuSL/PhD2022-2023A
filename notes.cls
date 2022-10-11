@@ -4,8 +4,12 @@
 \RequirePackage{amsmath}
 \RequirePackage{amssymb}
 \RequirePackage{geometry}
+\RequirePackage{tikz}
+\RequirePackage{hyperref}
 
 \linespread{1.5}
+
+\hypersetup{colorlinks}
 
 \savegeometry{standard}
 \newgeometry{
