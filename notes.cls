@@ -5,6 +5,8 @@
 \RequirePackage{amssymb}
 \RequirePackage{geometry}
 \RequirePackage{tikz}
+\RequirePackage{pgfplots}
+\RequirePackage{subfigure}
 \RequirePackage{hyperref}
 
 \linespread{1.5}

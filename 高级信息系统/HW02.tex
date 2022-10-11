@@ -1,0 +1,112 @@
+\documentclass{../notes}
+
+\title{高级信息系统 HW02}
+
+\newcommand{\irisresult}{
+    (1, 681.37)
+    (2, 152.35)
+    (3, 78.85)
+    (4, 57.26)
+    (5, 46.45)
+    (6, 39.04)
+    (7, 34.53)
+    (8, 30.32)
+    (9, 27.86)
+    (10, 26.49)
+}
+
+\begin{document}
+    \maketitle
+
+    \paragraph*{1}
+
+    当$n=1$时，仅考虑$m$。对于数据项集合，原问题可以转化为从集合$I$生成二元组$\langle X, Y\rangle$满足$X\subset I, Y\subset I, X\cap Y=\varnothing, X\cup Y\not =\varnothing$。由题，$I$的基数为$m$。则对于每个元素$i\in I$，有三种情况，即(1)$i\in X$，(2)$i\in Y$，(3)$i\not \in X, i\not \in Y$，因此共有$3^m$种情形。考虑约束条件$X\not = \varnothing, Y\not = \varnothing$，去掉$2\times 2^{m} - 1$种情况。由数据项集合生成所有可能的$X, Y$集合的复杂度为$O(3^{m} - 2\times 2^{m} + 1) = O(3^m)$
+
+    对于数据记录集合，每条数据记录中最多包含$m$个数据项，共有$n$条记录，因此由$n$条记录生成关联规则的计算复杂度为$O(n)O(3^m) = O(n\cdot 3^m)$
+
+    \separate
+
+    \paragraph*{2} 
+
+    $r'$在$R$中是冗余的，证明如下：
+
+    对于Apriori算法，设支持度阈值$\alpha$，置信度阈值$\beta$；数据项“啤酒”=$A$、“尿布”=$B$、“硬盘”=$C$；已知$A\Rightarrow BC$为有效的关联规则要证$A\Rightarrow B$、$A\Rightarrow C$均为有效的关联规则。
+    
+    已知$\prob A\geq \alpha, \prob B\geq \alpha, \prob C\geq \alpha$且$\cprob{BC}A = \prob{ABC}/\prob A\geq \beta$，原问题即证明$\cprob BA = \prob{AB}/\prob A\geq \beta, \cprob CA = \prob{AC}/\prob C\geq \beta$。
+    
+    设$X, Y$为任意事件，则显然有$P(X|Y)\leq 1$，即$P(XY)\leq P(Y)$。
+    
+    由于$P(AB)\geq P(ABC), P(AC)\geq P(ABC)$，即
+
+    \begin{equation}
+        \begin{aligned}
+            \cprob BA &= \prob{AB}/\prob A\geq \prob{ABC}/\prob A \geq \beta \\
+            \cprob CA &= \prob{AC}/\prob A\geq \prob{ABC}/\prob A \geq\beta
+        \end{aligned}
+    \end{equation}
+    
+    因此$A\Rightarrow B, A\Rightarrow C$。
+
+
+    \separate
+
+    \paragraph*{3 （关于算法参数和特点）}
+
+    \subparagraph*{1.} 对于K-Means算法，设向量空间$\R^m$内的样本点集$X_i = (x_1, x_2, \dots x_m), 1\leq i \leq n$。使用样本点之间的距离$\Vert X_i - X_j\Vert_2$表示$X_i, X_j$之间的距离，定义损失函数$f$如下：
+
+    \begin{equation}
+        f(K) := \sum_{k=1}^K \sum_{i=1}^{r_k} \left\Vert X_{s_{ki}} - \bar X_{k} \right\Vert _2^2
+    \end{equation}
+
+    式中$r_k$表示第$k$个聚类中的元素数量，$X_{s_{ki}}$表示第$k$个聚类中的第$i$个点，$\bar X_k$表示迭代算法达到稳定时第$k$个聚类中心点，损失函数$f$反映了聚类中各点到达聚类中心点距离的平方和。当改变$K$时，损失函数也会随之改变。
+
+    设实际聚类数量$K$，真实聚类数量$K_0$，当$K<K_0$时，聚类算法将实际归属多个聚类的样本点划分到一个聚类中，而由于不同聚类内的样本点通常有较大的差异，使得损失函数$f$取值较大。而当$K$从$K_0 - 1$增加到$K_0$时，每个样本点能够划分到属于自己的聚类内，聚类内的样本点差异较小，因此损失函数会出现明显下降。当$K\geq K_0$时，由$K$个聚类进一步划分到$K + 1$个聚类时，实际上是将已经存在的聚类一分为二，因此损失函数会有下降，但不会出现较大幅度的下降。
+    
+    图\ref{fig:k-to-f}列出了在Iris数据集上K-Means算法对不同聚类数量输出的$f$值。由图可以看出，当聚类数量由1上升到2、由2上升到3时，损失函数均出现较为明显的下降，而当聚类数量从3上升到4时，损失函数的变化则较不明显，因此Iris数据集的聚类数量应当为3。
+
+    \begin{figure}
+        \centering
+        \begin{tikzpicture}
+            \begin{axis}[sharp plot]
+                \addplot coordinates {\irisresult};
+            \end{axis}
+        \end{tikzpicture}
+        \caption{在Iris数据集上不同$F$对应的$f$值}
+        \label{fig:k-to-f}
+    \end{figure}
+
+    \subparagraph*{2.}
+
+    当数据类簇不规则时，类簇内数据点的分布应当满足如下条件：
+
+    \begin{enumerate}
+        \item 数据点之间的距离应当足够紧密，从而数据点可以与周围其他簇或噪声点产生明显区别。即对于簇$X$，$\forall x\in X$，应有$\forall y\not \in X, \Vert x, y\Vert_2$较小。
+        \item 数据点分布不均匀，即对于簇$X$，进行随机抽样得到子集$X_1, X_2\subseteq X$，$X_1, X_2$样本均值的差异$\Vert \mu_{1} - \mu_{2}\Vert_2$较大。
+    \end{enumerate}
+
+    对于DBSCAN算法在不规则数据集上的识别问题，可以将该问题拆分为：
+
+    \begin{enumerate}
+        \item \textbf{DBSCAN可以在不规则数据集上得到结果吗？} 与K-Means算法假设数据点在聚类内均匀分布不同，DBSCAN不对数据的分布作任何假设。也即，DBSCAN不依赖样本的统计指标。因此DBSCAN可以将不规则的点集识别为簇。
+        \item \textbf{DBSCAN得到的结果是有效的簇吗？} DBSCAN通过超参数，按照样本点之间的距离对样本点进行划分，因此识别的是分布密度足够高（i.e. 样本点之间距离/差异足够小）的样本点集合。从而DBSCAN算法可以得到有效的聚类簇。
+    \end{enumerate}
+    
+    \paragraph*{4} 设置$\beta > 50\%$时则不会发生冲突，证明如下：
+
+    已知频繁项$X, C_1\in S$满足$\prob X\geq \alpha, \prob{C_1}\geq \alpha, \prob{XC_1}\geq \alpha$，且$\cprob{C_1}X\geq \beta, \beta > 0.5$，证明$\not \exists C_2\in S, C_1\cap C_2 = \varnothing, \cprob{C_2}X\geq \beta$
+
+    假设$\exists C_2\in S, C_1\cap C_2 = \varnothing, \cprob{C_2}X\geq \beta$，由于$C_1\cap C_2 = \varnothing$，则$(XC_1)\cap (XC_2) = \varnothing,$有
+
+    \begin{equation}
+        \begin{aligned}
+            \prob{X(C_1\cup C_2)} &= \prob{XC_1} + \prob{XC_1} \\
+            &= \cprob{C_1}X\prob X + \cprob{C_2}X\prob X \\
+            &> 0.5\prob X + 0.5\prob X \\
+            &> \prob X
+        \end{aligned}
+    \end{equation}
+
+    推出$\cprob{C_1\cup C_2}X = \prob{X(C_1\cup C_2)} / \prob X > 1$，矛盾。
+
+    反之，当$\beta$足够小时，可能存在$C_1, C_2$使得$\cprob{C_1\cup C_2}X = \prob{X(C_1\cup C_2)} / \prob X$，从而同时推出$X\Rightarrow C_1, X\Rightarrow C_2$。
+\end{document}
