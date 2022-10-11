@@ -275,6 +275,11 @@ TSWLatexianTemp*
 # Makeindex log files
 *.lpz
 
+# Tableau
+*.hyper
+*.twb
+*.tflx
+
 *.xlsx
 *.xls
 *.pptx
