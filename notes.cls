@@ -5,6 +5,8 @@
 \RequirePackage{amssymb}
 \RequirePackage{geometry}
 
+\linespread{1.5}
+
 \savegeometry{standard}
 \newgeometry{
     top=1in,
@@ -37,6 +39,8 @@
 \loadgeometry{standard}
 
 \author{皇甫硕龙}
+
+\newcommand{\separate}[1][0.5pt]{\rule{0.25\textwidth}{0pt}\rule{0.5\textwidth}{#1}}
 
 \newcommand{\N}{\mathbb N}
 \newcommand{\R}{\mathbb R}

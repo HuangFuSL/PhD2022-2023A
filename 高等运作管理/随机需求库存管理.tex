@@ -19,11 +19,13 @@
 
     \section*{报童模型}
 
+    \subsection*{单周期}
+
     特点：只能订一次货、产品易变质、新旧产品不可混合
 
     参数：\begin{enumerate}
         \item 需求$D$，$D$服从概率密度函数$f$，分布函数$F$
-        \item 订货量$Q$
+        \item 订货量$Q$，进货价格$c$，销售价格$s$
         \item 缺货成本$c_u$、库存成本$c_o$
     \end{enumerate}
 
@@ -43,6 +45,94 @@
 
     \begin{itemize}
         \item 当$c_u$增加时，缺货导致的损失增加，零售商倾向于提高订货量以避免缺货损失
-        \item 计算正态分布需求下的最优成本？
+        \item 计算正态分布需求下的最优成本？若$F$服从正态分布，可以转化为标准正态分布后使用分位数计算。
     \end{itemize}
+
+    \separate[0.5pt]
+
+    对于\textit{订货量$s$、成本$c$、销售价格$s$、持有成本$h$、缺货损失$p$}的销售模型，计算总损失：
+
+    \begin{equation}
+        \begin{aligned}
+            g(Q) &= cQ+c_o\expt{(Q-d)^+} + c_u\expt{(d-Q)^+} - s\expt{\min(Q, d)} \\
+            &= cQ + h\bar n(S) + pn(S) - s\left(\int_0^Q xf(x)\dd x + \int_Q^\infty Qf(x)\dd x\right) \\
+            &= cQ - s\mu + h\bar n(S) + pn(S) + s\int_0^\infty (x-Q)f(x)\dd x
+        \end{aligned}
+    \end{equation}
+
+    解方程$g'(Q) = 0$，得
+
+    \begin{equation}
+        F(Q^*) = \frac{p + s - c}{h + p + s}
+    \end{equation}
+
+    对应为$c_u = p + s - c, c_o = c + h$。
+
+    对于正态分布，计算持有成本与缺货成本部分：
+
+    \begin{equation}
+        g'(Q) = h\bar n(S) + pn(S)
+    \end{equation}
+
+    令$y=(x-\mu) / \sigma$
+
+    \begin{equation*}
+        \begin{aligned}
+            n(S) &= \int_S^\infty (x-S)f(x)\dd x \\
+            n\left(\frac{S-\mu}{\sigma}\right) &= \int_{\frac{S-\mu}{\sigma}}^\infty \left(y - \frac{S-\mu}{\sigma}\right)z(y)\dd y \\
+            \Rightarrow n(S)&= \sigma L\left(\frac{S-\mu}{\sigma}\right) = \sigma L(z) \\
+            L(z) &= \phi(z) - z(1 - \Phi(z))
+        \end{aligned}
+    \end{equation*}
+
+    对于持有成本部分
+
+    \begin{equation*}
+        \bar n(S) = \expt{(S-x)^+} = S-\mu+n(S) = \sigma \left(z_\alpha + L(z)\right)
+    \end{equation*}
+
+    最优情况下
+
+    \begin{equation}
+        \begin{aligned}
+            g\left(S^*\right) &= h\sigma \left(z+ L(z)\right) + p\sigma L(z) \\
+            &= \sigma\left(hz + (h + p)L(z)\right) \\
+            &= \sigma(h + p)\phi(z)
+        \end{aligned}
+    \end{equation}
+
+    \separate[0.5pt]
+
+    \paragraph*{需求离散} 此时最优的$CR$位于两个离散$F(Q)$之间。该情况又可以分为两种情况：订货离散的前提下，需求是否出现离散。比较订货量分别为$Q^*, Q^*+1$的情况。有$c_u\prob {D\geq Q^*+1}\leq c_o\prob {D\leq Q^*}$，从而$F(Q^*)\geq c_u/(c_u+c_o)$
+
+    或可使用差分方法，已知成本函数
+
+    \begin{equation}
+        g(S) = h\sum_{d=0}^S (S-d)f(d) + p\sum_{d=S}^\infty (d-S)f(d)
+    \end{equation}
+
+    定义$\Delta(S) = g(S+1) - g(S)$，则
+
+    \begin{equation*}
+        \begin{aligned}
+            \Delta(S) &= g(S+1) - g(S) \\
+            &=h\sum_{d=0}^{S+1} (S + 1 - d)f(d) + p\sum_{d=S+1}^\infty (d- S - 1)f(d) - h\sum_{d=0}^S (S-d)f(d) - p\sum_{d=S}^\infty (d-S)f(d) \\
+            &= h\sum_{d=0}^Sf(d) + p\sum_{d=S + 1}^\infty f(d) \\
+            &= hF(s) + p(1-F(s)) > 0
+        \end{aligned}
+    \end{equation*}
+
+    \subsection*{周期检查模型-无固定订货成本}
+
+    对于周期检查的报童模型，有如下参数和假设
+
+    \begin{enumerate}
+        \item 各周期需求独立同分布，概率密度函数$f(\cdot)$、概率分布函数$F(\cdot)$
+        \item 贴现率$\alpha$
+        \item 不考虑订货提前期
+        \item 期初库存$y_0$，剩余周期数$n$，$C_n(y_0)$为当前周期到剩余$n$个周期的总期望贴现成本的最小值，即
+        \begin{equation*}
+            C_n\left(y_0\right) = \min_{y\geq y_0}\left\{L(y) - cy_0 + \alpha\int_0^\infty C_{n-1}[t(y, x)]f(x)\mathrm dx\right\}
+        \end{equation*}
+    \end{enumerate}
 \end{document}
