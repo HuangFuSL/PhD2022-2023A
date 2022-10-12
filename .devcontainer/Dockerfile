@@ -1,3 +1,3 @@
 FROM qmcgaw/latexdevcontainer:latest-full
 
-RUN apt install fontconfig
+RUN apt install fontconfig -y
