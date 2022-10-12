@@ -15,8 +15,6 @@ services:
       # - ~/.ssh:/tmp/.ssh:ro
       # Shell history persistence
       - ~/.zsh_history:/root/.zsh_history:z
-      # Git config
-      - ~/.gitconfig:/root/.gitconfig
     environment:
       - TZ=
     entrypoint: ["zsh", "-c", "while sleep 1000; do :; done"]
