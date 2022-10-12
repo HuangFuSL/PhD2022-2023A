@@ -1,0 +1,54 @@
+\documentclass{../notes}
+
+\title{决策理论 HW03}
+
+\loadgeometry{word-moderate}
+
+\begin{document}
+\maketitle
+
+\paragraph*{1} 对于第一种情况，人们更倾向于认为丢失的100元是独立于“看电影”这一事件以外的损失，即人们认为“看电影”这一事件的支出为100。而对于第二种情况，人们更倾向于认为丢失100元电影票后，花费100元重新购买电影票是“看电影”这一事件的额外损失，即人们认为“看电影”这一事件的支出为200元。由于人们感受到的支出为200元大于100元，因此第二种情形中更多的人倾向于不购买电影票。
+
+\separate
+
+\paragraph*{2} 当决策方案的备选项较少时，增加决策方案的数量可以为决策者增加额外的备选项，从而能够帮助决策者做出更为优化的决策。反之，当决策方案的备选项较多时，由于决策者并非完全理性，再增加备选项会通过风险类型、心理账户等因素对决策者对已有选项的收益/损失分析产生干扰，从而影响决策者作出正常决策。
+
+\separate
+
+\paragraph*{3} 若选择第二天结束时查看投资成果，投资结果及概率如表\ref{tbl:two-days}所示：
+
+\begin{table}[ht]
+    \centering
+    \caption{第二天结束时投资成果的概率分布}
+    \label{tbl:two-days}
+    \begin{tabular}{*{4}{c}}
+        \toprule
+        投资结果$x$ & $6000$ & $2000$ & $-2000$ \\
+        \midrule
+        概率      & $1/16$ & $3/8$  & $9/16$  \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subparagraph*{(1)} 当选择每天结束查看投资成果时，总的展望为
+
+\begin{equation}
+    U_1 = \left(\frac 14f(3000) + \frac 34f(-1000)\right) + \left(\frac 14f(3000) + \frac 34f(-1000)\right) = -1500
+\end{equation}
+
+当选择两天后查看投资成果时，总的展望为
+
+\begin{equation}
+    U_2 = \frac {1}{16}f(6000) + \frac 38f(2000) + \frac{9}{16}f(-2000) = -1125
+\end{equation}
+
+因此$U_2>U_1$，会选择在两天后查看投资成果。
+
+\subparagraph*{(2)} 当第一天查看投资成果时，对于第二天，有
+
+\begin{equation}
+    U' = \frac 14f(3000) + \frac 34f(-1000) = -750 < 0
+\end{equation}
+
+因此第一天结束后会选择离开投资市场，此时总的展望为$U' = -750 < U_2$，因此会更喜欢第一种查看方式。
+\end{document}

@@ -22,7 +22,7 @@
         // Latex settings
         "latex-workshop.chktex.enabled": true,
         "latex-workshop.latex.clean.subfolder.enabled": true,
-        "latex-workshop.latex.autoClean.run": "onBuilt",
+        "latex-workshop.latex.autoClean.run": "onFailed",
         "editor.formatOnSave": true,
         "files.associations": {
             "*.tex": "latex"

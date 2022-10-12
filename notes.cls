@@ -6,6 +6,7 @@
 \RequirePackage{geometry}
 \RequirePackage{tikz}
 \RequirePackage{pgfplots}
+\RequirePackage{booktabs}
 \RequirePackage{subfigure}
 \RequirePackage{hyperref}
 
