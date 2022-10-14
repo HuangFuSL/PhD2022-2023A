@@ -9,4 +9,3 @@ if __name__ == "__main__":
     # Commit the changes
     subprocess.call(['git', 'add', '.'])
     subprocess.call(['git', 'commit', '-m', string])
-    subprocess.call(['git', 'push', 'origin', 'main'])
