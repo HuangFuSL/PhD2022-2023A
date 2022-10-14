@@ -6,7 +6,7 @@ if __name__ == "__main__":
     now = datetime.datetime.now()
     string = now.strftime("%Y-%m-%d %H:%M:%S")
     
-    current_branch = subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"]).strip()
+    current_branch = subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"]).strip().decode("utf-8")
     print(current_branch)
 
     # Commit the changes
