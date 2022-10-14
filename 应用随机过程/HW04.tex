@@ -1,22 +1,160 @@
 \documentclass{../notes}
 
+\loadgeometry{word-moderate}
+
 \title{应用随机过程 HW04}
 
 \begin{document}
-    \maketitle
+\maketitle
 
-    \paragraph*{3.12} 设$j$为非常返状态，证明对任意$i\in S$，有
+\paragraph*{3.12} 已知$j$为非常返状态，则有
 
-    \begin{equation*}
-        \sum_{n=1}^\infty p_{ij}^{(n)} = \frac{f_{ij}}{1-f_{jj}} < \infty
-    \end{equation*}
+\begin{equation}
+    \sum_{n=1}^\infty p_{jj}^{(n)} = \frac{1}{1-f_{jj}} < \infty
+\end{equation}
 
-    只需证\textbf{(1)}$\sum_{n=1}^\infty p_{ij}^{(n)} < \infty$、\textbf{(2)}$\sum_{n=1}^\infty p_{ij}^{(n)} = f_{ij}/\left(1-f_{jj}\right)$。
+因此，有
 
-    \subparagraph*{(1)} 
-    \subparagraph*{(2)} 已知状态$j$常返，$f_{jj} < 1$，原式即
+\begin{equation}
+    \begin{aligned}
+        \sum_{n=0}^\infty p_{ij}^{(n)}
+         & = \sum_{n=1}^\infty \sum_{l=1}^n f_{ij}^{(l)}p_{jj}^{(n-l)}                                                                     \\
+         & = \left(p_{jj}^{(0)}\sum_{n=1}^\infty f_{ij}^{(n)}\right) +  \left(p_{jj}^{(1)}\sum_{n=1}^\infty f_{ij}^{(n)} + \right) + \dots \\
+         & =  f_{ij}\sum_{n=0}^\infty p_{jj}^{(n)}                                                                                         \\
+         & = \frac{f_{ij}}{1-f_{jj}}
+    \end{aligned}
+\end{equation}
 
-    \begin{equation*}
-        \sum_{n=1}^\infty p_{ij}^{(n)}(1-f_{jj}) = f_{ij}
-    \end{equation*}
+\paragraph*{3.15} 设非负减序列$1=b_0\geq b_1\geq b_2 \geq \dots$，令$\beta_n = b_n\left(b_0+b_1+\cdots + b_n\right)^{-1}$，考虑马尔可夫链$\left\{X_n, n\geq 0\right\}$的转移概率为
+
+\begin{equation*}
+    p_{ij}=\begin{cases}
+        b_j\left(\beta_i - \beta_{i+1}\right)/b_i & j\leq i          \\
+        \beta_{i+1} / \beta_{i}                   & j = i + 1        \\
+        0                                         & \text{otherwise}
+    \end{cases}
+\end{equation*}
+
+\textbf{(1)} 证明$p_{00}^n = \sigma_n^{-1}$， \textbf{(2)} 该马尔可夫链非常返当且仅当$\sum_{n=0}^\infty 1/\sigma_{n} < \infty$
+
+\textbf{(1)} 首先证明
+
+\begin{equation}
+    p_{0k}^{(n)} = \begin{cases}
+        \frac{b_k}{\sigma_n} & 0\leq k \leq n \\
+        0                    & k > n          \\
+    \end{cases}
+\end{equation}
+
+当$n=0$时，有$P_{00}^{(0)} = b_k/\sigma_n = 1$
+
+设当$n = i$时等式成立，令$n = i + 1$，由于当$k > i+1$时显然有$p_{0k}^{(n)} = 0$，因此只需证明$k\leq i+1$时等式同样成立。
+
+\begin{equation}
+    \begin{aligned}
+        p_{0k}^{(i+1)}
+         & = \sum_{j=0}^{\infty} p_{0j}^{(i)}p_{jk}^{(1)}                                                                                            \\
+         & = \sum_{j=k}^ip^{(i)}_{0j}p_{jk} + p_{0, (k-1)}^{i} p_{(k-1), k}                                                                          \\
+         & = \sum_{j=k}^i \frac{b_k(\beta_{j} - \beta_{j+1})}{\sigma_i} + \frac{b_{k-1}}{\sigma_i} \frac{\beta_k}{\beta_{k-1}}                       \\
+         & = \frac{b_k}{\sigma_i} \sum_{j=k}^i \left(\beta_j - \beta_{j+1}\right) + \frac{b_k-1}{\sigma_i} \frac{b_k/\sigma_k}{b_{k-1}/\sigma_{k-1}} \\
+         & = \frac{b_k}{\sigma_i}\left(\beta_k - \beta_{i+1}\right) + \frac{\sigma_{k-1}b_k}{\sigma_k\sigma_i}                                       \\
+         & = \frac{b_k}{\sigma_i}\left(\beta_k - \beta_{i+1} + \frac{\sigma_{k-1}}{\sigma_k}\right)                                                  \\
+         & = \frac{b_k}{\sigma_i}\left(\frac{b_k}{\sigma_{k}} - \frac{b_{i+1}}{\sigma_{i+1}} + \frac{\sigma_{k-1}}{\sigma_k}\right)                  \\
+    \end{aligned}
+\end{equation}
+
+注意到$b_{k} + \sigma_{k-1} = \sigma_{k}$，$\sigma_{i} + b_{i+1} = \sigma_{i+1}$，则
+
+\begin{equation}
+    \begin{aligned}
+        p_{0k}^{(i+1)}
+         & = \frac{b_k}{\sigma_i}\left(\frac{b_k}{\sigma_{k}} - \frac{b_{i+1}}{\sigma_{i+1}} + \frac{\sigma_{k-1}}{\sigma_k}\right) \\
+         & = \frac{b_k}{\sigma_i}\frac{\sigma_i}{\sigma_{i+1}}                                                                      \\
+         & = \frac{b_k}{\sigma_{i+1}}
+    \end{aligned}
+\end{equation}
+
+得证。则：
+
+\begin{equation}
+    \begin{aligned}
+        p_{00}^{(n)}
+         & = \sum_{k=0}^\infty p_{0k}^{(n)}p_{k0}                                         \\
+         & = \sum_{k=0}^\infty \frac{b_k}{\sigma_{n}} \frac{(\beta_i - \beta_{i+1})}{b_i} \\
+         & = \frac{1}{\sigma_n}
+    \end{aligned}
+\end{equation}
+
+\textbf{(2)} 已知$p_{00}^{(n)} = \sigma^{-1}$。
+
+\subparagraph*{“$\Leftarrow$”} 当$\sum_{n=0}^\infty 1/\sigma_n < \infty$时，等价于$\sum_{n=0}^\infty p_{00}^{(n)} < \infty$，因此$0$为非常返态，而由于$\forall i, 0\leftrightarrow i$，则$\forall i$，$i$为非常返态，即马尔可夫链非常返。
+
+\subparagraph*{“$\Rightarrow$”} 当马尔可夫链非常返时，有$0$为非常返态，则$\sum_{n=0}^\infty p_{00}^{(n)} = \sum_{n=0}^\infty 1/\sigma_n < \infty$。
+
+\paragraph*{3.19} 
+
+\textbf{(2)} 
+
+\begin{equation}
+    \begin{aligned}
+        \prob{T_{01} = 5, T_{12}' = 3} \\
+        & = \prob{X_0 = 0, X_5 = 1, X_{i}\not = 1, i=1, 2, 3, 4, X_0' = 1, X_1'\not = 2, X_2'\not = 2, X_3' = 2} \\
+        &= \prob{X_0 = 0, X_5 = 1, X_{i}\not = 1, i=1, 2, 3, 4}\prob{X_0'=1, X_1'\not = 2, X_2'\not = 2, X_3' = 2} \\
+        &= \prob{T_{01} = 5}\prob{T_{12}' = 3}
+    \end{aligned}
+\end{equation}
+
+\textbf{(3)} 设母函数$G(x)$，则$T_{01}$的分布为
+
+\begin{equation}
+    \begin{aligned}
+        G(x) = f_{01}^{(1)}x + f_{01}^{(3)}x^3 + f_{01}^{(5)}x^5 + \dots \\
+    \end{aligned}
+\end{equation}
+
+当$k>1$时，$f_{01}^{(k)}x = P(T_{01}=k, Y_{1}=-1) = qP(T_{02} = k-1)$，得
+
+\begin{equation}
+    G(x) = px + \sum_{k=1}^\infty qP(T_{02}=2k)x^{2k+1}
+    \label{eq:1}
+\end{equation}
+
+又$\{T_{02}=k\} = \bigcup_{i=1}^{k-1}\{T_{02} = k, T_{01} = i\}$，可得
+
+\begin{equation}
+    G^2(x) = \sum_{k=1}^\infty f_{0, 2}^{(2k)}x^{2k}
+    \label{eq:2}
+\end{equation}
+
+联立\eqref{eq:1}\eqref{eq:2}，解得
+
+\begin{equation}
+    G(x) = \frac{1-\sqrt{1-4pqx^2}}{2qx}
+\end{equation}
+
+作泰勒展开，得
+
+\begin{equation}
+    f_{01}^{(2k-1)} = \frac{\prod _{i=1}^{2n-3} i}{n!}p^n(2q)^{n-1}
+\end{equation}
+
+$P(T_{01} = +\infty) = 1-G(1)$，则有
+
+\begin{equation}
+    P(T_{01} = +\infty) = \begin{cases}
+        0 & q\leq \frac{1}{2} \\
+        2 - \frac{1}{q} & q > \frac{1}{2}
+    \end{cases}
+\end{equation}
+
+\textbf{(4)}
+
+\begin{equation}
+    \begin{aligned}
+        ET_{01} &= G'(1) \\
+        &= \frac{4pq - 2q\left(\sqrt{1 - 4pq} - 1 + 4pq\right)}{4q^2\sqrt{1 - 4pq}}
+    \end{aligned}
+\end{equation}
+
+由于$p - q > 0$，则$1 - 4pq > 0$，因此$G'(1) < \infty$
 \end{document}
