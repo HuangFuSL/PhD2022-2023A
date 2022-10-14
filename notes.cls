@@ -8,6 +8,7 @@
 \RequirePackage{pgfplots}
 \RequirePackage{booktabs}
 \RequirePackage{subfigure}
+\RequirePackage{enumitem}
 \RequirePackage{hyperref}
 
 \linespread{1.5}
@@ -68,3 +69,18 @@
 \newcommand{\cexpt}[2]{E\left(#1|#2\right)}
 
 \newcommand{\bs}{\boldsymbol}
+
+\newenvironment{subquestions}{
+    \begin{enumerate}[label=\textbf{(\alph*)}, parsep=3pt, itemsep=3pt]
+}{
+    \end{enumerate}
+}
+
+\newenvironment{derive}[1][]{
+    \begin{equation}
+        \begin{aligned}
+            #1
+}{
+        \end{aligned}
+    \end{equation}
+}

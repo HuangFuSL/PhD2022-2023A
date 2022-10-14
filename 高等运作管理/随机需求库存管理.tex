@@ -108,7 +108,7 @@
     或可使用差分方法，已知成本函数
 
     \begin{equation}
-        g(S) = h\sum_{d=0}^S (S-d)f(d) + p\sum_{d=S}^\infty (d-S)f(d)
+        g(S) = h\bar n(S) + pn(S) = h\sum_{d=0}^S (S-d)f(d) + p\sum_{d=S}^\infty (d-S)f(d)
     \end{equation}
 
     定义$\Delta(S) = g(S+1) - g(S)$，则
@@ -122,7 +122,7 @@
         \end{aligned}
     \end{equation*}
 
-    \subsection*{周期检查模型-无固定订货成本}
+    \subsection*{有限周期检查模型-无固定订货成本}
 
     对于周期检查的报童模型，有如下参数和假设
 
@@ -134,5 +134,48 @@
         \begin{equation*}
             C_n\left(y_0\right) = \min_{y\geq y_0}\left\{L(y) - cy_0 + \alpha\int_0^\infty C_{n-1}[t(y, x)]f(x)\mathrm dx\right\}
         \end{equation*}
+        \item 订货量$s$
     \end{enumerate}
+
+    设第$t$周期时对应的库存为$s$，则$t$期的成本
+
+    \begin{equation*}
+        \theta_t(x) = \min_{y\geq x}\left\{c(y-x) + g(y) + rE_D\left[\theta_{t+1}(y-D)\right]\right\}
+    \end{equation*}
+
+    式中$\theta_{t+1}(x)$应为凸函数，存在极小值。
+
+    当$\theta_{t+1}(x) = -cx$时，$S_t^*$相同，有
+
+    \begin{equation*}
+        \begin{aligned}
+            H_T(y) &= cy + g(y) + rE_D[\theta_{t+1}(y-D)] \\
+            &= (1-r)cy + g(y) + rc\mu
+        \end{aligned}
+    \end{equation*}
+
+    解方程$H_T'(y) = 0$，解得
+
+    \begin{equation*}
+        S_T^* = F^{-1}\left(\frac{p - (1-r) c}{p+h}\right)
+    \end{equation*}
+
+    \begin{equation}
+        Q_T(x) = \begin{cases}
+            H_T(S_T^*) - cx & x\leq S_T^* \\
+            H_T(x) - cx & x > S_T^*
+        \end{cases}
+    \end{equation}
+
+    计算$H_{T-1}(y)$：
+
+    \begin{derive}[H_{T-1}(y)]
+        &= cy + g(y) + rE_D[\theta_T(y-D)] \\
+        &= \begin{cases}
+            cy + g(y) + rE_D[H_T(S_T^*) - c(y-D)] & y\leq S_T^* \\
+            ? & y > S_T^*
+        \end{cases}
+    \end{derive}
+
+    \subsection*{无限周期模型}
 \end{document}
