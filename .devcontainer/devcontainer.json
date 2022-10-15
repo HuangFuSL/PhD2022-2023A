@@ -19,8 +19,15 @@
     "settings": {
         // General settings
         "files.eol": "\n",
+        "[latex]": { "editor.defaultFormatter": "James-Yu.latex-workshop" },
+        "github.copilot.enable": {
+            "latex": false
+        },
+        "editor.wordWrap": "on",
+        "files.autoSave": "onFocusChange",
+        "files.autoSaveDelay": 150000,
         // Latex settings
-        "latex-workshop.chktex.enabled": true,
+        "latex-workshop.linting.chktex.enabled": true,
         "latex-workshop.latex.clean.subfolder.enabled": true,
         "latex-workshop.latex.autoClean.run": "onFailed",
         "editor.formatOnSave": true,
@@ -33,6 +40,36 @@
             "%DIR%/",
             "%TMPFILE%",
             "-y=defaultIndent: '%INDENT%'"
-        ]
+        ],
+        "latex-workshop.latex.recipes": [
+            { "name": "Build", "tools": ["XeTeX"] },
+            {
+                "name": "Build (bib)",
+                "tools": ["XeTeX", "BibTeX", "XeTeX", "XeTeX"]
+            }
+        ],
+        "latex-workshop.latex.tools": [
+            {
+                "name": "XeTeX",
+                "command": "xelatex",
+                "args": [
+                    "-synctex=1",
+                    "-shell-escape",
+                    "-interaction=nonstopmode",
+                    "-file-line-error",
+                    "%DOCFILE%"
+                ]
+            },
+            {
+                "name": "BibTeX",
+                "command": "bibtex",
+                "args": ["%DOCFILE%"]
+            }
+        ],
+        "latex-workshop.linting.run": "onType",
+        "latex-workshop.view.pdf.viewer": "tab",
+        "latex-utilities.countWord.args": ["%DOCFILE%"],
+        "latex-utilities.countWord.format": "${words} Words in Total, ${wordsBody} Words in Body",
+        "latex-utilities.countWord.path": "texcount"
     }
 }
