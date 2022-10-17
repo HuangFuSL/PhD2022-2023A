@@ -1,5 +1,5 @@
 {
-    "name": "project-dev",
+    "name": "huangfusl-latex-template",
     "dockerComposeFile": ["docker-compose.yml"],
     "service": "vscode",
     "runServices": ["vscode"],
@@ -14,7 +14,8 @@
         "shardulm94.trailing-spaces",
         "stkb.rewrap", // rewrap comments after n characters on one line
         // Other
-        "vscode-icons-team.vscode-icons"
+        "PKief.material-icon-theme",
+        "Equinusocio.vsc-material-theme"
     ],
     "settings": {
         // General settings
@@ -26,6 +27,8 @@
         "editor.wordWrap": "on",
         "files.autoSave": "onFocusChange",
         "files.autoSaveDelay": 150000,
+        "workbench.colorTheme": "Material Theme Ocean",
+        "workbench.iconTheme": "material-icon-theme",
         // Latex settings
         "latex-workshop.linting.chktex.enabled": true,
         "latex-workshop.latex.clean.subfolder.enabled": true,
