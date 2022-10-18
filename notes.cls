@@ -68,6 +68,9 @@
 \newcommand{\expt}[1]{E\left(#1\right)}
 \newcommand{\cexpt}[2]{E\left(#1|#2\right)}
 
+% 随机分布
+\newcommand{\poisson}[2]{\frac{{#1}^{#2}}{(#2)!}e^{-#1}}
+
 \newcommand{\bs}{\boldsymbol}
 
 \newenvironment{subquestions}{

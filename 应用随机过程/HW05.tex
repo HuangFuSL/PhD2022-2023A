@@ -1,0 +1,277 @@
+\documentclass{../notes}
+
+\title{应用随机过程 HW05}
+
+\begin{document}
+    \maketitle
+
+    \paragraph*{3.4} 根据一步转移概率矩阵$\bs P$可知
+
+    \begin{enumerate}
+        \item 随机过程$X$非周期
+        \item $X$的三个状态相互可达，因此随机过程为不可约马氏链
+    \end{enumerate}
+
+    由于$X$不可约，且状态总数有限，因此存在状态$i$，$f_{ii} = 1\land \mu_i < \infty$，从而$X$中各个状态均为正常返。又因$X$非周期，则$X$有唯一的不变分布
+
+    \begin{equation}
+        \bs \pi = \left(\pi_i + \frac{1}{\mu_i}\right)_{i\in S}
+    \end{equation}
+
+    解方程$\bs \pi \bs P = \bs \pi$，得
+
+    \begin{equation}
+        \bs \pi = \begin{bmatrix}
+            \frac{14}{29} & \frac{8}{29} & \frac{7}{29}
+        \end{bmatrix}
+    \end{equation}
+
+    因此状态的平均返回时间为$\bs \mu = \bs 1 / \bs \pi$，其中“$/$”为逐元素的除法，即$\mu_1 = \frac{29}{14}, \mu_2 = \frac{29}{8}, \mu_3 = \frac{29}{7}$。稳定经济状态下，增长状态的概率为$\pi_1 = \frac{14}{29}$，减少状态的概率为$\pi_3 = \frac{7}{29}$。
+
+    \paragraph*{3.5} 解方程$\bs \pi \bs P = \bs \pi$，得
+
+    \begin{equation}
+        \bs \pi = \frac{1}{5508}\begin{bmatrix}
+            392 & 753 & 1269 & 1838 & 1256
+        \end{bmatrix}
+    \end{equation}
+
+    因此$\mu_1 = 1 / \pi_1 = \frac{5508}{392} = 14.0$
+
+    \paragraph*{3.6} 当$\sum_{k=0}^\infty ka_k < 1$时，有$E\xi < 1$，即顾客到达速率比服务速率慢。
+
+    首先证明$X$中各个状态均为正常返，即$\mu_i < \infty, \forall i\in S, S = \N$。显然$X$为不可约、非周期的马氏链，因此只需证明$X$中的某个状态正常返即可。此处证明状态$0$为正常返，即$\mu_0 < \infty, f_{00} = 1$。
+
+    设$\xi$的分布列为$\prob{\xi = k} = a_k$，则$X$的状态转移矩阵$\bs P$为：
+
+    \begin{equation}
+        \bs P = \begin{bmatrix}
+            a_0 & a_1 & a_2 & a_3 & \dots \\
+            a_0 & a_1 & a_2 & a_3 & \dots \\
+            0 & a_0 & a_1 & a_2 & \dots \\
+            0 & 0 & a_0 & a_1 & \dots \\
+            \vdots & \vdots & \vdots & \vdots & \ddots
+        \end{bmatrix}
+    \end{equation}
+
+    即
+
+    \begin{equation}
+        p_{ij} = \begin{cases}
+            a_{j} & i = 0 \\
+            a_{j-i+1} & i > 0\land i - j < 1 \\
+            0 & i - j \geq 2
+        \end{cases}
+    \end{equation}
+
+    $f_{00}^{(1)} = a_0$，根据$f_{00}^{(1)}$推算$f_{00}^{(n)}, n > 1$：
+
+    \begin{equation}
+        \begin{aligned}
+            f_{i0}^{(2)} &= \sum_{j>0}^{\infty} p_{ij}f_{j0}^{(1)} = 
+        \end{aligned}
+    \end{equation}
+
+    \paragraph*{3.7}
+
+    \begin{subquestions}
+        \item 解方程$\bs \pi \bs P = \bs \pi$，解得
+
+        \begin{equation}
+            \bs \pi = \frac{1}{62}\begin{bmatrix}
+                21 & 23 & 18
+            \end{bmatrix}
+        \end{equation}
+
+        由于$X$为非周期、不可约的有限状态马氏链，因此$X$为正常返马氏链，平稳分布$\bs \pi$即为极限分布。对于极限$\lim_{n\rightarrow \infty}\bs P^n$，若该极限存在，则
+
+        \begin{equation}
+            \left(\lim_{n\rightarrow \infty}\bs P^n\right)\bs P = \lim_{n\rightarrow \infty}\bs P^n
+        \end{equation}
+
+        因此，有
+
+        \begin{equation}
+            \lim_{n\rightarrow \infty}\bs P^n = \frac{1}{62}\begin{bmatrix}
+                21 & 23 & 18 \\
+                21 & 23 & 18 \\
+                21 & 23 & 18
+            \end{bmatrix}
+        \end{equation}
+        \item 当初始分布$\bs \pi(0) = \bs\pi$时该马氏链为平稳序列。此时，有
+
+        \begin{eqnarray}
+            E(X_n) &= \sum_{i\in S} i\pi_i = \frac{121}{62} \\
+            E(X_n^2) &= \sum_{i\in S} i^2\pi_i = \frac{275}{62} \\
+        \end{eqnarray}
+
+        方差$D(X_n) = E(X_n^2) - E^2(X_n) = \frac{2409}{3844}$
+    \end{subquestions}
+
+    \paragraph*{3.18}
+
+    \begin{subquestions}
+        \item 先求$\cprob{T_1=k}{X_0=1}$：
+
+        由于状态$i$只能移动到状态$i-1$或状态$i+1$，且$\cprob{X_{n+1} = i+1}{X_{n} = i} = p$，$\cprob{X_{n+1} = i-1}{X_{n} = i} = q$
+
+        \begin{equation}
+            \begin{cases}
+                \cprob{T_1=k}{X_0=1} = p^kq^{k+1} & k=2i+1, i\geq 0 \\
+                \cprob{T_1=k}{X_0=1} = p^{k+2}q^{k} & k=2i, i\geq 1 \\
+            \end{cases}
+        \end{equation}
+
+        因此
+
+        \begin{derive}[\cprob{X_{T_1} = 3}{X_0 = 1}]
+            &= p^2\sum_{k=0}^\infty p^kq^k \\
+            &= \frac{p^2}{1-p+p^2} \\
+        \end{derive}
+
+        \item 先求$\cprob{T_2=k}{X_0=2}$，仅考虑$S' = \{0,1,2,3,4,5\}\subset S$，并将$i\leq 0$视为$0$、$i\geq 5$视为$5$，则状态转移矩阵为
+
+        \begin{equation}
+            \bs P = \begin{bmatrix}
+                q & p & 0 & 0 & 0 & 0 \\
+                q & 0 & p & 0 & 0 & 0 \\
+                0 & q & 0 & p & 0 & 0 \\
+                0 & 0 & q & 0 & p & 0 \\
+                0 & 0 & 0 & q & 0 & p \\
+                0 & 0 & 0 & 0 & q & p \\
+            \end{bmatrix}
+        \end{equation}
+
+        初始状态为$i=2$，则$\cprob{T_2=k}{X_0=2} = q\cprob{T_2=k-1}{X_1=1} + p\cprob{T_2=k-1}{X_1=3}$。对于$\cprob{T_2=k-1}{X_1=1}$即$\cprob{T_2=k}{X_0=1}$，有
+
+        \begin{equation}
+            \cprob{T_2=k}{X_0=1} = \begin{cases}
+                q & k = 1 \\
+                p\cprob{T_2=k-1}{X_0=2} & k\geq 2
+            \end{cases}
+        \end{equation}
+
+        对于$\cprob{T_2=k-1}{X_1=3}$即$\cprob{T_2=k}{X_0=3}$，有
+
+        \begin{equation}
+            \cprob{T_2=k}{X_0=3} = q\cprob{T_2=k-1}{X_1=2} + p\cprob{T_2=k-1}{X_1=4}
+        \end{equation}
+
+        同理，对于$\cprob{T_2=k-1}{X_1=4}$即$\cprob{T_2=k}{X_0=4}$，有
+
+        \begin{equation}
+            \cprob{T_2=k}{X_0=4} = \begin{cases}
+                p & k = 1 \\
+                q\cprob{T_2=k-1}{X_1=3} & k\geq 2
+            \end{cases}
+        \end{equation}
+
+        设$a_k = \cprob{T_2=k}{X_0=2}, b_k = \cprob{T_2=k}{X_0=3}$，则$\forall k > 2$，有
+
+        \begin{equation}
+            \begin{aligned}
+                a_k &= qpa_{k-2} + pb_{k-1} \\
+                b_k &= qa_{k-1} + qpb_{k-2} \\
+            \end{aligned}
+        \end{equation}
+
+        且数列首项$a_1=b_1=0, a_2=q^2, b_2=p^2$，联立解得
+
+        \begin{equation}
+            a_{k+4} - 3pqa_{k+2} + p^2q^2a_{k} = 0
+        \end{equation}
+
+        设$F_i, i\geq 1$为Fibonacci数列，则有
+
+        \begin{equation}
+            F_k = (pq)^{-n/2}a_k
+        \end{equation}
+
+        因此，$\cprob{T_2=k}{X_0=2}=a_k$即
+
+        \begin{equation}
+            a_k = \begin{cases}
+                F_{k-1}(pq)^{k/2}p^{3/2}q^{-3/2} & k = 2n + 1, n\in \N \\
+                F_{k-1}(pq)^{k/2}q/p & k = 2n, n\in \N_+
+            \end{cases}
+        \end{equation}
+
+        \begin{derive}[\cprob{X_{T_2} = 5}{X_0=2}]
+            &= \sum_{n=1}^{\infty} a_{2n-1} \\
+            &= \frac{p^3}{p^2q^2 - 3pq + 1}
+        \end{derive}
+
+    \end{subquestions}
+
+    \paragraph*{3.20 (1)} 由题，状态转移矩阵$\bs P$为
+
+    \begin{equation}
+        \bs P = \begin{bmatrix}
+            \frac{5}{8} & \frac{1}{4} & \frac{1}{8} \\
+            \frac{1}{3} & \frac{1}{2} & \frac{1}{6} \\
+            \frac{3}{4} & \frac{1}{4} & 0
+        \end{bmatrix}
+    \end{equation}
+
+    因此马氏链$X$为非周期、不可约的有限状态马氏链，从而$X$存在平稳分布$\bs \pi$。解方程$\bs \pi \bs P = \bs \pi$，解得
+
+    \begin{equation}
+        \bs \pi = \frac{1}{81}\begin{bmatrix}
+            44 & 27 & 10
+        \end{bmatrix}
+    \end{equation}
+
+    由于$X$存在平稳分布，则
+
+    \begin{equation}
+        \lim_{n\rightarrow \infty} \bs P = \frac{1}{81}\begin{bmatrix}
+            44 & 27 & 10 \\
+            44 & 27 & 10 \\
+            44 & 27 & 10
+        \end{bmatrix}
+    \end{equation}
+
+    可知$\cexpt{X_n}{X_0 = 1} = \frac{128}{81}$
+
+    \paragraph*{2.1}
+
+    \begin{subquestions}
+        \item $\{N(t) < n\} = \{S_n > t\}$
+        \item 当$N$为泊松过程时，关系$\{N(t) \leq n\} = \{S_n \geq t\}$成立，否则不成立
+        \item 当$N$为泊松过程时，关系$\{N(t) > n\} = \{S_n < t\}$成立，否则不成立
+        \item $\{W(t) > x\} = \{S_{n+1}\geq x + t, S_{n}\leq t\} = \{N(t+x) - N(t) = 0\}$
+    \end{subquestions}
+
+    \paragraph*{2.2} 由题$N(t) - N(s)$为泊松过程，且$N(t) - N(s)$与$N(t)$独立，设随机过程为$N'(t)$，则
+
+    \begin{derive}[\cprob{N(s) = k}{N(t) = n}]
+        &= \frac{\prob{N(s) = k, N(t) = n}}{N(t) = n} \\
+        &= \frac{\prob{N'(t) = n - k}\prob{N(s) = k}}{N(t) = n} \\
+        &= \frac{\poisson{\lambda(t-s)}{n-k}\poisson{\lambda s}{k}}{\poisson{\lambda t}{n}} \\
+        &= C_n^k \left(\frac{s}{t}\right)^k\left(1 - \frac{s}{t}\right)^{n-k}
+    \end{derive}
+
+    \paragraph*{2.3}
+
+    \begin{subquestions}
+        \item \begin{derive}[E\{N(t)N(s+t)\}]
+            &= E\left(N^2(t) + N(t)\left(N(s+t) - N(t)\right)\right) \\
+            &= E\left(N^2(t)\right) + E(N(t))E(N(s+t) - N(t)) \\
+            &= \lambda t + \lambda s + \lambda t + \lambda^2 t^2
+        \end{derive}
+
+        \item \begin{derive}[\cexpt{N(s+t)}{N(s)}]
+            &= \expt{N(s+t) - N(s)} + N(s) \\
+            &= \lambda t + N(s)
+        \end{derive}
+
+        因此$\prob{\cexpt{N(s+t)}{N(s)} = \lambda t + m} = \prob{N(s) = m} = \frac{(\lambda s)^m}{m!}e^{-\lambda s}$
+
+        \item[(4)] \begin{derive}[\lim_{t\rightarrow s} \prob{N(t) - N(s) > \varepsilon}]
+            &= \lim_{t\rightarrow s}\prob{N(t-s) > \varepsilon} \\
+            &= \lim_{t'\rightarrow 0^+}\prob{N(t') > \varepsilon} \\
+            &= \lim_{t'\rightarrow 0^+}\lambda t' + O(t') \\
+            &= 0
+        \end{derive}
+    \end{subquestions}
+\end{document}
