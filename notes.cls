@@ -87,3 +87,19 @@
         \end{aligned}
     \end{equation}
 }
+
+\newenvironment{derive*}[1][]{
+    \begin{equation*}
+        \begin{aligned}
+            #1
+}{
+        \end{aligned}
+    \end{equation*}
+}
+
+
+% Tikz settings
+
+% \pgfplotsset{
+
+% }

@@ -19,7 +19,7 @@
 
     \section*{报童模型}
 
-    \subsection*{单周期}
+    \subsection*{单周期-无固定订货成本}
 
     特点：只能订一次货、产品易变质、新旧产品不可混合
 
@@ -177,5 +177,66 @@
         \end{cases}
     \end{derive}
 
-    \subsection*{无限周期模型}
+    \subsection*{无限周期模型-无固定订货成本} 
+
+    定义第二类服务水平
+
+    \begin{equation*}
+        B = E\left[\frac{\text{周期中被立刻满足的需求}}{\text{周期总需求}}\right]
+    \end{equation*}
+
+    \begin{enumerate}
+        \item 近似1：每周期最多进一次货，$\hat B_1 = 1 - \frac{n^{L+1}(S)}{\mu}$
+        \item 近似2：$E(\#/\#) \approx E(\#)/E(\#)$，$\hat B_2 = \frac{\bar n^L(S) - \bar n^{L+1}(S)}{\mu}$。$\bar n^L(S) = E\left[(S - D(L))^+\right]\approx E(S-D(L)) = SL\mu$，$\bar n^{L+1}(S) = S - (L+1)\mu + n^{L+1}(S)$
+    \end{enumerate}
+
+    当提前期$L = 0$时，有
+
+    \begin{equation*}
+        B = F(s) + \int_s ^\infty \frac{S}{d} f(d) \dd d
+    \end{equation*}
+
+    \subsection*{单周期-固定订货成本}
+
+    固定订货成本为$K$，其他假设与报童模型相同，最优策略为$(s, Q)$策略
+
+    % \begin{figure}[ht]
+    %     \centering
+    %     \begin{tikzpicture}
+    %         \draw[->, domain]
+    %     \end{tikzpicture}
+    % \end{figure}
+
+    证明最优策略的有效性
+
+    \begin{derive*}[\theta (x)]
+        &= \min _{y\geq x}\left\{K\times 1_{\{y > x\}} + c(y-x) + g(y)\right\} \\
+        &= \min _{y\geq x}\left\{K\times 1_{\{y > x\}} + H(y) - cx\right\}
+    \end{derive*}
+
+    \subsection*{有限周期-固定订货成本}
+
+    对于第$t$个周期，有
+
+    \begin{derive*}[\theta (x)] 
+        &= \min _{y\geq x}\left\{K\times 1_{\{y > x\}} + H_t(y) - cx\right\} \\
+        &= -cx + \begin{cases}
+            K + H_t(S^*) & x \leq S^* \\
+            H_t(x) & x > S^*
+        \end{cases}
+    \end{derive*}
+
+    定义：若$f(x)$满足
+
+    \begin{equation*}
+        f(x) + a\cdot \frac{f(x) - f(x-b)}{b} \leq f(x+a) + K
+    \end{equation*}
+
+    称$f(x)$为$K$凸函数。设$S^*$为全局最低点，$s^*$为满足$f(x) = f(S^*) + K$最大的$x\leq S^*$，则最优策略为$(s, S)$。
+
+    \begin{enumerate}
+        \item $f$在$(-\infty, s^*)$上非增
+        \item 若$s^* < x \leq S^*$，则$f(x) < f(s^*)$
+        \item 设$S^* < x_1 < x_2$，则$f(x_1) - f(x_2) \leq K$
+    \end{enumerate}
 \end{document}
