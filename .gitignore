@@ -290,3 +290,6 @@ TSWLatexianTemp*
 *.rar
 *.zip
 *.csv
+node_modules/
+package-lock.json
+build/
