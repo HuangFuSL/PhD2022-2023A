@@ -1,0 +1,102 @@
+\documentclass{../notes}
+
+\title{应用随机过程 HW06}
+
+\begin{document}
+    \maketitle
+
+    \paragraph*{2.5} 已知$S_1, S_2, \dots, S_n$的条件概率密度为
+
+    \begin{equation}
+        f(t_1, t_2, \dots, t_n | N(t) = n) = \begin{cases}
+            \frac{n!}{t^n} & 0 < t_1 < t_2 < \cdots < t_n \leq t \\
+            0 & \text{otherwise} \\
+        \end{cases}
+    \end{equation}
+
+    因此，对某个给定的$k\leq n$，有
+
+    \begin{derive}[f(t_k|N(t) = n)_{t_i, i\not = k}]
+        &= \int_0^{t_2}\cdots\int_0^{t_k} \int_{t_k} ^t \cdots \int_{t_{n-1}} ^t \frac{n!}{t^n} \dd t_n \cdots \dd t_{k+1} \dd t_{k-1} \cdots \dd t_1 \\
+        &= \int_0^{t_2}\cdots\int_0^{t_k} \int_{t_k} ^t \cdots \int_{t_{n-2}} ^t \frac{n!(t - t_{n-1})}{t^n} \dd t_{n-1} \cdots \dd t_{k+1} \dd t_{k-1} \cdots \dd t_1 \\
+        &= \int_0^{t_2}\cdots\int_0^{t_k} \int_{t_k} ^t \cdots \int_{t_{n-3}} ^t \frac{n!(t - t_{n-2})^2}{2!\times t^n} \dd t_{n-2} \cdots \dd t_{k+1} \dd t_{k-1} \cdots \dd t_1 \\
+        &\vdots \\
+        &= \frac{n!(t-t_k)^{n-k}}{(n-k)!t^n} \int_{0}^{t_2}\cdots \int_0^{t_k} \dd t_{k-1} \cdots \dd t_1 \\
+        &= \frac{n! t_k^k (t - t_k)^{n-k}}{(n-k)!t^n} \int_{0}^{t_2}\cdots \int_0^{t_{k-1}} t_{k-2} \dd t_{k-2} \cdots \dd t_1 \\
+        &\vdots \\
+        &= \frac{n! t_k^{k-1} (t - t_k)^{n-k}}{(k-1)!(n-k)!t^n}
+    \end{derive}
+
+    从而
+
+    \begin{derive}[\cexpt{S_k}{N(t) = n}]
+        &= \int_{0}^{t} t_k f(t_k|N(t) = n)_{t_i, i\not = k} \dd t_{k} \\
+        &= \frac{n!}{(k-1)!(n-k)!t^n}\int_{0}^{t} t_k^k (t - t_k)^{n-k} \dd t_{k} \\
+        &= \frac{n!t}{(k-1)!(n-k)!}\int_{0}^{1} x^k (1 - x)^{n-k} \dd x \\
+    \end{derive}
+
+    根据分部积分法，有
+
+    \begin{equation}
+        \int_{0}^{1} x^k (1 - x)^{n-k} \dd x = \frac{n-k}{k+1} x^{k+1} (1-x)^{n-k-1}
+    \end{equation}
+
+    又已知$k=n$时，有$\int_{0}^{1} x^{n} \dd x = \frac{1}{n+1}$，从而
+
+    \begin{derive}[\int_{0}^{1} x^k (1 - x)^{n-k} \dd x]
+        &= \frac{n-k}{k+1} x^{k+1} (1-x)^{n-k-1} \\
+        &= \frac{n-k}{k+1}\frac{n-k-1}{k+1} x^{k+2} (1-x)^{n-k-2} \\
+        &\vdots \\
+        &= \frac{n-k}{k+1}\frac{n-k-2}{k+2}\dots\frac{1}{n}\int_{0}^{1} (1-x)^{n}\dd x\\
+        &= \frac{n-k}{k+1}\frac{n-k-2}{k+2}\dots\frac{1}{n}\frac{1}{n+1}\\
+        &= \frac{k!(n-k)!}{(n+1)!}
+    \end{derive}
+
+    因此
+
+    \begin{derive}[\cexpt{S_k}{N(t) = n}]
+        &= \frac{n!t}{(k-1)!(n-k)!}\int_{0}^{1} x^k (1 - x)^{n-k} \dd x \\
+        &= \frac{n!t}{(k-1)!(n-k)!}\frac{k!(n-k)!}{(n+1)!} \\
+        &= \frac{kt}{n+1}
+    \end{derive}
+
+    \paragraph*{2.9} 根据\textbf{2.5}，有
+
+    \begin{equation}
+        f(t_k|N(t) = n)_{t_i, i\not = k} = \frac{n! t_k^{k-1} (t - t_k)^{n-k}}{(k-1)!(n-k)!t^n}
+    \end{equation}
+
+    \paragraph*{2.10} 由题，泊松过程的参数$\lambda = 1/2$。首先计算$S_n$的条件概率密度
+
+    \begin{derive}[f_{S_n}(t)]
+        &=\frac{\dd F_{S_n}(t)}{\dd t} \\
+        &=\frac{\dd \left(\sum_{j=n}^\infty \frac{(\lambda t)^j}{j!}e^{-\lambda t}\right)}{\dd t} \\
+        &= \sum_{j=n}^\infty \left(\lambda \frac{(\lambda t)^{j-1}}{(j-1)!}e^{-\lambda t} - \lambda \frac{(\lambda t)^j}{j!} e^{-\lambda t}\right) \\
+        &= \lambda e^{-\lambda t}\frac{(\lambda t)^{n-1}}{(n-1)!}
+    \end{derive}
+
+    因此，可以计算$P(S_n\geq x)$：
+
+    \begin{derive}[P(S_n\geq x)]
+        &= \int_{x}^\infty f_{S_n}(t)\dd t \\
+        &= \int_{x}^\infty \lambda e^{-\lambda t}\frac{(\lambda t)^{n-1}}{(n-1)!} \dd t \\
+        &= \frac{\lambda^n}{(n-1)!}\int_{x}^\infty t^{n-1}e^{-\lambda t}\dd t
+    \end{derive}
+
+    将$\lambda = 1/2$代入，得：
+
+    \begin{equation}
+        P(S_n\geq x) = \frac{1}{2^n(n-1)!}\int_x^\infty t^{n-1}e^{-t/2}\dd t
+    \end{equation}
+
+    \paragraph*{2.26} 已知$S_1, S_2, \cdots S_n$在$N(t) = n$时的联合概率密度为
+
+    \begin{equation*}
+        f(t_1, t_2, \cdots, t_n) = \begin{cases}
+            \frac{n!}{t^n} & 0 < t_1 < t_2 < \cdots < t_n \leq t \\
+            0 & \text{otherwise}
+        \end{cases}
+    \end{equation*}
+
+    因此
+\end{document}
