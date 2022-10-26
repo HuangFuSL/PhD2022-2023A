@@ -66,5 +66,37 @@
         f(t_k|N(t) = n)_{t_i, i\not = k} = \frac{n! t_k^{k-1} (t - t_k)^{n-k}}{(k-1)!(n-k)!t^n}
     \end{equation}
 
-    \paragraph*{2.10} 原题即计算$\cprob{S_n > x}{N(x) = n}$
+    \paragraph*{2.10} 由题，泊松过程的参数$\lambda = 1/2$。首先计算$S_n$的条件概率密度
+
+    \begin{derive}[f_{S_n}(t)]
+        &=\frac{\dd F_{S_n}(t)}{\dd t} \\
+        &=\frac{\dd \left(\sum_{j=n}^\infty \frac{(\lambda t)^j}{j!}e^{-\lambda t}\right)}{\dd t} \\
+        &= \sum_{j=n}^\infty \left(\lambda \frac{(\lambda t)^{j-1}}{(j-1)!}e^{-\lambda t} - \lambda \frac{(\lambda t)^j}{j!} e^{-\lambda t}\right) \\
+        &= \lambda e^{-\lambda t}\frac{(\lambda t)^{n-1}}{(n-1)!}
+    \end{derive}
+
+    因此，可以计算$P(S_n\geq x)$：
+
+    \begin{derive}[P(S_n\geq x)]
+        &= \int_{x}^\infty f_{S_n}(t)\dd t \\
+        &= \int_{x}^\infty \lambda e^{-\lambda t}\frac{(\lambda t)^{n-1}}{(n-1)!} \dd t \\
+        &= \frac{\lambda^n}{(n-1)!}\int_{x}^\infty t^{n-1}e^{-\lambda t}\dd t
+    \end{derive}
+
+    将$\lambda = 1/2$代入，得：
+
+    \begin{equation}
+        P(S_n\geq x) = \frac{1}{2^n(n-1)!}\int_x^\infty t^{n-1}e^{-t/2}\dd t
+    \end{equation}
+
+    \paragraph*{2.26} 已知$S_1, S_2, \cdots S_n$在$N(t) = n$时的联合概率密度为
+
+    \begin{equation*}
+        f(t_1, t_2, \cdots, t_n) = \begin{cases}
+            \frac{n!}{t^n} & 0 < t_1 < t_2 < \cdots < t_n \leq t \\
+            0 & \text{otherwise}
+        \end{cases}
+    \end{equation*}
+
+    因此
 \end{document}
