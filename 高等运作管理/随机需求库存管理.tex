@@ -17,7 +17,7 @@
 
     常用概率分布：泊松分布（顾客到达）、正态分布（消费量）
 
-    \section*{报童模型}
+    \section*{离散需求：报童模型}
 
     \subsection*{单周期-无固定订货成本}
 
@@ -222,9 +222,16 @@
         &= \min _{y\geq x}\left\{K\times 1_{\{y > x\}} + H_t(y) - cx\right\} \\
         &= -cx + \begin{cases}
             K + H_t(S^*) & x \leq S^* \\
-            H_t(x) & x > S^*
-        \end{cases}
+            H_t(x) & x > S^* 
+        \end{cases} \\
+        &= -cx + \phi_t(x)
     \end{derive*}
+
+    式中
+
+    \begin{equation*}
+        H_t(y) = cy + g(y) + \gamma E_D\left[\theta_{t+1} (y-D)\right]
+    \end{equation*}
 
     定义：若$f(x)$满足
 
@@ -232,11 +239,61 @@
         f(x) + a\cdot \frac{f(x) - f(x-b)}{b} \leq f(x+a) + K
     \end{equation*}
 
-    称$f(x)$为$K$凸函数。设$S^*$为全局最低点，$s^*$为满足$f(x) = f(S^*) + K$最大的$x\leq S^*$，则最优策略为$(s, S)$。
+    称$f(x)$为$K$凸函数。$K$凸的函数$f(x)$满足如下性质：
+
+    \begin{enumerate}
+        \item $g(x) = f(x+\varepsilon), \varepsilon\in \R$为$K$凸函数；
+        \item $g(x) = \alpha_1f_1(x) + \alpha_2f_2(x), \alpha_1 \in R, \alpha_2\in R$为$K$凸函数；
+        \item 设$Y$为随机变量，$E_Y\left[f(x-y)\right]$为$K$凸函数；
+        \item 若$f(x)$为$K_1$凸函数，且$K_2 > K_1$，则$f(x)$也为$K_2$凸函数。
+    \end{enumerate}
+    
+    设$S^*$为全局最低点，$s^*$为满足$f(x) = f(S^*) + K$最大的$x\leq S^*$，则最优策略为$(s, S)$。
 
     \begin{enumerate}
         \item $f$在$(-\infty, s^*)$上非增
         \item 若$s^* < x \leq S^*$，则$f(x) < f(s^*)$
         \item 设$S^* < x_1 < x_2$，则$f(x_1) - f(x_2) \leq K$
     \end{enumerate}
+
+    可以通过$K$凸性证明$(s, S)$策略为最优策略。从后往前归纳证明，即：
+
+    \begin{equation*}
+        \theta_{t+1}(x)\text{为$K$凸函数}\Rightarrow \theta_t(x)\text{为$K$凸函数}
+    \end{equation*}
+
+    \begin{enumerate}
+        \item $x-b > s_t^*$时，$\phi_t(y) = H_t(y), y\in (x-b, x+a)$
+        \item $x+a < s_t^*$时，$\phi_t(t) = H_t(S_t^*) + K, y\in (x-b, x+a)$
+        \item $x-b\leq s_t^* \leq x+a$时，进一步讨论
+        \begin{enumerate}[label=\Roman*.]
+            \item $\phi_t(x) \leq H_t(S_t^*) + K$
+            \item $\phi_t(x) > H_t(S_t^*) + K$
+        \end{enumerate} 
+    \end{enumerate}
+    
+    \section*{连续需求}
+
+    $(r, Q)$模型，式中$r$为重订货点，$Q$为订货量。订货后距离订货到达有提前期$L$
+
+    \begin{equation*}
+        IL = IP - D(L)
+    \end{equation*}
+
+    式中$D(L)$为$L$时间内的需求分布，$IL_{t+L}$（Inventory Level）为到达后的库存水平，$IP_{t}$（Inventory Position）为订货后的总库存水平与订货量之和。可以通过$IP$的分布推算$IL$的分布。
+
+    $IP$的取值是非周期、不可约、有限状态、连续时间马尔可夫链。因此一定存在平稳分布，设$\bs P$为状态转移矩阵，则稳态$\bs \pi = \bs \pi \bs P$。
+
+    考虑$IP$的分布，再考虑$P(IL|IP) = P(D(L) = IL - IP)$，通过全期望公式可以得到库存水平$IL$的期望，从而计算出库存成本的期望。
+
+    期望成本函数$g(r, Q)$计算如下
+
+    \begin{derive}[g(r, Q)]
+        &= \frac{K\lambda + \int_{r}^{r+Q} g(y)\dd y}{Q} \\
+        &= \frac{K\lambda}{Q} + \frac{h}{Q}\int_r^{r+Q} \expt{(y-D)^+} \dd y+ \frac{p}{Q}\int_r^{r+Q} \expt{(D-y)^+} \dd y \\
+        &= \frac{K\lambda}{Q} + hI(r, Q) + pB(r, Q) \\
+        &= \frac{K\lambda}{Q} + h\left(\frac{Q}{2}+r-\lambda L\right) + (p + h)B(r, Q)
+    \end{derive}
+
+    期望成本函数解的性质$g(r, Q) = g(r+Q) = g(r)$。可以通过迭代的方式计算数值解。
 \end{document}
