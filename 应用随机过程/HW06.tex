@@ -2,6 +2,8 @@
 
 \title{应用随机过程 HW06}
 
+\loadgeometry{word-moderate}
+
 \begin{document}
     \maketitle
 
@@ -89,14 +91,114 @@
         P(S_n\geq x) = \frac{1}{2^n(n-1)!}\int_x^\infty t^{n-1}e^{-t/2}\dd t
     \end{equation}
 
-    \paragraph*{2.26} 已知$S_1, S_2, \cdots S_n$在$N(t) = n$时的联合概率密度为
+    \paragraph*{2.26}
 
-    \begin{equation*}
-        f(t_1, t_2, \cdots, t_n) = \begin{cases}
-            \frac{n!}{t^n} & 0 < t_1 < t_2 < \cdots < t_n \leq t \\
-            0 & \text{otherwise}
-        \end{cases}
-    \end{equation*}
+    \begin{subquestions}
+        \item[\textbf{(1)}] 设充分小的$\delta = O(t_5 - t_2)$，则：
 
-    因此
+        \begin{derive}[f(t_2, t_5)]
+            &= \begin{cases}
+                \lim_{\delta\rightarrow 0}\frac{1}{\delta ^ 2}\prob{t_2 - \frac \delta 2\leq S_2 < t_2 + \frac \delta 2, t_5 - \frac \delta 2\leq S_5 < t_5 + \frac \delta 2} & 0 < t_2 < t_5 \\
+                0 & \text{otherwise}
+            \end{cases}
+        \end{derive}
+
+        设$a, b, c, d$分别为$t_2 - \frac \delta 2, t_2 + \frac \delta 2, t_5 - \frac \delta 2, t_5 + \frac \delta 2$，则$\prob{a\leq S_2 < b, c\leq S_5 < d}$可以按照如下方式计算
+
+        \begin{derive}[&\prob{a\leq S_2 < b, c\leq S_5 < d}\\]
+            =& \prob{N(a) = 1, N(b) - N(a) = 1, N(c) - N(b) = 2, N(d) - N(c) = 1} \\
+            =& \prob{N(a) = 1}\prob{N(b) - N(a) = 1}\prob{N(c) - N(b) = 2}\prob{N(d) - N(c) = 1} \\
+            =& \left(\lambda t_2 e^{-\lambda t_2}\right)\left(\lambda \delta e^{-\lambda \delta}\right)\left(\frac{(\lambda (t_5 - t_2))^2}{2}e^{-\lambda (t_5 - t_2)}\right)\left(\lambda \delta e^{-\lambda \delta}\right) \\
+            =& \frac{\lambda ^5 t_2 (t_5 - t_2)^2 \delta^2}{2} e^{-\lambda (t_5 + 2\delta)}
+        \end{derive}
+
+        因此，有
+
+        \begin{derive}[&\lim_{\delta\rightarrow 0}\frac{1}{\delta ^ 2}\prob{t_2 - \frac \delta 2\leq S_2 < t_2 + \frac \delta 2, t_5 - \frac \delta 2\leq S_5 < t_5 + \frac \delta 2}\\]
+            =& \lim_{\delta\rightarrow 0}\frac{\lambda ^5 t_2 (t_5 - t_2)^2 \delta^2}{2\delta ^2} e^{-\lambda (t_5 + 2\delta)} \\
+            =& \frac{\lambda ^5 t_2 (t_5 - t_2)^2}{2} e^{-\lambda (t_5)}
+        \end{derive}
+
+        即
+
+        \begin{equation}
+            f(t_2, t_5) = \begin{cases}
+                \frac{\lambda ^5 t_2 (t_5 - t_2)^2}{2} e^{-\lambda (t_5)} & 0 < t_2 < t_5 \\
+                0 & \text{otherwise}
+            \end{cases}
+        \end{equation}
+
+        \item[\textbf{(3)}] 给定$N(t) = 1$，则
+
+        \begin{enumerate}
+            \item $S_1$服从区间$[0, t]$上的均匀分布。
+            \item $S_2$即$N(t) = 1$时的$W(t) + t$，且$\prob{W(t) \leq x} = 1 - e^{-\lambda x}, \forall x\geq 0$。
+        \end{enumerate}
+
+        由于$S_2 = W(t) + t$与$S_1$独立，则
+
+        \begin{derive}[f(t_1, t_2)]
+            &= f(t_1)f(t_2) \\
+            &= \frac{1}{t} \left(\lambda e^{-\lambda (t_2 - t)}\right) \\
+            &= \frac{\lambda}{t} e^{-\lambda (t_2 - t)}
+        \end{derive}
+    \end{subquestions}
+
+    \paragraph*{2.27 (1)} 由题
+
+    \begin{enumerate}[label=\textit{(\arabic*)}]
+        \item $N(0) = N_1(0) + N_2(0) = 0$
+        \item $N(t_1), N_(t_2) - N(t_1), \dots, N(t_n) - N(t_{n-1})$相互独立；
+        \item $\forall s, t\geq 0, N(s+t) - N(s)\sim P((\lambda_1 + \lambda_2)t)$
+    \end{enumerate}
+
+    \textit{(1)}、\textit{(2)}显然，以下证明\textit{(3)}：
+
+    已知$N_1, N_2$分别为参数$\lambda_1, \lambda_2$的时齐泊松过程，则有
+
+    \begin{equation}
+        \begin{aligned}
+            N_1(s+t) - N_1(s) &\sim P(\lambda_1t) \\
+            N_2(s+t) - N_2(s) &\sim P(\lambda_2t)
+        \end{aligned}
+    \end{equation}
+
+    因此只需证明相互独立的$X_1, X_2$满足$X_1\sim P(\lambda_1t), X_2\sim P(\lambda_2t)\Rightarrow X_1+X_2\sim P((\lambda_1 + \lambda_2)t)$。已知泊松函数的概率分布为$f(x; \lambda) = \frac{e^{-\lambda}\lambda^x}{x!}$，则
+
+    \begin{derive}[\prob{X_1 + X_2 = x}]
+        &= \sum_{x_1=0}^x \prob{X_1 = x_1, X_2 = x - x_1} \\
+        &= \sum_{x_1=0}^x \left(\prob{X_1 = x_1}\prob{X_2 = x - x_1}\right) \\
+        &= \sum_{x_1=0}^x \left(\frac{e^{-\lambda_1}\lambda_1^{x_1}}{x_1!}\frac{e^{-\lambda_2}\lambda_2^{x - x_1}}{(x - x_1)!}\right) \\
+        &= \frac{e^{-(\lambda_1 + \lambda_2)}}{x!}\sum_{x_1=0}^x \left[\left(\frac{x!}{x_1!(x-x_1)!}\right)\lambda_1^{x_1}\lambda_2^{x-x_1}\right] \\
+        &= \frac{(\lambda_1 + \lambda_2)^x e^{-(\lambda_1 + \lambda_2)}}{x!}
+    \end{derive}
+
+    因此$[N_1(s+t) - N_1(s)] + [N_2(s+t) - N_2(s)] = N(s+t) - N(s) \sim P((\lambda_1 + \lambda_2)t)$，\textit{(3)}得证。
+
+    \paragraph*{2.28} 由题，设$X_t$的矩母函数为$\phi_X(u; t)$，$\rho_i$的矩母函数为$\phi_\rho(u)$，则：
+
+    \begin{derive}[\phi_X(u; t)]
+        &= E\left(e^{uX(t)}\right) \\
+        &= \sum_{n=0}^\infty \prob{N(t) = n}E\left[e^{(uX(t))} |N(t) = n\right] \\
+        &= \sum_{n=0}^\infty \frac{(\lambda t)^n}{n!}e^{-\lambda t} E\left[e^{u(\rho_1 + \rho_2 + \cdots + \rho_n)} | N(t) = n\right] \\
+        &= \sum_{n=0}^\infty \frac{(\lambda t)^n}{n!}e^{-\lambda t} E\left[e^{u(\rho_1 + \rho_2 + \cdots + \rho_n)}\right] \\
+        &= \sum_{n=0}^\infty \frac{(\lambda t)^n}{n!}e^{-\lambda t} \phi_\rho^n (u) \\
+        &= e^{\lambda t(\phi_\rho (u) - 1)}
+    \end{derive}
+
+    计算$\phi'_X(0; t)$，得
+
+    \begin{equation}
+        \phi'_X(0; t) = \lambda t\phi'_\rho(0) = \lambda tE\rho_1
+    \end{equation}
+
+    因此$EX_t = \lambda tE\rho_1 = \lambda t$
+
+    式中，$\rho_1$的矩母函数为
+
+    \begin{derive}[\phi_{\rho}(u)]
+        &= Ee^{u\rho} \\
+        &= \sum_{k=1}^\infty e^{uk} (1-p)^{k-1}p \\
+        &= -\frac{(p-1) p e^u}{(1-p) \left(p e^u-e^u+1\right)} 
+    \end{derive}
 \end{document}
