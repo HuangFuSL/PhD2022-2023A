@@ -2,8 +2,6 @@
 
 \title{商务智能 HW04}
 
-\loadgeometry{word-moderate}
-
 \begin{document}
     \maketitle
 
@@ -46,22 +44,35 @@
         \label{fig:rnn-structure}
     \end{figure}
 
-    不考虑输入批次，令$\bs x^{(i)}$为列向量。设隐藏层的输入权重、循环权重，输出权重分别为$\bs W_i, \bs W_h, \bs W_o$，输入偏置、循环偏置、输出偏置分别为$\bs b_i, \bs b_h, \bs b_o$，令$\bs b = \bs b_i + \bs b_h$。激活函数为$f(\cdot) = \tanh$。
+    不考虑输入批次，令$\bs x^{(i)}$为列向量。设隐藏层的输入权重、循环权重，输出权重分别为$\bs W_i, \bs W_h, \bs W_o$，输入偏置、循环偏置、输出偏置分别为$\bs b_i, \bs b_h, \bs b_o$，令$\bs b = \bs b_i + \bs b_h$。激活函数为$f(\cdot) = \tanh$。对于$t$时刻，计算过程如下所示：
 
-    计算两层RNN的输出如表\ref{tbl:rnn-result-1}：
+    \begin{enumerate}[label=\textit{第\arabic*步}]
+        \item 计算中间变量$\bs \alpha^{(t)} = \bs W_i\bs x^{(t)} + \bs W_h\bs h^{(t-1)} + \bs b$（需要在反向传播过程中使用）
+        \item 计算隐藏层输出$\bs h^{(t)} = f\left(\bs \alpha^{(t)}\right)$
+        \item 计算中间变量$\bs \beta^{(t)} = \bs W_o \bs h^{(t)} + \bs b_o$
+        \item 计算输出层输出$\hat {\bs y}^{(t)} = f\left(\bs \beta^{(t)}\right)$
+    \end{enumerate}
 
-    \begin{table}[ht]
-        \centering
-        \small
-        \caption{两层RNN的输出}
-        \begin{tabular}{cccc}
-            \toprule
-            & $t = 1$ & $t = 2$ & $t = 3$ \\
-            \midrule
-            第1层 & $f\left(\bs W^{(1)}_i \bs x^{(1)} + \bs W^{(1)}_h \bs h^{(1, 0)} + \bs b^{(1)}\right) $ & $f\left(\bs W^{(1)}_i \bs x^{(2)} + \bs W^{(1)}_h \bs h^{(1, 1)} + \bs b^{(1)}\right) $ & $f\left(\bs W^{(1)}_i \bs x^{(3)} + \bs W^{(1)}_h \bs h^{(1, 2)} + \bs b^{(1)}\right)$ \\
-            第2层 & $f\left(\bs W^{(2)}_i \bs h^{(1, 1)} + \bs W^{(2)}_h \bs h^{(2, 0)} + \bs b^{(2)}\right)$ & $f\left(\bs W^{(2)}_i \bs h^{(1, 2)} + \bs W^{(2)}_h \bs h^{(2, 1)} + \bs b^{(1)}\right)$ & $f\left(\bs W^{(2)}_i \bs h^{(1, 3)} + \bs W^{(2)}_h \bs h^{(2, 2)} + \bs b^{(2)}\right)$ \\
-            \bottomrule
-        \end{tabular}
-        \label{tbl:rnn-result-1}
-    \end{table}
+    设交叉熵函数为$g(\cdot)$，进行一次训练的损失函数为$G = \sum_{t} g\left(\hat {\bs y}^{(t)}, \bs y^{(t)}\right)$，$t$时刻$g$对$\hat {\bs{y}}^{(t)}$的偏导数为$g'^{(t)} = \partial g/ \partial \hat {\bs{y}}^{(t)}$。定义$\nabla^{(t)}$为对输出$\hat {\bs y}$进行反向传播的的梯度增量，即$\nabla (\cdot) = \sum_t \nabla^{(t)} (\cdot)$。定义全1矩阵$\bs 1_{X}$为形如$\bs X$的矩阵，且其中所有元素均为1。反向传播过程如下：
+
+    \begin{enumerate}[label=\textit{第\arabic*步}]
+        \item 对于$t$时刻，计算$\bs b_o$的偏导数为$\nabla^{(t)} \bs b_o = g'^{(t)}f'\left(\bs \beta^{(t)}\right)\bs 1_{\bs h^{(t)}}$。
+        \item 对于$t$时刻，计算$\bs W_o$的偏导数为$\nabla^{(t)} \bs W_o = g'^{(t)}f'\left(\bs \beta^{(t)}\right)\bs h^{(t)}$
+        \item 对于$t$时刻，计算$\bs b_h, \bs b_i$的偏导数为$\nabla^{(t)} \bs b_h = \nabla^{(t)} \bs b_i = g'^{(t)}f'\left(\bs \beta^{(t)}\right)\bs h^{(t)} f'\left(\bs \alpha^{(t)}\right)\bs 1_{\bs h^{(t-1)}}$
+        \item 对于$t$时刻，计算$\bs W_h$的偏导数为$\nabla^{(t)} \bs W_h = g'^{(t)}f'\left(\bs \beta^{(t)}\right)\bs h^{(t)}f'\left(\bs \alpha^{(t)}\right)\bs h^{(t-1)}$
+        \item 对于$t$时刻，计算$\bs W_i$的偏导数为$\nabla^{(t)} \bs W_i = g'^{(t)}f'\left(\bs \beta^{(t)}\right)\bs h^{(t)}f'\left(\bs \alpha^{(t)}\right)\bs x^{(t)}$
+    \end{enumerate}
+
+    最终总的梯度值即为各个时刻梯度值计算结果的求和，即
+
+    \begin{equation}
+        \begin{aligned}
+            \nabla \bs b_{o} &= \nabla^{(t)} \bs b_o \\
+            \nabla \bs b_{h} &= \nabla^{(t)} \bs b_h \\
+            \nabla \bs b_{i} &= \nabla^{(t)} \bs b_i \\
+            \nabla \bs W_{o} &= \nabla^{(t)} \bs W_o \\
+            \nabla \bs W_{h} &= \nabla^{(t)} \bs W_h \\
+            \nabla \bs W_{i} &= \nabla^{(t)} \bs W_i \\
+        \end{aligned}
+    \end{equation}
 \end{document}
