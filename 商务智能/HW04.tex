@@ -24,21 +24,20 @@
                 \node[InputNode, right of=Hidden_0\p, xshift=0.5cm] (Hidden_0\t){};
                 \node[below of=Hidden_0\t]{$\bs x^{(\t)}$};
             }
-            \foreach \l [evaluate=\l as \p using int(\l-1)] in {1, 2} {
-                \foreach \t in {0, 1, 2, 3} {
-                    \node[HiddenNode, above of=Hidden_\p\t, yshift=0.3cm] (Hidden_\l\t) {};
-                }
-                \foreach \t [evaluate=\t as \n using int(\t+1)] in {0, 1, 2} {
-                    \draw[Connection] (Hidden_\l\t) -> (Hidden_\l\n);
-                }
-                \node [left of=Hidden_\l0]{$\bs h^{(\l, t)}$};
+            \foreach \t in {0, 1, 2, 3} {
+                \node[HiddenNode, above of=Hidden_0\t, yshift=0.3cm] (Hidden_1\t) {};
             }
-            \node [above of=Hidden_20, yshift=0.3cm](Hidden_30){};
-            \node [above of=Hidden_30]{$\hat {\bs y}^{(t)}$};
+            \foreach \t [evaluate=\t as \n using int(\t+1)] in {0, 1, 2} {
+                \draw[Connection] (Hidden_1\t) -> (Hidden_1\n);
+            }
+            \node [left of=Hidden_10]{$\bs h^{(t)}$};
+
+            \node [above of=Hidden_10, yshift=0.3cm](Hidden_20){};
+            \node [above of=Hidden_20]{$\hat {\bs y}^{(t)}$};
             \foreach \t in {1, 2, 3} {
-                \node[OutputNode, above of=Hidden_2\t, yshift=0.3cm] (Hidden_3\t){};
-                \node[above of=Hidden_3\t]{$\hat {\bs y}^{(\t)}$};
-                \foreach \l [evaluate=\l as \n using int(\l + 1)] in {0, 1, 2} {
+                \node[OutputNode, above of=Hidden_1\t, yshift=0.3cm] (Hidden_2\t){};
+                \node[above of=Hidden_2\t]{$\hat {\bs y}^{(\t)}$};
+                \foreach \l [evaluate=\l as \n using int(\l + 1)] in {0, 1} {
                     \draw[Connection] (Hidden_\l\t) -> (Hidden_\n\t);
                 }
             }
@@ -47,7 +46,7 @@
         \label{fig:rnn-structure}
     \end{figure}
 
-    不考虑输入批次，令$\bs x^{(i)}, i=1,2,3$为列向量。设隐藏层$i$的输入权重为、循环权重分别为$\bs W^{(i)}_i, \bs W^{(i)}_h$，输入偏置、循环偏置分别为$\bs b^{(i)}_i, \bs b^{(i)}_h$，令$\bs b^{(i)} = \bs b^{(i)}_i + \bs b^{(i)}_h$。激活函数为$f(\cdot)$。
+    不考虑输入批次，令$\bs x^{(i)}$为列向量。设隐藏层的输入权重、循环权重，输出权重分别为$\bs W_i, \bs W_h, \bs W_o$，输入偏置、循环偏置、输出偏置分别为$\bs b_i, \bs b_h, \bs b_o$，令$\bs b = \bs b_i + \bs b_h$。激活函数为$f(\cdot) = \tanh$。
 
     计算两层RNN的输出如表\ref{tbl:rnn-result-1}：
 
