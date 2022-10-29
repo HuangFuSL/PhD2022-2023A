@@ -1,0 +1,86 @@
+\documentclass{../notes}
+
+\title{组合数学 HW03}
+
+\begin{document}
+    \maketitle
+
+    \paragraph*{2.1} 设函数族$G^{(n)}(x)$为形如\eqnref{eq:2.1.1}的函数
+
+    \begin{equation}
+        G^{(n)}(x) = \sum_{k=0}^\infty k^n x^k
+        \label{eq:2.1.1}
+    \end{equation}
+
+    则母函数为$G(x) = G^{(3)}(x)$。错位相减，计算$G(x) - xG(x)$，得到
+
+    \begin{derive}[G(x) - xG(x)]
+        &= \sum_{n=0}^\infty n^3x^n- \sum_{n=1}^\infty n^3x^{n+1} \\
+        &= \sum_{n=1}^\infty \left(n^3 - (n-1)^3\right)x^n \\
+        &= \sum_{n=1}^\infty \left(3n^2 - 3n + 1\right)x^n \\
+        &= 3G^{(2)}(x) - 3G^{(1)}(x) + G^{(0)}(x) - 1
+        \label{eq:2.1.2}
+    \end{derive}
+
+    \begin{enumerate}
+        \item[$G^{(0)}(x)$：] 根据函数$f(x) = 1/(1-x)$的泰勒展开，可得$G^{(0)}(x) = 1/(1-x)$。
+        \item[$G^{(1)}(x)$：] 计算$G^{(1)}(x) - xG^{(1)}(x)$，得到
+
+        \begin{derive}[G^{(1)}(x) - xG^{(1)}(x)]
+            &= \sum_{n=0}^\infty nx^n- \sum_{n=1}^\infty nx^{n+1} \\
+            &= \sum_{n=1}^\infty x^n \\
+            &= G^{(0)} - 1 \\
+            &= \frac{x}{1-x}
+        \end{derive}
+
+        因此，$G^{(1)}(x) = \left(G^{(0)} - 1\right)/(1-x) = x/(1-x)^2$。
+
+        \item[$G^{(2)}(x)$：] 计算$G^{(2)}(x) - xG^{(2)}(x)$，得到
+
+        \begin{derive}[G^{(2)}(x)]
+            &= \sum_{n=0}^\infty n^2x^n- \sum_{n=1}^\infty n^2x^{n+1} \\
+            &= \sum_{n=1}^\infty \left(n^2 - (n-1)^2\right)x^n \\
+            &= \sum_{n=1}^\infty \left(2n - 1\right)x^n \\
+            &= 2G^{(1)}(x) - G^{(0)}(x) + 1 \\
+            &= \frac{x(1 + x)}{(1 - x)^2}
+        \end{derive}
+
+        因此，$G^{(2)}(x) = \left\{[x(1 + x)]/[(1 - x)^2]\right\}/(1-x) = x(1+x)/(1-x)^3$。
+    \end{enumerate}
+
+    将$G^{(i)}(x), i=0,1,2$代入\eqnref{eq:2.1.2}，并设各项最简分式系数为$A, B, C, D$，得到
+
+    \begin{derive}[G^{(3)}(x)]
+        &= \left[\frac{3x(1+x)}{(1-x)^3} - \frac{3x}{(1-x)^2} + \frac{1}{1-x} - 1\middle] \right/ (1 - x) \\
+        &= \frac{x^3 + 4x^2 + x}{(1-x)^4} \\
+        &= \frac{A}{1 - x} + \frac{B}{(1-x)^2} + \frac{C}{(1-x)^3} + \frac{D}{(1-x)^4}
+    \end{derive}
+
+    得到线性方程组
+
+    \begin{equation}
+        \begin{bmatrix}
+            -1 & 0 & 0 & 0 \\
+            3 & 1 & 0 & 0 \\
+            -3 & -2 & -1 & 0 \\
+            1 & 1 & 1 & 1 \\
+        \end{bmatrix}\begin{bmatrix}
+            A \\ B \\ C \\ D
+        \end{bmatrix} = \begin{bmatrix}
+            1 \\ 4 \\ 1 \\ 0
+        \end{bmatrix}
+    \end{equation}
+
+    解得$\begin{bmatrix}A & B & C & D\end{bmatrix}^\top = \begin{bmatrix} -1 & 7 & -12 & 6 \end{bmatrix}^\top$，即
+
+    \begin{equation}
+        G(x) = -\frac{1}{1-x} + \frac{7}{(1-x)^2} - \frac{12}{(1-x)^3} + \frac{6}{(1-x)^4}
+    \end{equation}
+
+    \subparagraph*{2.2} 母函数为
+
+    \begin{derive}[G(x)]
+        &= \sum_{n=0}^\infty \binom{3+n}{3} x^n \\
+        &= \frac{(3+n)!}{3!n!} x^n
+    \end{derive}
+\end{document}
