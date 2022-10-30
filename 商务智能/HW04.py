@@ -94,7 +94,7 @@ class Model(C_Module):
 
     def forward(self, x):
         o, h = self.rnn(x)
-        x = self.linear(torch.sigmoid(h.reshape(-1, 128)))
+        x = self.linear(h.reshape(-1, 128))
         return torch.softmax(x, dim=1)
 
 
