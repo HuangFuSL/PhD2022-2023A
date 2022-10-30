@@ -117,12 +117,61 @@
 
     \paragraph*{2.15}
 
-    已知序列的母函数为$G(x) = \frac{1}{1 - x + x^2}$，解方程$x^2 - x - 1 = 0$，解得
+    已知序列的母函数为$G(x) = \frac{1}{1 - x + x^2}$。则$a_0 = G(0) = 1, a_1 = G'(0) = 1$。且：
 
-    \begin{equation*}
-        x = \frac{1 \pm \sqrt 5}{2}
-    \end{equation*}
+    \begin{equation}
+        (x^2 - x + 1)G(x) - 1 = 0
+    \end{equation}
 
-    从而$G(x)$可以化为
+    将$G(x)$展开为$\sum_{n=0}^\infty a_nx^n$的形式，则：
 
+    \begin{equation}
+        \begin{aligned}
+            &(x^2 - x + 1)\sum_{n=0}^\infty a_nx^n - 1 = 0 \\
+            \Rightarrow & \sum_{n=0}^\infty a_nx^n(x^2 - x + 1) \\
+            \Rightarrow & \sum_{n=2}^\infty (a_n - a_{n-1} + a_{n-2})x^n + (a_0 - a_1)x + a_0 - 1 = 0 \\
+            \Rightarrow & \sum_{n=2}^\infty (a_n - a_{n-1} + a_{n-2})x^n = 0 \\
+            \Rightarrow & a_n - a_{n-1} + a_{n-2} = 0 \\
+            \Rightarrow & a_n = a_{n-1} - a_{n-2}
+        \end{aligned}
+    \end{equation}
+
+    \paragraph*{2.22} 已知$a_n = 3^nc + (-1)^nd$，则$a_0 = c+d, a_1 = 3c-d$。设序列$\left\{a_n\right\}$对应的母函数为$G(x) = \sum_{n=0}^\infty \left(3^nc + (-1)^nd\right)x^n$，则
+
+    \begin{derive}[G(x) + xG(x)]
+        &= \sum_{n=0}^\infty \left(3^nc + (-1)^nd\right)x^n + \sum_{n=1}^\infty \left(3^{n-1}c + (-1)^{n-1}d\right)x^n \\
+        &= (c + d) + 4c\sum_{n=1}^\infty (3x)^n \\
+        &= (c + d) + \frac{4cx}{1 - 3x} \\
+        G(x) &= \frac{(c+d)(1-3x) + 4cx}{(1-3x)(1+x)} \\
+        &= \frac{(c+d) + (c-3d)x}{(1-3x)(1+x)} \\
+        (-3x^2 - 2x + 1)G(x) &= (c + d) + (c - 3d)x \\
+    \end{derive}
+
+    从而
+
+    \begin{derive}[\sum_{n=2}^\infty (a_n - 2a_{n-1} - 3a_{n-2})x^n]
+        &= (c + d) + (c - 3d)x - a_0 - (a_0 + a_1)x \\
+        &= -3(c + d)x
+    \end{derive}
+
+    \paragraph*{2.49} 设排列数目为$a_n$，根据题意，有$a_0 = 0, a_1 = 0$，首先求$a_n$满足的递推关系：
+
+    将$n$个A,B,C,D组成的序列划分为前$n-1$个元素组成的序列和最后一个元素，若一个序列满足AB出现至少一次，则可以分为两种情况：
+
+    \begin{enumerate}
+        \item AB已经在前$n-1$个元素组成的序列中出现至少一次
+        \item 前$n-2$个元素中没有AB出现，且序列由AB结尾
+    \end{enumerate}
+
+    由此，可以写出$a_n$满足的递推关系为：
+
+    \begin{equation}
+        a_n - 4a_{n-1} + a_{n-2} = (n-2)!
+    \end{equation}
+
+    首先求解线性齐次递推关系$a_n - 4a_{n-1} + a_{n-2} = 0$，解方程$x^2 - 4x + 1 = 0$，解得
+
+    \begin{equation}
+        x = 2 \pm \sqrt{3}
+    \end{equation}
 \end{document}
