@@ -205,17 +205,17 @@
         \end{bmatrix}
     \end{equation}
 
-    解得$A = 1, B = \sqrt 3 / 6, C = -\sqrt 3 / 6$，因此
+    解得$A = 1, B = -\sqrt 3 / 6, C = \sqrt 3 / 6$，因此
 
     \begin{derive}[G(x)]
-        &= \frac{1}{1 - 4x} + \frac{2\sqrt 3 - 3}{6\left(1 - \frac{x}{2 + \sqrt 3}\right)} + \frac{2\sqrt 3 + 3}{6\left(1 - \frac{x}{2 - \sqrt 3}\right)} \\
-        &= \sum_{n=0}^\infty \left(4x\right)^n + \frac{2\sqrt 3 - 3}{6}\sum_{n=0}^\infty \left[\left(2 - \sqrt 3\right)x\right]^n + \frac{2\sqrt 3 + 3}{6}\sum_{n=0}^\infty \left[\left(2 + \sqrt 3\right)x\right]^n
+        &= \frac{1}{1 - 4x} + \frac{2\sqrt 3 + 3}{6\left(1 - \frac{x}{2 - \sqrt 3}\right)} + \frac{2\sqrt 3 - 3}{6\left(1 - \frac{x}{2 + \sqrt 3}\right)} \\
+        &= \sum_{n=0}^\infty \left(4x\right)^n + \frac{2\sqrt 3 + 3}{6}\sum_{n=0}^\infty \left[\left(2 - \sqrt 3\right)x\right]^n + \frac{2\sqrt 3 - 3}{6}\sum_{n=0}^\infty \left[\left(2 + \sqrt 3\right)x\right]^n
     \end{derive}
 
     因此，$a_n$的通项公式为
 
     \begin{equation}
-        a_n = 4^n + \frac{2\sqrt 3 - 3}{6} \left(2 + \sqrt 3\right)^n + \frac{2\sqrt 3 + 3}{6} \left(2 - \sqrt 3\right)^n
+        a_n = 4^n + \frac{2\sqrt 3 + 3}{6} \left(2 + \sqrt 3\right)^n + \frac{2\sqrt 3 - 3}{6} \left(2 - \sqrt 3\right)^n
     \end{equation}
 
     \paragraph*{2.63} 设$n$位二进制数中相邻两位不出现$11$的数的个数为$a_0$，则有$a_0 = 0, a_1 = 2, a_2 = 3$。首先求$a_n$满足的递推关系。
@@ -245,7 +245,7 @@
         &= \frac{F_0 + (F_1 - F_0)x}{(1 - x - x^2)} \\
         &= \frac{x}{1 - x - x^2} \\
         &= \frac{A}{\frac{1 + \sqrt 5}{2} - x} + \frac{B}{\frac{1 - \sqrt 5}{2} - x} \\
-        &= \frac{1}{\sqrt 5}\frac{1}{1 - x\left/\frac{1 + \sqrt 5}{2}\right.} - \frac{1}{\sqrt 5}\frac{1}{1 - x\left/\frac{1 - \sqrt 5}{2}\right.}
+        &= -\frac{1}{\sqrt 5}\frac{1}{1 - x\left/\frac{1 + \sqrt 5}{2}\right.} + \frac{1}{\sqrt 5}\frac{1}{1 - x\left/\frac{1 - \sqrt 5}{2}\right.}
     \end{derive}
 
     因此$F_{n} = \frac{1}{\sqrt 5} \left[\left(\frac{1 + \sqrt 5}{2}\right)^n - \left(\frac{1 - \sqrt 5}{2}\right)^n\right]$，从而
@@ -296,8 +296,8 @@
     因此，$a_n$为
 
     \begin{derive}[a_n]
-        &= \alpha_n + \beta_n
-        &= \frac{k}{2b}\left((a+b)^n - (a-b)^n + (a+b)^{n-1} - (a-b)^{n-1}\right)
+        &= \alpha_n + \beta_n \\
+        &= \frac{k}{2b}\left(\frac{1}{(a-b)^n} + \frac{1}{(a-b)^{n-1}} - \frac{1}{(a+b)^n} - \frac{1}{(a+b)^{n-1}}\right)
     \end{derive}
 
     式中，$a = (k - 1) / 2, b = \sqrt{(k-1)^2 + 4(k-1)} / 2$
