@@ -169,9 +169,17 @@
         a_n - 4a_{n-1} + a_{n-2} = (n-2)!
     \end{equation}
 
-    首先求解线性齐次递推关系$a_n - 4a_{n-1} + a_{n-2} = 0$，解方程$x^2 - 4x + 1 = 0$，解得
+    首先求解线性齐次递推关系$a_n - 4a_{n-1} + a_{n-2} = 0$，设该递推关系对应的母函数为$G(x)$，由递推关系，可得
+
+    \begin{equation}
+        (1 - 4x + x^2)G(x) = a_0 + (a_1 - 4a_0) = 0
+    \end{equation}
+
+    解方程$x^2 - 4x + 1 = 0$，解得
 
     \begin{equation}
         x = 2 \pm \sqrt{3}
     \end{equation}
+
+    由此，
 \end{document}
