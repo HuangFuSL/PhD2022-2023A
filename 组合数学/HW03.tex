@@ -154,7 +154,7 @@
         &= -3(c + d)x
     \end{derive}
 
-    \paragraph*{2.49} 设排列数目为$a_n$，根据题意，有$a_0 = 0, a_1 = 0$，首先求$a_n$满足的递推关系：
+    \paragraph*{2.49} 设符合题意的排列数目为$a_n$，根据题意，有$a_0 = 0, a_1 = 0, a_2 = 1$，首先求$a_n$满足的递推关系：
 
     将$n$个A,B,C,D组成的序列划分为前$n-1$个元素组成的序列和最后一个元素，若一个序列满足AB出现至少一次，则可以分为两种情况：
 
@@ -166,20 +166,183 @@
     由此，可以写出$a_n$满足的递推关系为：
 
     \begin{equation}
-        a_n - 4a_{n-1} + a_{n-2} = (n-2)!
+        \begin{aligned}
+            & a_n = 4a_{n-1} + 4^{n-2} - a_{n-2} \\
+            \Rightarrow & a_n - 4a_{n-1} + a_{n-2} = 4^{n-2}
+        \end{aligned}
     \end{equation}
 
-    首先求解线性齐次递推关系$a_n - 4a_{n-1} + a_{n-2} = 0$，设该递推关系对应的母函数为$G(x)$，由递推关系，可得
+    设该递推关系对应的母函数为$G(x)$，由递推关系，可得
+
+    \begin{derive}[(1 - 4x + x^2)G(x)]
+        &= a_0 + (a_1 - 4a_0)x + \sum_{n=2}^\infty 4^{n-2}x^n \\
+        &= \sum_{n=2}^\infty 4^{n-2}x^n \\
+        &= \frac{x^2}{(1-4x)}
+    \end{derive}
+
+    因此，$G(x)$为
 
     \begin{equation}
-        (1 - 4x + x^2)G(x) = a_0 + (a_1 - 4a_0) = 0
+        G(x) = \frac{x^2}{(1-4x)(x^2 - 4x + 1)}
     \end{equation}
 
-    解方程$x^2 - 4x + 1 = 0$，解得
+    解方程$x^2 - 4x + 1 = 0$，解得$x = 2 \pm \sqrt 3$，因此$G(x)$可写作：
 
     \begin{equation}
-        x = 2 \pm \sqrt{3}
+        G(x) = \frac{A}{1-4x} + \frac{B}{(2 + \sqrt 3) - x} + \frac{C}{(2 - \sqrt 3) - x} \\
     \end{equation}
 
-    由此，
+    式中$A, B, C$为常数，得到线性方程组
+    
+    \begin{equation}
+        \begin{bmatrix}
+            1 & 4 & 4\\
+            -4 & 4\sqrt 3 - 9 & -\left(4\sqrt 3 + 9\right)\\
+            1 & 2-\sqrt 3 & 2 + \sqrt 3
+        \end{bmatrix} \begin{bmatrix}
+            A \\ B \\ C
+        \end{bmatrix} = \begin{bmatrix}
+            1 \\ 0 \\ 0
+        \end{bmatrix}
+    \end{equation}
+
+    解得$A = 1, B = \sqrt 3 / 6, C = -\sqrt 3 / 6$，因此
+
+    \begin{derive}[G(x)]
+        &= \frac{1}{1 - 4x} + \frac{2\sqrt 3 - 3}{6\left(1 - \frac{x}{2 + \sqrt 3}\right)} + \frac{2\sqrt 3 + 3}{6\left(1 - \frac{x}{2 - \sqrt 3}\right)} \\
+        &= \sum_{n=0}^\infty \left(4x\right)^n + \frac{2\sqrt 3 - 3}{6}\sum_{n=0}^\infty \left[\left(2 + \sqrt 3\right)x\right]^n + \frac{2\sqrt 3 + 3}{6}\sum_{n=0}^\infty \left[\left(2 - \sqrt 3\right)x\right]^n
+    \end{derive}
+
+    因此，$a_n$的通项公式为
+
+    \begin{equation}
+        a_n = 4^n + \frac{2\sqrt 3 - 3}{6} \left(2 + \sqrt 3\right)^n + \frac{2\sqrt 3 + 3}{6} \left(2 - \sqrt 3\right)^n
+    \end{equation}
+
+    \paragraph*{2.63} 设$n$位二进制数中相邻两位不出现$11$的数的个数为$a_0$，则有$a_0 = 0, a_1 = 2, a_2 = 3$。首先求$a_n$满足的递推关系。
+
+    将$n$位二进制数划分为前$n-1$个元素组成的序列和最后一个元素，若一个序列满足相邻两位不出现$11$，则
+
+    \begin{enumerate}
+        \item 若前$n-1$个元素以$0$结尾，则第$n$个元素既可以为$0$，也可以为$1$
+        \item 若前$n-1$个元素以$1$结尾，则第$n$个元素只能为$0$
+    \end{enumerate}
+
+    设序列$\alpha_n, \beta_n, n\geq 2$分别表示相邻两位不出现$11$，且最后一位分别为$1, 0$的二进制数的个数，则$a_n = \alpha_n + \beta_n$。$\alpha_n, \beta_n$满足如下的递推关系
+
+    \begin{equation}
+        \left\{
+        \begin{aligned}
+            \alpha_n &= \beta_{n-1} \\
+            \beta_n &= \alpha_{n-1} + \beta_{n-1} \\
+            \alpha_1 &= \beta_1 = 1
+        \end{aligned}
+        \right .
+    \end{equation}
+
+    由此$\beta_{n} = \beta_{n-1} + \beta_{n-2}$，且$\beta_{1} = 1, \beta_1 = 2$。则$\beta_{n} = F_{n+1}$，其中$F_n$为Fibonacci数列（$F_{1} = F_2 = 1$）的第$n$项。$\alpha_n = \beta_{n-1} = F_{n}$，从而$a_n = F_{n} + F_{n+1} = F_{n+2}$。设序列$F_n$的母函数为$G(x)$，则$G(x)$满足
+
+    \begin{derive}[G(x)]
+        &= \frac{F_0 + (F_1 - F_0)x}{(1 - x - x^2)} \\
+        &= \frac{x}{1 - x - x^2} \\
+        &= \frac{A}{\frac{1 + \sqrt 5}{2} - x} + \frac{B}{\frac{1 - \sqrt 5}{2} - x} \\
+        &= \frac{1}{\sqrt 5}\frac{1}{1 - x\left/\frac{1 + \sqrt 5}{2}\right.} - \frac{1}{\sqrt 5}\frac{1}{1 - x\left/\frac{1 - \sqrt 5}{2}\right.}
+    \end{derive}
+
+    因此$F_{n} = \frac{1}{\sqrt 5} \left[\left(\frac{1 + \sqrt 5}{2}\right)^n - \left(\frac{1 - \sqrt 5}{2}\right)^n\right]$，从而
+
+    \begin{equation}
+        a_{n} = F_{n+2} =\frac{1}{\sqrt 5} \left[\left(\frac{1 + \sqrt 5}{2}\right)^{n+2} - \left(\frac{1 - \sqrt 5}{2}\right)^{n+2}\right]
+    \end{equation}
+
+    \paragraph*{2.64} 设满足题意的序列数量为$a_n$，将序列划分为前$n-1$个元素组成的序列$S_{n-1}$和最后一个元素$s_n$，考虑前$n-1$个元素组成的序列$S_{n-1}$：
+
+    \begin{enumerate}
+        \item 当$S_{n-1}$的最后两个元素相同时，则$s_n$不能与该元素相同，共有$k-1$种情况，此时构造的序列最后两个元素不可能相同；
+        \item 当$S_{n-1}$的最后两个元素不同时，$s_n$可以任意选择，共有$k$种情况。
+    \end{enumerate}
+
+    设序列$\alpha_n$表示满足题意且序列的最后两个元素相同的序列数量，$\beta_n$表示满足题意且序列的最后两个元素不同的序列数量。则有$a_n = \alpha_n + \beta_n$。$\alpha_n, \beta_n$满足如下的递推关系：
+
+    \begin{equation}
+        \left\{
+        \begin{aligned}
+            \alpha_n &= \beta_{n-1}\\
+            \beta_0 &= \alpha_1 = 0 \\
+            \beta_n &= (k-1)(\beta_{n-1} + \alpha_{n-1})\\
+            \beta_1 &= k
+        \end{aligned}
+        \right.
+    \end{equation}
+
+    则$\beta_n = (k - 1)\beta_{n-1} + (k-1)\beta_{n-2}$。设$\beta_n$对应的母函数为$\Gx k$，则$\Gx k$满足如下的递推关系
+    
+    \begin{equation}
+        \left[1 - (k-1)x - (k-1)x^2\right]\Gx k = \beta_0 + (\beta_1 + (k-1)\beta_0) x = kx
+    \end{equation}
+
+    从而，$\Gx k$可以写作
+
+    \begin{derive}[\Gx k]
+        &= \frac{kx}{1 - (k-1)x - (k-1)x^2} \\
+        &= \frac{A}{1 - x\left/\frac{k-1 + \sqrt{(k-1)^2 + 4(k-1)}}{2}\right.} + \frac{B}{1 - x\left/\frac{k-1 - \sqrt{(k-1)^2 + 4(k-1)}}{2}\right.} \\
+    \end{derive}
+
+    设$a = (k - 1) / 2, b = \sqrt{(k-1)^2 + 4(k-1)} / 2$，解得$A = -k/2b, B = k/2b$，代入$\Gx k$，有
+
+    \begin{equation}
+        \Gx k = -\frac{k}{2b} \frac{1}{1 - x / (a + b)} + \frac{k}{2b}\frac{1}{1 - x / (a - b)}
+    \end{equation}
+
+    因此，$a_n$为
+
+    \begin{derive}[a_n]
+        &= \alpha_n + \beta_n
+        &= \frac{k}{2b}\left((a+b)^n - (a-b)^n + (a+b)^{n-1} - (a-b)^{n-1}\right)
+    \end{derive}
+
+    式中，$a = (k - 1) / 2, b = \sqrt{(k-1)^2 + 4(k-1)} / 2$
+
+    \paragraph*{2.65} 设函数族$\Gx k = \sum_{i=1}^x i^k$。已知$(i + 1)^5 = i^5 + 5i^4 + 10i^3 + 10i^2 + 5i + 1$，则
+
+    \begin{derive}[(x + 1)^5]
+        &= \sum_{i=0}^{x+1} \left[(i+1)^5 - i^5\right] \\
+        &= 5\Gx 4 + 10\Gx 3 + 10\Gx 2 + 5\Gx 1 + 1
+    \end{derive}
+
+    因此$\Gx 4 = \left((x+1)^5 - 10\Gx 3 - 10\Gx 2 - 5\Gx 1 - 1\right) / 5$
+
+    同理，有
+
+    \begin{equation}
+        \begin{aligned}
+            \Gx 3 &= \left((x+1)^4 - 6\Gx 2 - 4\Gx 1 - 1\right) / 4 \\
+            \Gx 2 &= \left((x+1)^3 - 3\Gx 1 - 1\right) / 3 \\
+            \Gx 1 &= ((x+1)^2 - 1) / 2
+        \end{aligned}
+    \end{equation}
+
+    由此，得
+
+    \begin{equation}
+        \begin{aligned}
+            \Gx 1 &= \frac{x(x+1)}{2} \\
+            \Gx 2 &= \frac{x(1+x)(1+2x)}{6} \\
+            \Gx 3 &= \frac{x^2(1 + x)^2}{4} \\
+            \Gx 4 &= \frac{x(x+1) (2x+1) \left(3x^2+3 x-1\right)}{30}
+        \end{aligned}
+    \end{equation}
+
+    即：
+
+    \begin{equation}
+        \sum_{i=1}^n i^4 = n(n+1) (2n+1) \left(3n^2+3 n-1\right)
+    \end{equation}
+
+    \paragraph*{附加题} 设$a_n$为拼成$1\times n$形地砖的方案数，$b_1$为拼成底为$n, n+1$的梯形地砖的方案数，特别地，$b_0$对应两种三角形地砖，拼接过程中的递推关系如下所示
+
+    \begin{enumerate}
+        \item $1\times (n-1)$的长方形地砖和$1\times 1$的正方形地砖
+        \item 底为$n-1, n$的梯形地砖和$1\times 1$的三角形地砖
+    \end{enumerate}
 \end{document}
