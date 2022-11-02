@@ -10,6 +10,7 @@
 \RequirePackage{subfigure}
 \RequirePackage{enumitem}
 \RequirePackage{hyperref}
+\RequirePackage{color}
 
 \linespread{1.5}
 
@@ -97,6 +98,11 @@
     \end{equation*}
 }
 
+\newtheorem{definition}{定义}[subsection]
+\newtheorem{proposition}{命题}[subsection]
+\newtheorem{proof}{证明}[subsection]
+\newtheorem{lemma}{引理}[subsection]
+\newtheorem{example}{例}[subsection]
 
 % Tikz settings
 

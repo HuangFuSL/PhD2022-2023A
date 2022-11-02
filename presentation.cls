@@ -4,10 +4,10 @@
 \RequirePackage{amsmath}
 \RequirePackage{setspace}
 \RequirePackage{ctex}
+\RequirePackage{color}
 
 \linespread{1.5}
-
-\hypersetup{colorlinks}
+\setlength{\parsep}{6pt}
 
 \author{皇甫硕龙}
 

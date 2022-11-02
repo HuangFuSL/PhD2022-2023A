@@ -1,0 +1,96 @@
+\documentclass{../presentation}
+
+\usepackage{../Tsinghua}
+
+\title{这是个标题}
+\subtitle{这是个副标题}
+\author{姚欣培\;王元翔\;钱思涵\;皇甫硕龙}
+
+\newcommand{\Cov}{\text{Cov}}
+\newcommand{\Sim}{\text{Sim}}
+
+\begin{document}
+    \maketitle
+    \small
+
+    \begin{frame}
+        \frametitle{文献简介}
+
+        从信息内容和结构相结合的角度，研究了在考虑\textcolor{red}{信息覆盖率度量}时如何构建一种子集提取方法
+
+        \begin{enumerate}
+            \item 在CovC-Select贪婪子模思想的基础上，应用模拟退火法的策略，提出了一种启发式算法CovC+S-Select。
+
+            \item 在此基础上，进一步提出了一种快速逼近方法FastCovC+S-Select，旨在以有效、高效和稳健的方式提取出不同的子集，并通过评估实验证明了该方法的有效性。
+
+            \item 从信息覆盖、外部标记和人类评价三个角度对11种主要的多样性提取方法与FastCovC+S-Select进行了全面系统的比较研究，并通过对比实验进一步证明了该方法的优越性
+        \end{enumerate}
+
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{基于信息熵的结构覆盖测度}
+
+        $D'$中的的每一个元素$d_j', j=1,2,\cdots,k$可以被看作是一个隐式的类别标签
+
+        对于$D$中的每一个元素$d$，可以根据其与$D'$中的的每一个元素$d_j'$的相似度高低，确定其类别，从而$D$中的$n$个元素可以被划分到$k$个子类当中，记为$D_1, D_2, \cdots ,D_k$
+
+        得到每个子类$D_j$的信息负载量$n_j^v$，即以$d_j'$为类标签的类别$D_j$中元素的隶属度的和，形成了$d_j'$与$D_j$的对应$n_j^v=\sum_{d\in D_j}\Sim (d_j', d)$，从而进一步得到原始集合$D$的信息负载量$n^v=\sum _{j=1}^𝑘 n^v_j$ ，作为$D'$与$D$的对应
+
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{基于信息熵的结构覆盖测度}
+
+        \begin{equation}
+            \Cov (D', D) = \begin{cases}
+                1 & k=1 \\
+                -\frac{1}{\log_2 k}\sum_{j=1}^k \frac{n_j^v}{n^v}\cdot \log_2\left(\frac{n_j^v}{n^v}\right) & k > 1
+            \end{cases}
+            \label{eq:1}
+        \end{equation}
+
+        \eqnref{eq:1}满足如下性质
+
+        \begin{enumerate}
+            \item $\Cov_s \in (0，1]$且$\Cov_s(D,D)=1$
+            \item $D$等价分布传递到$D'$，保证$D'$最优
+            \item 若分配的分布更近似，$\Cov_s(D',D)$的取值将更接近于1
+        \end{enumerate}
+
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{基于信息熵的结构覆盖测度}
+
+        \begin{proof}
+            考虑函数$g(x) = x\ln x$，有
+
+            \begin{equation}
+                \frac{\dd^2 g}{\dd x^2} = \frac{1}{x} > 0
+            \end{equation}
+
+            由此，$g(x)$为凸函数。对$g(x)$应用Jensen不等式，有$E(g(x)) \geq g(E(x))$，即
+
+            \begin{equation}
+                \frac{\sum_{i=1}^n p_i\log p_i}{n}\geq \frac{\sum_{i=1}^n p_i}{n}\log \frac{\sum_{i=1}^n p_i}{n} \Rightarrow -\sum_{i=1}^n p_i\log p_i \leq \log n
+                \label{eq:2}
+            \end{equation}
+
+            当且仅当$p_1 = p_2 = \cdots = p_n$时，式\eqnref{eq:2}取等。
+        \end{proof}
+
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{分析与思考}
+
+        $\Cov_s(D',D)$的值越小，说明$D$的纯度越高，某个子类在$D$中占很高的比重，即$D'$中的元素作为分类标签的分类效果并不好，没有体现出$D$本身的多样性，极限情况下：
+
+        \begin{itemize}
+            \item 若$D$中元素完全属于同一类，说明$D'$完全没有分类效果，$\Cov_s(D',D)$的值为$0$；
+            \item 当$D$中的元素均匀的分布在不同的子类中时，$\Cov_s(D',D)$取到最大值$1$，此时说明$D'$中的元素很好地反映了原始集的信息结构，分类的效果是显著的。
+        \end{itemize}
+
+    \end{frame}
+\end{document}
