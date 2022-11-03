@@ -2,6 +2,8 @@
 
 \title{应用随机过程 HW07}
 
+\newcommand{\Gx}[1]{G^{(#1)}(x)}
+
 \begin{document}
     \maketitle
 
@@ -47,10 +49,35 @@
 
     因此$\lim_{n\rightarrow\infty} (EN_x / x) = 2 / 3$
 
-    \paragraph*{2.17} $X$的分布函数为
+    \paragraph*{2.17} 首先计算$\Gx p = \int x^pe^{-x}\dd x, p\in \N$，有
 
     \begin{equation}
-        F_1(x) = F(x) = 1 - (1 + \lambda x)e^{-x\lambda}
+        \Gx p = \int x^pe^{-x}\dd x = -\left(x^p e^{-x} -p\int x^{p-1}e^{-x}\right) = p\Gx {p-1} - x^p{e^{-x}}
+    \end{equation}
+
+    又有$\Gx 0 = -e^{-x}$，从而
+
+    \begin{equation}
+        \Gx p = -p!e^{-x}\sum_{i=0}^p \frac{x^i}{i!}
+    \end{equation}
+    
+    设$X$的分布函数为$F(x)$，对$F$作Laplace变换，有
+
+    \begin{derive}[\tilde{F} (s)]
+        &= \int_{0}^\infty e^{-st}\dd F(t) \\
+        &= \frac{\lambda ^2}{(\lambda + s)^2} \\
+    \end{derive}
+
+    由此，更新函数的Laplace变换即为
+
+    \begin{equation}
+        \tilde{m}(s) = \frac{\tilde F(s)}{1 - \tilde F(s)} = \frac{\lambda ^2}{(\lambda + s)^2 - \lambda^2}
+    \end{equation}
+
+    得到更新函数为
+
+    \begin{equation}
+        m(t) = -\frac{1}{2} \lambda \left(-1 + e^{-2 \lambda t}\right)
     \end{equation}
 
     \paragraph*{6.1}
