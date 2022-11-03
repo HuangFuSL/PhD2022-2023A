@@ -1,6 +1,6 @@
 \documentclass{../notes}
 
-\title{高级信息系统 小组作业报告}
+\title{基于均匀性与冗余性的结构覆盖测度的改良 \\ {\Large 《高级信息系统》小组作业报告}}
 \author{姚欣培\;王元翔\;钱思涵\;皇甫硕龙}
 
 \newcommand{\Cov}{\text{Cov}}
@@ -14,7 +14,7 @@
 
     \section*{前言}
 
-    Ma等人针对多样性信息子集的提取问题，利用信息熵作为总信息覆盖度量的一部分来模拟信息结构覆盖。本篇报告将在第一部分对Ma等人的研究及提出的结构覆盖测度进行简要的介绍与分析，在第二部分介绍与新的结构覆盖测度相关的理论背景知识，第三部分尝试从不同的角度提出几种新的结构覆盖测度，对相关性质进行讨论与证明，并举出计算的实例。
+    Ma等人\cite{ma2017content}针对多样性信息子集的提取问题，利用信息熵作为总信息覆盖度量的一部分来模拟信息结构覆盖。本篇报告将在第一部分对Ma等人的研究及提出的结构覆盖测度进行简要的介绍与分析，在第二部分介绍与新的结构覆盖测度相关的理论背景知识，第三部分尝试从不同的角度提出几种新的结构覆盖测度，对相关性质进行讨论与证明，并举出计算的实例。
 
     \section{基于信息熵的结构覆盖测度}
 
@@ -115,7 +115,7 @@
 
     % TODO：重新润色一下
 
-    而在原文计算过程中第二步中根据类别结构的势计算出结构覆盖度的过程中，在原论文中使用信息熵来度量测度结构覆盖度，而信息熵本来也是一种离散程度的度量方式，所以我们想探索使用其他的离散程度度量方法来衡量给定类别结构的势的情况下小集合对大集合的结构覆盖度。并且我们会证明这些其他的度量方法，也具有良好的取值范围，自反性等特点。
+    而在原文计算过程中第二步中根据类别结构的势计算出结构覆盖度的过程中，在原论文中使用信息熵来度量测度结构覆盖度，而信息熵本来也是一种离散程度的度量方式，所以我们想探索使用其他的离散程度度量方法\cite{刘颖1997关于有限集点分布均匀性的度量方法}来衡量给定类别结构的势的情况下小集合对大集合的结构覆盖度。并且我们会证明这些其他的度量方法，也具有良好的取值范围，自反性等特点。
 
     \paragraph*{极差}
 
@@ -161,13 +161,13 @@
         G\left(\left\{x\right\}\right)&>G(\{y\})
     \end{align}
 
-    我们使用了语义信息容量函数$G_S$来表达这一概念，其定义在集合$S$上，某一集合$X$在语义上能够反映大数据集合$S$中多少程度上的语义，其值域为$[0,1]$。显然有$G_S\left(S\right)=1$与$G_S\left(\varnothing\right)=0$。文献[1]中给出了两类冗余性的定义，我们在此借鉴其对于第一类冗余性（Redundancy Type I）的定义给出了对于大小数据问题下的冗余性的定义。
+    我们使用了语义信息容量函数$G_S$来表达这一概念，其定义在集合$S$上，某一集合$X$在语义上能够反映大数据集合$S$中多少程度上的语义，其值域为$[0,1]$。显然有$G_S\left(S\right)=1$与$G_S\left(\varnothing\right)=0$。\cite{holst2021redundancy}中给出了两类冗余性的定义，我们在此借鉴其对于第一类冗余性（Redundancy Type I）的定义给出了对于大小数据问题下的冗余性的定义。
 
     \begin{definition}
         冗余性（redundancy）：对于$\forall x,y\in S$其冗余性函数为
 
         \begin{equation}
-            r_S(x,y)，r_S\left(x,y\right)=1-[G_S(\left\{x,y\right\}-G_S\left(\left\{x\right\}\right)]
+            r_S\left(x,y\right)=1-[G_S(\left\{x,y\right\}-G_S\left(\left\{x\right\}\right)]
         \end{equation}
 
         其表示了对于定义在集合$S$上的元素$x,y$，元素$y$相对于元素$x$的语义冗余。
@@ -212,12 +212,10 @@
     \begin{align}
         G_S({x})&=\frac{1}{|S|}\sum_{d\in S}{\Sim(x,d)} \\
         G_S({x,y})&=\frac{1}{|S|}\sum_{d\in S}\max\left\{\Sim(x,d),\Sim(y,d)\right\} \\
-        r_S\left(x,y\right)&=1-\frac{1}{\left|S\right|}\sum_{d\in S}\left\{\max\left\{\Sim\left(x,d\right),\Sim\left(y,d\right)\right\}-\Sim\left(x,d\right)\right\}
+        r_S\left(x,y\right)&=1-\frac{1}{\left|S\right|}\sum_{d\in S}\left\{\max\left\{\Sim\left(x,d\right),\Sim\left(y,d\right)\right\}-\Sim\left(x,d\right)\right\} \label{eq:4}
     \end{align}
 
-    \section{xgqb}
-
-    \subsection{结构性度量}
+    \section{计算示例}
 
     \begin{example}
         容器中包含红球、黄球、蓝球、黑球，数量分别为$100$、$200$、$300$、$400$个，现有如下四种抽样结果：
@@ -240,14 +238,13 @@
                 \midrule
                 $\Cov_s^\text{range}$ & 0 & \textbf{0.625} & 1 & \textbf{0.7} \\
                 $\Cov_s^\text{var}$ & 0 & \textbf{0.9866} & 1 & \textbf{0.9833} \\
+                $\Cov_s$ & 0 & 0.8 & 1 & 0.923 \\
                 \bottomrule
             \end{tabular}
         \end{table}
     \end{example}
 
-    可以发现两种度量方法都能在结构覆盖度角度上选出抽样3最能代表大数据集。但是在抽样2和抽样4的结构覆盖度的排序上出现了差异。在$\Cov_s^{\text{range}}D', D$中，只关注结构覆盖差异最大的部分结构的势来度量结构覆盖度，只关注类别结构的势的极值，抽样4相比于抽样2，最小的类别结构的势变大了，更接近最大类别结构的势，所以认为抽样4在结构覆盖度上优于抽样2。而$\Cov_s^{\text{var}}\left(D^\prime,D\right)$因为衡量了每个结构的势来计算结构覆盖度，虽然抽样4相比于抽样2，最小的类别结构的势变大，但是其他类别结构的势之间的离散程度变大了，所以总体上使得不同类别结构的势的分布更离散了，所以结构覆盖度减小了。
-
-    \subsection{冗余性度量}
+    可以发现两种度量方法都能在结构覆盖度角度上选出抽样3最能代表大数据集。但是在抽样2和抽样4的结构覆盖度的排序上出现了差异。在$\Cov_s^{\text{range}}(D', D)$中，只关注结构覆盖差异最大的部分结构的势来度量结构覆盖度，只关注类别结构的势的极值，抽样4相比于抽样2，最小的类别结构的势变大了，更接近最大类别结构的势，所以认为抽样4在结构覆盖度上优于抽样2。而$\Cov_s^{\text{var}}\left(D^\prime,D\right)$因为衡量了每个结构的势来计算结构覆盖度，虽然抽样4相比于抽样2，最小的类别结构的势变大，但是其他类别结构的势之间的离散程度变大了，所以总体上使得不同类别结构的势的分布更离散了，所以结构覆盖度减小了。
 
     \begin{example}
         已知一组文档$d_i \in\{\textit{a,b,c,d,e,f}\}$，其相似度矩阵为$A = (\Sim(d_i, d_j))_{6\times 6}$：
@@ -263,10 +260,62 @@
             \end{bmatrix}
         \end{equation}
 
-        现有一组抽样$D' = \{e, a\}$，计算
+        计算$D$中各元素相互的的冗余性指标和抽样$D' = \{e, a\}$的结构性度量。
     \end{example}
 
-    \section{hf}
+    根据式\eqnref{eq:4}有
 
-    \section{pb}
+    \begin{equation}
+        a_{ij}' = 1-\frac{1}{6}\sum_{k}\left(\max\left\{a_{ik},a_{jk}\right\}-a_{ik}\right)
+    \end{equation}
+
+    计算得到
+
+    \begin{equation}
+        A' = \left(a'_{ij}\right)_{6\times 6} = \begin{bmatrix}
+            1 & 0.965 & 0.473 & 0.457 & 0.478 & 0.485 \\
+            0.958 & 1 & 0.467 & 0.450 & 0.472 & 0.478 \\
+            0.702 & 0.702 & 1 & 0.947 & 0.968 & 0.920 \\
+            0.697 & 0.697 & 0.958 & 1 & 0.943 & 0.965 \\
+            0.729 & 0.720 & 0.982 & 0.945 & 1 & 0.930 \\
+            0.712 & 0.712 & 0.918 & 0.952 & 0.915 & 1 \\
+        \end{bmatrix}
+    \end{equation}
+
+    分别使用$\Cov_s, \Cov_s^{\text{range}}, \Cov_s^{\text{var}}, \Cov_s^r$计算得到表\ref{tbl:2}
+
+    \begin{table}[ht]
+        \centering
+        \caption{不同指标下的结构相似度}
+        \begin{tabular}{cc}
+            \toprule
+            结构性度量指标 & 结构相似度 \\
+            \midrule
+            $\Cov_s$ & 0.99971 \\
+            $\Cov_s^{\text{range}}$ & 0.97996 \\
+            $\Cov_s^{\text{var}}$ & 0.9998 \\
+            $\Cov_s^r$ & 0.9224 \\
+            \bottomrule
+        \end{tabular}
+        \label{tbl:2}
+    \end{table}
+
+    \section{总结}
+
+    综合来看，本文在Ma等人所提出的多样性结构度量的基础上进行了分析与改进，主要的工作内容有以下几点：
+
+    \begin{enumerate}
+        \item 本文分析了Ma等人提出的基于信息熵的多样性结构度量指标的合理性及其如何反应整体的信息结构；
+        \item 本文在Ma等人的基础上，提出了基于方差与极差指标的结构性度量并论证了一些基本性质，最后给出了简单的例子计算二者与原基于信息熵结构度量指标的异同；
+        \item 本文受Holst等人的启发，提出了基于第一类冗余定义的冗余度及其改进的势和多样性的结构度量，同样在简单的例子上进行了计算，并比较其与原文中结构度量指标的异同；
+    \end{enumerate}
+
+    \nocite{yager1992specificity}
+    \nocite{yager1998measures}
+    \nocite{yager2008measures}
+    \nocite{higashi1982measures}
+    \nocite{higashi1983notion}
+
+    \bibliographystyle{plain}
+    \bibliography{HW03}
 \end{document}

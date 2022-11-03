@@ -4,6 +4,7 @@
 \RequirePackage{amsmath}
 \RequirePackage{setspace}
 \RequirePackage{ctex}
+\RequirePackage{booktabs}
 \RequirePackage{color}
 
 \linespread{1.5}
