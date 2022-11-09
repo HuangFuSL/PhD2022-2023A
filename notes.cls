@@ -61,6 +61,9 @@
 \renewcommand{\leq}{\leqslant}
 \newcommand{\eqnref}[1]{(\ref{#1})}
 
+% 对角矩阵
+\newcommand{\diag}{\mathrm{diag}}
+
 % 概率
 \newcommand{\prob}[1]{P\left(#1\right)}
 \newcommand{\cprob}[2]{P\left(#1|#2\right)}
