@@ -169,7 +169,7 @@
     因此，有
 
     \begin{equation}
-        p_{n} = a_{n}p_0 = \left(1-\frac{\lambda }{\mu }\right)^{\frac{a}{\lambda }}\left(\prod_{i=1}^n \frac{(i-1)\lambda + a}{i\mu}\right)
+        p_{n} = a_{n}p_0 = \left(1-\frac{\lambda }{\mu }\right)^{\frac{a}{\lambda }}\left(\prod_{i=1}^n \frac{(i-1)\lambda + a}{i\mu}\right) \label{eq:6.5.1}
     \end{equation}
 
     \paragraph*{6.9}
@@ -264,7 +264,96 @@
         \item 根据$\tilde F_i(s)$的定义，有
 
         \begin{derive}[\tilde F_i(s)]
-            &= E\{e^{-ST_i} | X(0) = i\}
+            &= E\{e^{-ST_i} | X(0) = i\} \\
+            &= \sum_{j\in S} P\left(X(\alpha) = j|X(0) = i\right)E\left\{e^{-ST_i}\middle | X(0) = i, X(\alpha) = j\right\}
         \end{derive}
+
+        式中$\alpha = \inf\{t: t > 0, X(0) = i, X(\alpha) \not = i\}$，则
+
+        \begin{derive}[\tilde F_i(s)]
+            =& \sum_{j\in S} P_{ij}E\left\{e^{-ST_i}\middle | X(0) = i, X(\alpha) = j\right\} \\
+            =& \sum_{j\in S}  P_{ij}E\left\{e^{-S\alpha}\middle | X(0) = i\right\}E\left\{e^{-ST_j}\middle | X(0) = j\right\} \\
+            =& \sum_{j\in G}  P_{ij}E\left\{e^{-S\alpha}\middle | X(0) = i\right\}E\left\{e^{-ST_j}\middle | X(0) = j\right\} + \\
+                &\sum_{j\in B} P_{ij}E\left\{e^{-S\alpha}\middle | X(0) = i\right\}E\left\{e^{-ST_j}\middle | X(0) = j\right\} \\
+            =& \sum_{j\in G} P_{ij} \frac{q_i}{q_i + s} + \sum_{j\in B} P_{ij} \frac{q_i}{q_i + s}\tilde{F}_j(s) \\
+            =& \frac{q_i}{q_i + s}\left(\sum_{j\in B} P_{ij}\tilde{F}_j(s) + \sum_{j\in G}P_{ij}\right)
+        \end{derive}
+    \end{subquestions}
+
+    \paragraph*{6.16} 由向前方程，有
+
+    \begin{align}
+        P'_{ij}(t) &= P_{i, j-1}(t)\lambda _{j-1} - P_{ij}(t)\lambda j & (j\geq i) \label{eq:6.16.1} \\
+        P_{ii}(0) &= 1 \\
+        P_{ij}(0) &= 0 & (j > i)
+    \end{align}
+
+    令$j = i$，解得
+
+    \begin{equation}
+        P_{ii}(t) = e^{-\lambda i + \delta}t
+    \end{equation}
+
+    解方程\eqnref{eq:6.16.1}可得
+
+    \begin{equation}
+        P_{i, j+1}(t) e^{\lambda_{j+1}t} = \lambda_j \int_{0}^t P_{ij}(u)e^{\lambda_{j+1}u}\dd u
+    \end{equation}
+
+    由$P_{ii}(0) = 1, P_{ij}(0) = 0$，可得$j > i$时的$P_{ij}(t)$
+
+    \begin{equation}
+        P_{ij}(t) = \frac{1}{(j-i)!}\prod_{k=0}^{j-(i+1)}\left(k+i+\frac{\delta}{\lambda}\right)e^{-(\lambda i + \delta)t}\left(1 - e^{-\lambda t}\right)^{j-i}
+    \end{equation}
+
+    \paragraph*{6.17}
+
+    \begin{subquestions}
+        \item 当$\lambda > \mu$时，显然有
+
+        \begin{equation}
+            \lambda_n = n\lambda + \delta > n\mu = \mu_n \Rightarrow \sum_{n=1}^\infty \prod_{i=1}^n \frac{\mu_i}{\lambda i} < \sum_{n=1}^\infty \left(\frac{\mu}{\lambda}\right)^n < \infty
+        \end{equation}
+
+        当$\lambda = \mu < \delta$时，有
+
+        \begin{equation}
+            \sum_{n=1}^\infty \prod_{i=1}^n \frac{\mu_i}{\lambda i} = \sum_{n=1}^\infty \prod_{i=1}^n \frac{i\lambda}{i\lambda + \delta} \label{eq:6.17.1}
+        \end{equation}
+
+        考察\eqnref{eq:6.17.1}的第$n$项：
+
+        \begin{equation}
+            a_{n} = \prod_{i=1}^n \frac{i\lambda}{i\lambda \delta}
+        \end{equation}
+
+        $a_n$满足$a_n / a_{n+1} = \frac{(n+1)\lambda + \delta}{(n+1)\lambda}$，则
+
+        \begin{equation}
+            \lim_{n\rightarrow \infty} n\left(\left|\frac{a_{n}}{a_{n+1}} - 1\right|\right) = \lim_{n\rightarrow \infty} \frac{n\delta}{(n+1)\lambda} = \frac{\delta}{\lambda} > 1
+        \end{equation}
+
+        因此$\sum a_n < \infty$。在以上两种情况下，有$\sum_{n=1}^\infty \prod_{i=1}^n \frac{\mu_i}{\lambda i} < \infty$，从而$\sum_{n=1}^\infty \prod_{i=1}^n \frac{\tilde \mu_i}{\tilde \lambda i}$，即生灭过程的嵌入链非常返，从而该生灭过程非常返。
+
+        \item 当$\lambda = \mu \geq \delta$时，正项级数$\sum a_n$发散，因此嵌入链常返。设$\lambda = \mu = k\delta, k\geq 1$，则
+
+        \begin{derive}[\sum_{n\geq 1}^\infty \prod_{i=1}^{n} \frac{(i-1)\lambda + \delta}{i\mu}]
+            &= \sum_{n\geq 1}^\infty \prod_{i=1}^n \frac{1}{i}\left((i - i) + \frac{1}{k}\right) \\
+            &= \frac{1}{k}\sum_{n\geq 1}^\infty \frac{1}{n} \prod_{i=1} ^{n-1} \left(1 + \frac{1}{ik}\right) \\
+            &\geq \frac{1}{k} \sum_{n=1}^\infty \frac{1}{n} = \infty
+        \end{derive}
+
+        因此不存在平稳分布，马氏链为零常返
+
+        \item 当$\lambda < \mu$时，根据式\eqnref{eq:6.5.1}，有
+
+        \begin{equation}
+        \left\{
+        \begin{aligned}
+            p_{0} &= \left(1 - \frac{\lambda}{\mu}\right)^{\frac{\delta}{\lambda}} \\
+            p_n &= \left(1 - \frac{\lambda}{\mu}\right)^{\frac{\delta}{\lambda}}\frac{\delta(\lambda + \delta)\cdots\left[(n-1)\lambda + \delta\right]}{n!\mu^n}
+        \end{aligned}
+        \right.
+        \end{equation}
     \end{subquestions}
 \end{document}
