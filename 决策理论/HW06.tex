@@ -1,0 +1,93 @@
+\documentclass{../notes}
+
+\title{决策理论 HW06}
+
+\loadgeometry{word-moderate}
+
+\begin{document}
+    \maketitle
+    \paragraph*{1}
+
+    \begin{subquestions}
+        \item 投资决策的期望收益
+
+        \begin{enumerate}[label=\arabic*.]
+            \item 不投资：$0$
+            \item 在A地投资：$150000\times 0.3 + 60000 \times 0.6 + 200000\times 0.1 - 100000 = 1000$
+            \item 在B地投资：$200000\times 0.3 + 20000 \times 0.6 + 280000 \times 0.1 - 100000 = 0$
+        \end{enumerate}
+
+        因此应选择在A地投资
+
+        \item 在未知分析师作出何种结论的前提下，使用先验概率估计分析师做出各种结论的概率，因此
+
+        \begin{itemize}
+            \item 当分析师认为B地本土企业会选择对抗时，企业会选择在A地投资，期望收益为$1000$
+            \item 否则企业会选择在B地投资
+        \end{itemize}
+
+        拥有该信息后，企业在B地投资的期望收益为
+
+        \begin{equation}
+            200000\times 0.3 + 101000 \times 0.6 + 280000 \times 0.1 - 100000 = 48600
+        \end{equation}
+
+        因此企业应当为该信息支付$48600$
+    \end{subquestions}
+
+    \paragraph*{2}
+
+    \begin{subquestions}
+        \item 不同状态下的期望收益
+
+        \begin{enumerate}[label=\arabic*.]
+            \item 入场，高风险：$1700\times 0.5 + 300\times 0.3 + (-800)\times 0.2 - 200 = 580$
+            \item 入场，低风险：$1200\times 0.5 + 400\times 0.3 + 100\times 0.2 - 200 = 540$
+            \item 退出市场：$500$
+        \end{enumerate}
+
+        因此选择投资高风险
+
+        \item 设题中矩阵为$\bs A$，先验概率$\bs P = \begin{bmatrix}0.5 & 0.3 & 0.2\end{bmatrix}$，则后验概率为
+
+        \begin{equation}
+            \bs P' = \bs P\bs A^\top = \begin{bmatrix}
+                0.485 & 0.3 & 0.215
+            \end{bmatrix}
+        \end{equation}
+
+        在信息的帮助下出现不同信息结果时，对应真实情况的概率分布为
+
+        \begin{equation}
+            \bs \pi = \bs A\odot \left(\bs P^\top \bs P'^{-1}\right) = \begin{bmatrix}
+                \frac{80}{97} & \frac{9}{97} & \frac{8}{97} \\
+                \frac{1}{6} & \frac{7}{10} & \frac{4}{30} \\
+                \frac{10}{43} & \frac{9}{43} & \frac{24}{43} \\
+            \end{bmatrix}
+        \end{equation}
+
+        式中，$\odot$表示矩阵或向量的逐元素乘法。$\bs P'^{-1}$表示向量$\bs P'$逐元素取倒数。记收益矩阵为$\bs R = \begin{bmatrix} \bs x_1 & \bs x_2 & \bs x_3 \end{bmatrix}$，当预测结果为向好时，选择投资高风险，否则选择退出，因此收益矩阵为
+
+        \begin{equation}
+            \bs x_1 = \begin{bmatrix}
+                1500 \\ 100 \\ -1000
+            \end{bmatrix}, \qquad \bs x_2 = \begin{bmatrix}
+                500 \\ 500 \\ 500
+            \end{bmatrix}, \qquad \bs x_3 = \begin{bmatrix}
+                500 \\ 500 \\ 500
+            \end{bmatrix}
+        \end{equation}
+
+        期望收益为
+
+        \begin{equation}
+            R' = \sum \bs R' = \sum \left(\bs P'\odot \bs \pi \odot \bs R\right) = 822
+        \end{equation}
+
+        式中$\sum$表示矩阵的逐元素求和，$\text{EVSI} = 822-580 = 242$
+    \end{subquestions}
+
+    \paragraph*{3} 当问题的决策树比较简单时，可能出现的决策结果数量比较少，此时可以采用最优规则进行决策。但现实生活中的问题通常是复杂的多步决策问题，可能出现的决策结果数量庞大，此时由于人/计算机计算能力的限制，取得全局最优解在时间上不现实。此时满意规则可以作为一个非最优解的可行解，在计算成本和实际决策收益之间取得平衡。
+
+    一种可能的满意规则实现方法：分析决策问题的目标函数，并对多目标决策问题的目标进行排序，并优先满足优先级更高的目标。
+\end{document}
