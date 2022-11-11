@@ -19,7 +19,6 @@ import torch.nn.utils.rnn
 import torch.optim
 import torch.utils.data.dataloader
 import torch.utils.data.dataset
-import typing_extensions as TE
 
 os.chdir(os.path.dirname(__file__))
 
@@ -48,8 +47,8 @@ WV_PARAMS = {
     'epochs': 10
 }
 TRAIN_PARAMS = {
-    'epochs': 10,
-    'lr': 0.001,
+    'epochs': 20,
+    'lr': 0.00005,
     'optim': torch.optim.SGD,
     'loss': torch.nn.CrossEntropyLoss
 }
@@ -57,17 +56,17 @@ DEV = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 # ! Types and class aliases
 
+C_Array = np.ndarray
+C_Chain = itertools.chain
+C_DataLoader = torch.utils.data.dataloader.DataLoader
+C_KeyedVectors = gensim.models.keyedvectors.KeyedVectors
+C_Module = torch.nn.Module
+C_Tensor = torch.Tensor
+C_Word2Vec = gensim.models.Word2Vec
+F_pad = torch.nn.utils.rnn.pad_sequence
+F_split = sklearn.model_selection.train_test_split
 T_RECORD = T.Mapping[str, T.Any]
 T_RECORDS = T.Sequence[T_RECORD]
-C_Module = torch.nn.Module
-C_Array = np.ndarray
-C_Tensor = torch.Tensor
-C_DataLoader = torch.utils.data.dataloader.DataLoader
-C_Word2Vec = gensim.models.Word2Vec
-C_KeyedVectors = gensim.models.keyedvectors.KeyedVectors
-F_split = sklearn.model_selection.train_test_split
-F_pad = torch.nn.utils.rnn.pad_sequence
-C_Chain = itertools.chain
 
 
 def load_data(path, **kwargs) -> T.Tuple[T_RECORDS, T_RECORDS]:
@@ -108,7 +107,7 @@ def collate_fn(batch: T.Sequence[T.Tuple[C_Array, int]], device: torch.device):
     x = F_pad([torch.from_numpy(_) for _ in x]).permute(1, 2, 0)
     y = torch.tensor(y)
 
-    return x.to(device), y.to(device)
+    return x.to(device, non_blocking=True), y.to(device, non_blocking=True)
 
 
 class PooledConv(C_Module):
@@ -142,7 +141,7 @@ class Model(C_Module):
             in_channels: int, out_channels: int, kernel_sizes: T.List[int]
     ):
         super().__init__()
-        self.convs = []
+        self.convs = torch.nn.ModuleList()
         for _ in kernel_sizes:
             conv_args = {
                 'in_channels': in_channels,
@@ -165,13 +164,15 @@ def train(model: C_Module, data: C_DataLoader, **params: T.Any):
     optimizer = params['optim'](model.parameters(), lr=params['lr'])
     loss_fn = params['loss']()
     for _ in range(params['epochs']):
-        print(f'Epoch {_ + 1}/{params["epochs"]}')
+        l = 0
         for x, y in data:
             optimizer.zero_grad()
             y_pred = model(x)
             loss = loss_fn(y_pred, y)
+            l += loss.item()
             loss.backward()
             optimizer.step()
+        print(f'Epoch {_ + 1}/{params["epochs"]}: {l/len(data)}')
     return model
 
 
