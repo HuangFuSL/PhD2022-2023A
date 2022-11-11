@@ -1,0 +1,359 @@
+\documentclass{../notes}
+
+\title{应用随机过程 HW08}
+
+\begin{document}
+    \maketitle
+
+    \paragraph*{6.2}
+
+    \begin{subquestions}
+        \item[$E(X(t))$] 首先计算$\bs Q$的特征值，解方程
+
+        \begin{equation}
+            \begin{vmatrix}
+                -\lambda - t & \lambda \\
+                \mu & -\mu - t
+            \end{vmatrix} = 0
+        \end{equation}
+
+        解得$t_1 = 0, t_2 = -(\lambda + \mu)$，对应的特征向量为
+
+        \begin{equation}
+            \begin{aligned}
+                x_1 = \begin{bmatrix}
+                    1 \\ 1
+                \end{bmatrix} &
+                x_2 = \begin{bmatrix}
+                    \lambda \\ -\mu
+                \end{bmatrix}
+            \end{aligned}
+        \end{equation}
+
+        令矩阵$\bs A = \begin{bmatrix} x_1 & x_2 \end{bmatrix}$，则
+
+        \begin{derive}[\bs Q^n]
+            &= \bs A\diag(0, -(\mu + \lambda))^n \bs A^{-1} \\
+            &= \frac{1}{\lambda+\mu}\begin{bmatrix}
+                1 & \lambda \\
+                1 & -\mu
+            \end{bmatrix}\begin{bmatrix}
+                0 & 0 \\
+                0 & (-1)^n (\mu+\lambda)^n
+            \end{bmatrix}\begin{bmatrix}
+                \mu & 1 \\
+                -\lambda & -1
+            \end{bmatrix} \\
+            &= \frac{(-1)^n(\lambda + \mu)^n}{\lambda + \mu}\begin{bmatrix}
+                -\lambda & \lambda \\
+                \mu & -\mu \\
+            \end{bmatrix}
+        \end{derive}
+
+        因此，$\bs P(t) = \exp\left(\bs Qt\right)$，即
+
+        \begin{derive}[\bs P(t)]
+            &= e^{\bs Qt} \\
+            &= \sum_{n=0}^\infty \frac{t^n}{n!} \bs Q^n \\
+            &= \sum_{n=0}^\infty \frac{(-1)^n(\lambda + \mu)^n t^n}{(\lambda + \mu)n!}\begin{bmatrix}
+                -\lambda & \lambda \\
+                \mu & -\mu \\
+            \end{bmatrix} \\
+            &= \frac{1}{{\lambda + \mu}} \left(\begin{bmatrix}
+                \mu & \lambda \\
+                \mu & \lambda
+            \end{bmatrix} + e^{-(\lambda + \mu)t}\begin{bmatrix}
+                \lambda & -\lambda \\
+                -\mu & \mu \\
+            \end{bmatrix}\right)
+        \end{derive}
+
+        $X(t)$的分布为$\bs \pi = \bs \pi_0 \bs P(t) = \frac{1}{\lambda + \mu} \left(\begin{bmatrix} \mu & \lambda \end{bmatrix} + e^{-(\lambda + \mu)t} \begin{bmatrix} \lambda & -\lambda\end{bmatrix}\right)$，因此
+
+        \begin{equation}
+            E(X(t)) = \frac{1}{\lambda + \mu}\left(\lambda -\lambda e^{-(\lambda + \mu)t}\right)
+        \end{equation}
+
+        \item[$E(\tau_1|X(0) = 0)$] 已知$P(\tau_1\geq t|X(0) = 0) = e^{q_{00}t} = e^{-\lambda t}$，设概率分布函数$F(\tau_1|X(0) = 0)$，对应的概率密度函数为$f(\tau_1|X(0) = 0)$，则
+
+        \begin{equation}
+            f(\tau_1|X(0) = 0) = \frac{\dd F}{\dd t} = \lambda e^{-\lambda t}
+        \end{equation}
+
+        因此，$E(\tau_1|X(0) = 0)$为：
+
+        \begin{derive}[E(\tau_1|X(0) = 0)]
+            &= \int_0^\infty \lambda \tau_1 e^{-\lambda \tau_1} \dd \tau_1 \\
+            &= \frac{1}{\lambda}
+        \end{derive}
+    \end{subquestions}
+
+    \paragraph*{6.5 (3)} 设$t$时刻时系统处于状态$n$，取一个极短的时间$\Delta t$，根据生灭过程的性质，有
+
+    \begin{equation}
+        \begin{aligned}
+            P(X(t+\Delta t) = n+1|X(t) = n) &= (n\lambda +a)\Delta t \\
+            P(X(t+\Delta t) = n-1|X(t) = n) &= n\mu \Delta t \\
+            P(X(t+\Delta t) = n|X(t) = n) &= 1 - (n\lambda + n\mu + a)\Delta t \\
+        \end{aligned}
+    \end{equation}
+
+    记$p_n(t) = P(X(t) = n)$，根据全概率公式，有
+
+    \begin{equation}
+        \begin{aligned}
+            p_0(t+\Delta t) &= (1 - n\mu \Delta t)p_0(t) + n\mu \Delta tp_1(t) \\
+            p_n(t+\Delta t) &= ((n-1)\lambda +a)\Delta tp_{n-1}(t) + \left[1 - (n\lambda + n\mu + a)\Delta t\right]p_n(t) + (n+1)\mu \Delta tp_{n+1}(t)
+        \end{aligned}
+    \end{equation}
+
+    由此，有
+
+    \begin{derive}[\frac{\dd p_j(t)}{\dd t}]
+        &= \lim_{\Delta t\rightarrow 0}\frac{p_n(t+\Delta t) - p_n(t)}{\Delta t} \\
+        &= ((n-1)\lambda +a)p_{n-1}(t) - (n\lambda + n\mu + a)p_n(t) + (n+1)\mu p_{n+1}(t)
+    \end{derive}
+
+    当系统趋向于稳态时，设$p_n = \lim_{t\rightarrow \infty}p_n(t)$。有$\lim _{t\rightarrow\infty} \frac{\dd p_n(t)}{\dd t} = 0$，即
+
+    \begin{equation}
+        ((n-1)\lambda +a)p_{n-1} - (n\lambda + n\mu + a)p_n + (n+1)\mu p_{n+1}
+    \end{equation}
+
+    解得
+
+    \begin{equation}
+        p_{n+1} = \frac{(n\lambda + n\mu + a)p_n - ((n-1)\lambda + a)p_{n-1}}{(n+1)\mu}
+    \end{equation}
+
+    同时，对于$n=0$，有$p_1 = \frac{a}{\mu}p_0$。设序列$a_n$满足$p_n = a_np_0$，则有
+
+    \begin{equation}
+        \left\{
+        \begin{aligned}
+            a_0 &= 1 \\
+            a_1 &= \frac{a}{\mu} \\
+            a_{n+1} &= \frac{(n\lambda + n\mu + a)a_n - ((n-1)\lambda + a)a_{n-1}}{(n+1)\mu}
+        \end{aligned}
+        \right.
+    \end{equation}
+
+    从而
+
+    \begin{equation}
+        a_n = \prod_{i=1}^n \frac{(i-1)\lambda + a}{i\mu} = \frac{1}{n! \mu^n}\prod_{i=1}^n \left[(i-1)\lambda + a\right]
+    \end{equation}
+
+    设$S = \sum_{n=0}^\infty a_n$，则$p_0 = 1/S$：
+
+    \begin{derive}[S]
+        &= \sum_{n=0}^\infty a_n \\
+        &= 1 + \sum_{n=1}^\infty \left(\frac{1}{n!\mu^n}\right)\prod_{i=1}^n\left[(i-1)\lambda + a\right]
+    \end{derive}
+
+    首先证明$S$收敛，有
+
+    \begin{derive}[S]
+        &\leq 1 + \sum_{n=1}^\infty \frac{1}{n!\mu^n} \prod_{i=1}^n\left[(i-1)\lambda + (i-1)a\right] \\
+        &=1 + \frac{1}{\lambda + a}\sum_{n=1}^\infty \frac{(\lambda + a)^n}{n\mu^n} \\
+        &= 1 + \frac{1}{\lambda + a}\sum_{n=1}^\infty \frac{1}{n}\frac{(\lambda + a)}{\mu} \\
+        &= 1 + \frac{1}{\lambda + a}\log \frac{\mu}{\mu - \lambda - a}
+    \end{derive}
+
+    且
+
+    \begin{equation}
+        S = \left(1-\frac{\lambda }{\mu }\right)^{-\frac{a}{\lambda }}
+    \end{equation}
+
+    因此，有
+
+    \begin{equation}
+        p_{n} = a_{n}p_0 = \left(1-\frac{\lambda }{\mu }\right)^{\frac{a}{\lambda }}\left(\prod_{i=1}^n \frac{(i-1)\lambda + a}{i\mu}\right) \label{eq:6.5.1}
+    \end{equation}
+
+    \paragraph*{6.9}
+
+    \begin{subquestions}
+        \item 对于$M/M/s$队列，有
+
+        \begin{equation}
+            \left\{
+            \begin{aligned}
+                \lambda_i &= \lambda \\
+                \mu_i &= \mu \min\left\{i, s\right\}
+            \end{aligned}
+            \right.
+        \end{equation}
+
+        与\textbf{6.5 (3)}同理，有
+
+        \begin{derive}[a_n]
+            &= \frac{\lambda_0\lambda_1\cdots\lambda_{n-1}}{\mu_1\mu_2\cdots\mu_n} \\
+            &= \left\{
+            \begin{aligned}
+                & \frac{s^s\rho^n}{s!} & n > s \\
+                & \frac{s^n\rho^n}{n!} & 1\leq n \leq s
+            \end{aligned}
+            \right.
+        \end{derive}
+
+        令$S = \sum_{n=0}^\infty a_n$，则$p_0 = 1/S$：
+
+        \begin{derive}[S]
+            &= \sum_{n=0}^\infty a_n \\
+            &= \sum_{n=0}^s a_n + \sum_{n=s+1}^\infty a_n \\
+            &= \sum_{n=0}^s \frac{s^n\rho^n}{n!} + \sum_{n=s+1}^\infty \frac{s^s\rho^n}{s!} \\
+            &= \sum_{n=0}^s \frac{s^n\rho^n}{n!} + \frac{\rho}{1-\rho}\frac{(\rho s)^s}{s!}
+        \end{derive}
+
+        因此，平稳分布为
+
+        \begin{equation}
+        \left\{
+        \begin{aligned}
+            p_0 &= 1/S & \\
+            p_n &= \left.\frac{s^n\rho^n}{n!} \right/S & 1\leq n\leq s \\
+            p_n &= \left.\frac{s^s\rho^n}{s!} \right/S & n > s \\
+        \end{aligned}
+        \right.
+        \end{equation}
+
+        \item 首先计算$P(Q(t) = 0)$，即$n\leq s$，有
+
+        \begin{derive}[P(Q(t) = 0)]
+            &= \frac{1}{S}\sum_{n=0}^s a_n \\
+            &= \frac{1}{S}\sum_{n=0}^s \frac{s^n\rho^n}{n!} \\
+        \end{derive}
+
+        其次计算$E[Q(t)]$，首先考虑$P(Q(t) = n)$，其中$s > 0$，有
+
+        \begin{equation}
+            P(Q(t) = n) = \frac{1}{S}\frac{s^s\rho^n}{s!}
+        \end{equation}
+
+        因此，$E(Q(t))$为
+
+        \begin{derive}[E(Q(t))]
+            &= \sum_{n={s+1}}^\infty (n-s)\frac{1}{S}\frac{s^s\rho^n}{s!} \\
+            &= \frac{s^s}{s!S}\left[-s\sum_{n=s+1}^\infty \rho^n + \sum_{n=s+1}^\infty n\rho^n\right] \\
+            &= \frac{s^s}{s!S}\left[-\frac{s\rho^s}{1-\rho} + \frac{\rho^s(1+s-s\rho)}{(1-\rho)^2}\right] \\
+            &= \frac{s^s\rho^s}{s!S}\frac{1}{(1-\rho)^2}
+        \end{derive}
+
+        设$P(Q(t) = 0) = r$
+
+        \begin{derive}[1-r]
+            &= 1 - \frac{1}{S}\sum_{n=0}^s \frac{s^n\rho^n}{n!} \\
+            &= \frac{s^s\rho^s}{s!S}\frac{1}{1-\rho}
+        \end{derive}
+
+        因此，有$E(Q(t)) = (1-r)(1-\rho)^{-1}$
+    \end{subquestions}
+
+    \paragraph*{6.15}
+
+    \begin{subquestions}
+        \item $P(X(t) = i|X(t)\in B) = P(X(t) = i) / P(X(t) \in B)$，即
+
+        \begin{equation}
+            P(X(t) = i|X(t)\in B) = \frac{P_i}{\sum_{j\in B}P_j}
+        \end{equation}
+
+        \setcounter{enumi}{2}
+        \item 根据$\tilde F_i(s)$的定义，有
+
+        \begin{derive}[\tilde F_i(s)]
+            &= E\{e^{-ST_i} | X(0) = i\} \\
+            &= \sum_{j\in S} P\left(X(\alpha) = j|X(0) = i\right)E\left\{e^{-ST_i}\middle | X(0) = i, X(\alpha) = j\right\}
+        \end{derive}
+
+        式中$\alpha = \inf\{t: t > 0, X(0) = i, X(\alpha) \not = i\}$，则
+
+        \begin{derive}[\tilde F_i(s)]
+            =& \sum_{j\in S} P_{ij}E\left\{e^{-ST_i}\middle | X(0) = i, X(\alpha) = j\right\} \\
+            =& \sum_{j\in S}  P_{ij}E\left\{e^{-S\alpha}\middle | X(0) = i\right\}E\left\{e^{-ST_j}\middle | X(0) = j\right\} \\
+            =& \sum_{j\in G}  P_{ij}E\left\{e^{-S\alpha}\middle | X(0) = i\right\}E\left\{e^{-ST_j}\middle | X(0) = j\right\} + \\
+                &\sum_{j\in B} P_{ij}E\left\{e^{-S\alpha}\middle | X(0) = i\right\}E\left\{e^{-ST_j}\middle | X(0) = j\right\} \\
+            =& \sum_{j\in G} P_{ij} \frac{q_i}{q_i + s} + \sum_{j\in B} P_{ij} \frac{q_i}{q_i + s}\tilde{F}_j(s) \\
+            =& \frac{q_i}{q_i + s}\left(\sum_{j\in B} P_{ij}\tilde{F}_j(s) + \sum_{j\in G}P_{ij}\right)
+        \end{derive}
+    \end{subquestions}
+
+    \paragraph*{6.16} 由向前方程，有
+
+    \begin{align}
+        P'_{ij}(t) &= P_{i, j-1}(t)\lambda _{j-1} - P_{ij}(t)\lambda j & (j\geq i) \label{eq:6.16.1} \\
+        P_{ii}(0) &= 1 \\
+        P_{ij}(0) &= 0 & (j > i)
+    \end{align}
+
+    令$j = i$，解得
+
+    \begin{equation}
+        P_{ii}(t) = e^{-\lambda i + \delta}t
+    \end{equation}
+
+    解方程\eqnref{eq:6.16.1}可得
+
+    \begin{equation}
+        P_{i, j+1}(t) e^{\lambda_{j+1}t} = \lambda_j \int_{0}^t P_{ij}(u)e^{\lambda_{j+1}u}\dd u
+    \end{equation}
+
+    由$P_{ii}(0) = 1, P_{ij}(0) = 0$，可得$j > i$时的$P_{ij}(t)$
+
+    \begin{equation}
+        P_{ij}(t) = \frac{1}{(j-i)!}\prod_{k=0}^{j-(i+1)}\left(k+i+\frac{\delta}{\lambda}\right)e^{-(\lambda i + \delta)t}\left(1 - e^{-\lambda t}\right)^{j-i}
+    \end{equation}
+
+    \paragraph*{6.17}
+
+    \begin{subquestions}
+        \item 当$\lambda > \mu$时，显然有
+
+        \begin{equation}
+            \lambda_n = n\lambda + \delta > n\mu = \mu_n \Rightarrow \sum_{n=1}^\infty \prod_{i=1}^n \frac{\mu_i}{\lambda i} < \sum_{n=1}^\infty \left(\frac{\mu}{\lambda}\right)^n < \infty
+        \end{equation}
+
+        当$\lambda = \mu < \delta$时，有
+
+        \begin{equation}
+            \sum_{n=1}^\infty \prod_{i=1}^n \frac{\mu_i}{\lambda i} = \sum_{n=1}^\infty \prod_{i=1}^n \frac{i\lambda}{i\lambda + \delta} \label{eq:6.17.1}
+        \end{equation}
+
+        考察\eqnref{eq:6.17.1}的第$n$项：
+
+        \begin{equation}
+            a_{n} = \prod_{i=1}^n \frac{i\lambda}{i\lambda \delta}
+        \end{equation}
+
+        $a_n$满足$a_n / a_{n+1} = \frac{(n+1)\lambda + \delta}{(n+1)\lambda}$，则
+
+        \begin{equation}
+            \lim_{n\rightarrow \infty} n\left(\left|\frac{a_{n}}{a_{n+1}} - 1\right|\right) = \lim_{n\rightarrow \infty} \frac{n\delta}{(n+1)\lambda} = \frac{\delta}{\lambda} > 1
+        \end{equation}
+
+        因此$\sum a_n < \infty$。在以上两种情况下，有$\sum_{n=1}^\infty \prod_{i=1}^n \frac{\mu_i}{\lambda i} < \infty$，从而$\sum_{n=1}^\infty \prod_{i=1}^n \frac{\tilde \mu_i}{\tilde \lambda i}$，即生灭过程的嵌入链非常返，从而该生灭过程非常返。
+
+        \item 当$\lambda = \mu \geq \delta$时，正项级数$\sum a_n$发散，因此嵌入链常返。设$\lambda = \mu = k\delta, k\geq 1$，则
+
+        \begin{derive}[\sum_{n\geq 1}^\infty \prod_{i=1}^{n} \frac{(i-1)\lambda + \delta}{i\mu}]
+            &= \sum_{n\geq 1}^\infty \prod_{i=1}^n \frac{1}{i}\left((i - i) + \frac{1}{k}\right) \\
+            &= \frac{1}{k}\sum_{n\geq 1}^\infty \frac{1}{n} \prod_{i=1} ^{n-1} \left(1 + \frac{1}{ik}\right) \\
+            &\geq \frac{1}{k} \sum_{n=1}^\infty \frac{1}{n} = \infty
+        \end{derive}
+
+        因此不存在平稳分布，马氏链为零常返
+
+        \item 当$\lambda < \mu$时，根据式\eqnref{eq:6.5.1}，有
+
+        \begin{equation}
+        \left\{
+        \begin{aligned}
+            p_{0} &= \left(1 - \frac{\lambda}{\mu}\right)^{\frac{\delta}{\lambda}} \\
+            p_n &= \left(1 - \frac{\lambda}{\mu}\right)^{\frac{\delta}{\lambda}}\frac{\delta(\lambda + \delta)\cdots\left[(n-1)\lambda + \delta\right]}{n!\mu^n}
+        \end{aligned}
+        \right.
+        \end{equation}
+    \end{subquestions}
+\end{document}
