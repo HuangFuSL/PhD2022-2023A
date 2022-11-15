@@ -1,0 +1,160 @@
+\documentclass{../notes}
+
+\title{应用随机过程 HW09}
+
+\loadgeometry{word-moderate}
+
+\begin{document}
+    \maketitle
+    \paragraph*{4.1}
+
+    \begin{subquestions}
+        \item $\{U_n, n\geq 0\}$又可写作
+
+        \begin{equation}
+            U_n = \sum_{k=1}^n \left(Y_k - (p - q)\right)
+        \end{equation}
+
+        则$E|U_n| = \left|\sum_{k=1}^n \left(Y_k - (p-q)\right)\right| \leq \sum_{k=1}^n |Y_k - (p - q)| \leq n\max\{1 + q - p, p - q\}<\infty$
+
+        \begin{derive}[E(U_{n+1} | Y_0, Y_1, \cdots, Y_n)]
+            &= E(U_{n} + \left(Y_{n+1} - (p - q)\right) | Y_0, Y_1, \cdots, Y_n) \\
+            &= E(U_n|Y_0, Y_1, \cdots, Y_n) + E(Y_{n+1} - (p - q)|Y_0, Y_1, \cdots, Y_n) \\
+            &= E(U_n|Y_0, Y_1, \cdots, Y_n) \\
+            &= U_n
+        \end{derive}
+
+        $\{V_n, n\geq 0\}$又可写作
+
+        \begin{equation}
+            V_n = \prod_{k=1}^n \left(\frac{q}{p}\right)^{Y_k}
+        \end{equation}
+
+        由于$E\left(\frac{q}{p}\right)^{Y_k} = q + p = 1$，且$\{Y_n, n\geq 1\}$独立同分布，则有$EV_n = EV_{n-1} = \cdots = EV_0 = 1$。又因
+
+        \begin{derive}[E(V_{n+1} | Y_0, Y_1, \cdots, Y_n)]
+            &= E\left(V_{n}\cdot \left(\frac{q}{p}\right)^{Y_n} \middle| Y_0, Y_1, \cdots Y_n\right) \\
+            &= E\left(V_{n} \middle| Y_0, Y_1, \cdots Y_n\right) E\left(\left(\frac{q}{p}\right)^{Y_n} \middle| Y_0, Y_1, \cdots Y_n\right) \\
+            &= E\left(V_{n} \middle| Y_0, Y_1, \cdots Y_n\right) \\
+            &= V_n
+        \end{derive}
+
+        $\{W_n, n\geq 0\}$：设$Y'_n = Y_n - (p - q)$，则有$EY'_n = 0$，$EY'^2_n = \sigma^2 = 1 - (p-q)$，则$\{W_n, n\geq 0\}$可以写作
+
+        \begin{equation}
+            W_n = \left(\sum_{k=1}^n Y'_k\right)^2 - n\sigma^2
+        \end{equation}
+
+        首先证明$E|W_n| < \infty$，有
+
+        \begin{derive}[E|W_n|]
+            &= E\left|\left(\sum_{k=1}^n Y'_k\right)^2 - n\sigma^2\right| \\
+            &\leq E\left|\left(\sum_{k=1}^n Y'_k\right)^2 \right| +  n\sigma^2 \\
+            &= E\left(\sum_{k=1}^n Y'^2_k + \sum_{i\not = j}Y'_iY'_j\right) + n\sigma^2 \\
+            &= 2n(1 - p + q)
+        \end{derive}
+
+        另一方面：
+
+        \begin{derive}[E(W_{n+1}|Y'_0, Y'_1, \cdots, Y'_n)]
+            &= E\left[\left(Y'_{n+1} + \sum_{k=1}^n Y'_k\right)^2 - (n+1)\sigma^2\middle| Y'_0, Y'_1, \cdots, Y'_n\right] \\
+            &= E\left[Y'^2_{n+1} + \left(\sum_{k=1}^n Y'_k\right)^2 + Y'_{n+1}\sum_{k=1}^n Y'_k - (n+1)\sigma^2\middle| Y'_0, Y'_1, \cdots, Y'_n\right] \\
+            &=EY'^2_{n+1} + 2E(Y_{n+1}|Y_0, Y_1, \cdots Y_n)\sum_{k=1}^n Y_k + W_n - \sigma^2 \\
+            &= W_n
+        \end{derive}
+
+        因此$\{U_n, n\geq 0\}, \{V_n, n\geq 0\}, \{W_n, n\geq 0\}$是关于$\{Y_n, n\geq 0\}$的鞅
+
+        \item 由于$E(X_n^+) \leq n < \infty$，只需说明$E(X_{n+1}|Y_0, \cdots, Y_n)\geq X_n$即可，证明如下：
+
+        \begin{derive}[E(X_{n+1}|Y_0, \cdots, Y_n)]
+            &= E(X_{n} + Y_{n+1}|Y_0, \cdots, Y_n) \\
+            &= E(X_{n}|Y_0, \cdots, Y_n) + E(Y_{n+1}|Y_0, \cdots, Y_n) \\
+            &= X_n + p - q
+        \end{derive}
+
+        因此$\{X_n, n\geq 0\}$是关于$\{Y_n, n\geq 0\}$的下鞅。
+
+        \item 设相关系数为$\rho$，则$\rho = \Cov(U_{m}, U_{m+n}) / (\sigma_{U_{m}}\sigma_{U_{m+n}})$
+
+        首先计算$U_{m}, U_{m+n}$的协方差，有
+
+        \begin{derive}[\Cov(U_m, U_{m+n})]
+            &= E\left[U_mU_{m+n}\right] - EU_mEU_{m+n} \\
+            &= E\left[U_mU_{m+n}\right] \\
+            &= E\left[X_mX_{m+n}\right] - m(p-q)EX_{m+n} - (m+n)(p-q)EX_m + m(m+n)(p-q)^2 \\
+            &= E\left[X_mX_{m+n}\right] - m(m+n)(p-q)^2 \\
+            &= EX_m^2 + EX_m E\left(\sum_{k=1}^n Y_{m+k}\right) - m(m+n)(p-q)^2 \\
+            &= EX_m^2 - m^2(p-q)^2 \\
+            &= E\left(\sum_{k=1}^m Y_k^2\right) + E\left(\sum_{i\not = j}\left(Y_iY_j\right)\right) - m^2(p-q)^2 \\
+            &= m(1 - (p - q)^2) \\
+            &= 4mpq
+        \end{derive}
+
+        其次计算$\sigma_{U_{m}}^2$，有
+
+        \begin{derive}[\sigma_{U_{m}}^2]
+            &= EU_m^2 \\
+            &= E\left(\sum_{k=1}^m \left(Y_k - p + q\right)^2\right) + E\left(\sum_{i\not = j}\left((Y_i - p + q)(Y_j - p + q)\right)\right) \\
+            &= 4mpq
+        \end{derive}
+
+        则相关系数为
+
+        \begin{derive}[\rho]
+            &= \frac{\Cov(U_{m}, U_{m+n})}{\sigma_{U_{m}}\sigma_{U_{m+n}}} \\
+            &= \sqrt{\frac{m}{m+n}}
+        \end{derive}
+    \end{subquestions}
+
+    \paragraph*{4.6} 由题$\xi _i$可以写为
+
+    \begin{equation}
+        \xi_i = \begin{cases}
+            X_i - X_{i-1} & i > 0 \\
+            X_0 & i = 0
+        \end{cases}
+    \end{equation}
+
+    当$i = 0, j\not = 0$时，有
+
+    \begin{derive}[E(\xi_i\xi_j)]
+        &= E(X_0(X_j - X_{j-1})) \\
+        &= E(E(X_0(X_j - X_{j-1}) | X_0, \cdots X_{j-1})) \\
+        &= E(X_0(E(X_j | X_0, \cdots, X_{j-1}) - X_{j-1})) \\
+        &= 0
+    \end{derive}
+
+    当$ij\not = 0$时，不妨设$i < j$，则
+
+    \begin{derive}[E(\xi_i\xi_j)]
+        &= E((X_i - X_{i-1})(X_j - X_{j-1})) \\
+        &= E(E((X_i - X_{i-1})(X_j - X_{j-1}) | X_0, \cdots, X_{j-1})) \\
+        &= E((X_i - X_{i-1})(E(X_j|X_0, \cdots, X_{j-1}) - X_{j-1})) \\
+        &= 0
+    \end{derive}
+
+    \paragraph*{4.10 (1)} 已知$P(X_{n} = j | X_{n-1} = i) = \frac{i^j}{j!}e^{-i}$。则
+
+    \begin{derive}[E(X_{n+1} | X_0, X_1, \cdots, X_n)]
+        &= E(X_{n+1} | X_n) \\
+        &= \sum_{j=1}^\infty jP(X_{n+1} = j | X_n = i) \\
+        &= \sum_{j=1}^\infty \frac{i^j}{(j-1)!}e^{-i} \\
+        &= i
+    \end{derive}
+
+    因此$E(X_{n+1} | X_0, X_1, \cdots, X_n) = X_n$，因此$\{X_n, n\geq 0\}$是鞅。
+
+    \paragraph*{4.23}
+
+    \begin{subquestions}
+        \item $\{X_n\lor c, n\geq 0\} = \{\max(X_n, c), n\geq 0\}$，则
+        
+        \begin{derive}[E(X_{n+1}^+ | Y_0, \cdots, Y_n)]
+            &\geq E(X_{n+1} | Y_0, \cdots, Y_n) \\
+            &= X_n
+        \end{derive}
+
+        \item 令$c = 0$，可知$\{X_n^+, n\geq 0\}$为下鞅。
+    \end{subquestions}
+\end{document}
