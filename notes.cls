@@ -57,6 +57,7 @@
 \newcommand{\C}{\mathbb C}
 \newcommand{\Q}{\mathbb Q}
 \newcommand{\dd}{\mathrm d}
+\newcommand{\Cov}{\mathrm {Cov}}
 \renewcommand{\geq}{\geqslant}
 \renewcommand{\leq}{\leqslant}
 \newcommand{\eqnref}[1]{(\ref{#1})}
