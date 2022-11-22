@@ -188,8 +188,8 @@
             \pause
             \begin{enumerate}
                 \item $\forall \tau \leq B, A(\tau; Q, B, L) = 1$
-                \item $\forall \tau \geq B + 1, A(\tau; Q, B, L) = 0$
-                \item $\forall \tau \in (B, B+L), D(\tau) = A'(\tau; Q, B, L) \leq 0$ - demand rate
+                \item $\forall \tau \geq B + L, A(\tau; Q, B, L) = 0$
+                \item $\forall \tau \in (B, B+L), D(\tau) = -QA'(\tau; Q, B, L) \leq 0$ - demand rate
                 \item $Q(\tau) = Q\cdot A(\tau; Q, B, L)$ indicates the demand arises after time $\tau$
             \end{enumerate}
         \end{itemize}
@@ -262,6 +262,41 @@
     \end{frame}
 
     \begin{frame}
+        \frametitle{\textsc{Proof of proposition 1}}
+
+        The firm's expected profit can be rewritten as \eqnref{eq:8}
+
+        \begin{equation}
+            \begin{aligned}
+                \Pi(x, t) &= \mathbb E_{Q, B, L}\left[(p-c)x - h\int_{\max\{t, B\}}^{B+L} I(\tau; x, t)\dd \tau -(p-s)\left[x-Q(t)\right]^+ - hx\left[B-t\right]^+\right] \\
+            \end{aligned}
+            \label{eq:8}
+        \end{equation}
+
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{\textsc{Proof of proposition 1}}
+
+        \begin{equation}
+            \begin{aligned}
+                \frac{\partial\Pi(x, t)}{\partial x} &= \mathbb E_{Q, B, L}\left[(p-c) - h\int_{\max\{t, B\}}^{B+L} 1_{\{Q(t) - Q(\tau)\leq x\}}\dd \tau -(p-s)1_{\{Q(t)\leq x\}} - hx\left[B-t\right]^+\right] \\
+                &\begin{aligned}
+                    =&(p-c) - h\mathbb E_{B, L}\times\left[\int_{\max\{t, B\}}^{B+L}\mathbb P(Q(t) - Q(\tau) \leq x|B, L)\dd \tau\right] - \\
+                    &(p-s)\mathbb P(Q(t)\leq x) - h\int_t^{b_u}\mathbb P(B > b)\dd b
+                \end{aligned}
+            \end{aligned}
+        \end{equation}
+
+        Taking derivative yields
+
+        \begin{equation}
+            \frac{\partial^2\Pi(x, t)}{\partial x^2} = -(p-s)f_{Q(t)}(x) - h\mathbb E_{B, L}\times \left[\int_{\max\{t, B\}}^{B+L}f_{Q(t) - Q(\tau) | B, L}(x)\dd \tau\right]
+        \end{equation}
+
+    \end{frame}
+
+    \begin{frame}
         \frametitle{\textsc{Solving the stochastic season - 2}}
 
         \textrm{\bfseries Proposition 2} The optimal inventory timing $t^*$ satisfies optimality condition \eqnref{eq:3}:
@@ -272,12 +307,53 @@
                     & \mathbb E_Q \left[D\left(t^*\right)\middle | Q\left(t^*\right) - Q(\tau)\leq x^*\left(t^*\right), B\leq t^*, L\right] \\
                     & \times \mathbb P\left(Q\left(t^*\right) - Q(\tau)\leq x^*\left(t^*\right), B\leq t^*\right)
                 \end{aligned}\right] \dd \tau \\
-                =& (p-s)\mathbb E_{Q, B, L}\left[D\left(t^*\right)\middle | Q\left(t^*\right)\leq x\right]\mathbb P\left(Q\left(t^*\right)\right)\leq x^*\left(t^*\right)
+                =& (p-s)\mathbb E_{Q, B, L}\left[D\left(t^*\right)\middle | Q\left(t^*\right)\leq x\right]\mathbb P\left(Q\left(t^*\right)\leq x^*\left(t^*\right)\right)
             \end{aligned}
             \label{eq:3}
         \end{equation}
 
         $t^*$ satisfies that $t^* > 0\Leftrightarrow h > 0$
+
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{\textsc{Proof of proposition 2}}
+
+        By optimality and the envelop theorem, we have
+
+        \begin{equation}
+            \left\{
+            \begin{aligned}
+                \frac{\partial \Pi(x^*(t^*), t^*)}{\partial x} &= 0 \\
+                \frac{\dd\Pi(x^*(t^*), t^*)}{\dd x} &= \frac{\partial \Pi(x^*(t^*), t^*)}{\partial t} = 0 \\
+            \end{aligned}
+            \right.
+        \end{equation}
+
+        $\mathbb E_{Q, B, L}\left[\int_{\max\{t, B\}}^{B+L} I(\tau; x, t)\dd \tau\right]$ can be rewritten as:
+
+        \begin{equation}
+            \begin{aligned}
+            \mathbb E_{Q, B, L}\left[\int_{\max\{t, B\}}^{B+L} I(\tau; x, t)\dd \tau\right] =& \mathbb E_{Q, B, L}\left[\int_B^{B+L} I(\tau; x, t)\dd \tau\middle| B > t\right]\mathbb P(B > t) + \\
+            & \mathbb E_{Q, B, L}\left[\int_t^{B+L} I(\tau; x, t)\dd \tau\middle| B \leq t\right]\mathbb P(B \leq t)
+            \end{aligned}
+        \end{equation}
+
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{\textsc{Proof of proposition 2}}
+
+        First-order partial derivative of $\Pi(x, t)$ with respect to $t$ can be written as
+
+        \begin{equation}
+            \begin{aligned}
+                \frac{\partial \Pi(x, t)}{\partial t} =& -(p-s)\mathbb E_{Q, B, L}\left[D(t) | Q(t)\leq x\right]\mathbb P(Q(t)\leq x) \\
+                &+ hx\mathbb P(t < B + L) - h\mathbb E_{B, L} \\
+                &\times \left[\int_t^{B+L} \mathbb E_Q\left[D(t) | Q(t) - Q(\tau)\leq x, B\leq t, L\right]\right. \\
+                &\times\left.\vphantom{\int_t^{B+L}}\mathbb P(Q(t) - Q(\tau)\leq x, B\leq t)\dd \tau\right]
+            \end{aligned}
+        \end{equation}
 
     \end{frame}
 
@@ -308,6 +384,21 @@
     \end{frame}
 
     \begin{frame}
+        \frametitle{\textsc{Proof of lemma 1}}
+
+        \begin{equation}
+            \begin{aligned}
+                \frac{\partial ^2\Pi(x, t)}{\partial x\partial t} =
+                & -(p-s)\mathbb E_{Q, B, L}\left[D(t)|Q(t)\leq x\right]f_{Q(t)}(x) \\
+                & + h\mathbb P(t < B + L) - h\mathbb E_{B, L} \\
+                & \times \left[\int_{t}^\mathbb{B+L}\mathbb E_Q\left[D(t)|Q(t) - Q(\tau)\leq x, B\leq t, L\right]\right. \\
+                & \times \left.\vphantom{\int_t^{B+L}} f_{Q(t) - Q(\tau) | B\leq t}(x)\mathbb P(B\leq t)\dd \tau\right]
+            \end{aligned}
+        \end{equation}
+
+    \end{frame}
+
+    \begin{frame}
         \frametitle{\textsc{Solving the stochastic season - 4}}
 
         \textrm{\bfseries Proposition 3} For a given inventory policy $(x, t)$, the firm's expected lost sales are given by $\mathcal L(x, t) = \mathbb E_{Q, B, L}\left[(Q - Q(t)) + \left[Q(t) - x\right]^+\right]$. $\mathcal L\left(x^*(t), t\right)$ decreases with $t$ if and only if \eqnref{eq:5} stands.
@@ -325,6 +416,20 @@
             \item $h = 0\Rightarrow \mathcal L\left(x^*(t), t\right)$ increases with $t$
             \item $h > 0\Rightarrow \exists t_1 > 0, \forall t\in [0, t_1], L\left(x^*(t), t\right)$ decreases with $t$.
         \end{enumerate}
+
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{\textsc{Proof of proposition 3}}
+
+        \begin{equation}
+            \begin{aligned}
+                &\frac{\dd \mathcal L(x^*(t), t)}{\dd t} \\
+                =& \mathbb E_{Q, B, L}\left[D'(t)\right] + \mathbb{E}_{Q, B, L}\left[(D(t) - (x^*(t))')1_{\{Q(t) > x^*(t)\}}\right] \\
+                =& \mathbb E_{Q, B, L}\left[D(t)1_{\{Q(t)\leq x^*(t)\}}\right] - (x^*(t))'\mathbb E_{Q, B, L}\left[1_{\{Q(t)>x^*(t)\}}\right] \\
+                =& \mathbb E_{Q, B, L}\left[D(t) | Q(t)\leq x^*(t)\right]\mathbb P(Q(t)\leq x^*(t)) - (x^*(t))'\mathbb P(Q(t) > x^*(t))
+            \end{aligned}
+        \end{equation}
 
     \end{frame}
 
@@ -368,7 +473,7 @@
     \begin{frame}
         \frametitle{\textsc{Instantaneous demand - optimal solution}}
 
-        Assume that $h - (p-s)f_B(0) > 0$, let $H_Y = f_Y / (1 - F_Y)$ denote the hazard rate of the random variable $Y$, in which $F_Y$ being the CDF of the random variable $Y$. The firm's optimal inventory policy solves
+        \textrm{\bfseries Proposition 4} Assume that $h - (p-s)f_B(0) > 0$, let $H_Y = f_Y / (1 - F_Y)$ denote the hazard rate of the random variable $Y$, in which $F_Y$ being the CDF of the random variable $Y$. The firm's optimal inventory policy solves
 
         \begin{align}
             \mathbb P\left(Q\left(t_i\right)\leq x_i\right) &= \frac{p - c - h\int_{t_i}^{b_u} \mathbb P(B>b)\dd b}{p - s} \\
@@ -376,6 +481,24 @@
         \end{align}
 
         Furthermore, $H_B'\left(t_i\right)\geq 0$
+
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{\textsc{Proof of proposition 4}}
+
+        \begin{columns}
+            \begin{column}{0.5\linewidth}
+                \begin{figure}[h]
+                    \includegraphics[width=\linewidth]{imgs/gp01-5.png}
+                \end{figure}
+            \end{column}
+            \begin{column}{0.5\linewidth}
+                \begin{figure}[h]
+                    \includegraphics[width=\linewidth]{imgs/gp01-6.png}
+                \end{figure}
+            \end{column}
+        \end{columns}
 
     \end{frame}
 
@@ -396,7 +519,7 @@
     \begin{frame}
         \frametitle{\textsc{Deterministic selling season - optimal solution}}
 
-        Assume that $p - c \geq hl$, the firm's optimal inventory policy solves
+        \textrm{\bfseries Proposition 5} Assume that $p - c \geq hl$, the firm's optimal inventory policy solves
 
         \begin{align}
             x_d &= A\left(t_d\right)q \\
@@ -410,6 +533,24 @@
             \item $A(\tau)$ is log-concave at $\tau = t_d$
             \item $t_d$ increases with $h$, $x_d$ decreases with $h$
         \end{enumerate}
+
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{\textsc{Proof of proposition 5}}
+
+        \begin{columns}
+            \begin{column}{0.5\linewidth}
+                \begin{figure}[h]
+                    \includegraphics[width=\linewidth]{imgs/gp01-7.png}
+                \end{figure}
+            \end{column}
+            \begin{column}{0.5\linewidth}
+                \begin{figure}[h]
+                    \includegraphics[width=\linewidth]{imgs/gp01-8.png}
+                \end{figure}
+            \end{column}
+        \end{columns}
 
     \end{frame}
 
@@ -486,146 +627,4 @@
         }
     \end{frame}
 
-    \section{\textsc{Appendix}}
-
-    \begin{frame}
-        \frametitle{\textsc{Proof of proposition 1}}
-
-        The firm's expected profit can be rewritten as \eqnref{eq:8}
-
-        \begin{equation}
-            \begin{aligned}
-                \Pi(x, t) &= \mathbb E_{Q, B, L}\left[(p-c)x - h\int_{\max\{t, B\}}^{B+L} I(\tau; x, t)\dd \tau -(p-s)\left[x-Q(t)\right]^+ - hx\left[B-t\right]^+\right] \\
-            \end{aligned}
-            \label{eq:8}
-        \end{equation}
-
-    \end{frame}
-
-    \begin{frame}
-        \frametitle{\textsc{Proof of proposition 1}}
-
-        \begin{equation}
-            \begin{aligned}
-                \frac{\partial\Pi(x, t)}{\partial x} &= \mathbb E_{Q, B, L}\left[(p-c) - h\int_{\max\{t, B\}}^{B+L} 1_{\{Q(t) - Q(\tau)\leq x\}}\dd \tau -(p-s)1_{\{Q(t)\leq x\}} - hx\left[B-t\right]^+\right] \\
-                &\begin{aligned}
-                    =&(p-c) - h\mathbb E_{B, L}\times\left[\int_{\max\{t, B\}}^{B+L}\mathbb P(Q(t) - Q(\tau) \leq x|B, L)\dd \tau\right] - \\
-                    &(p-s)\mathbb P(Q(t)\leq x) - h\int_t^{b_u}\mathbb P(B > b)\dd b
-                \end{aligned}
-            \end{aligned}
-        \end{equation}
-
-        Taking derivative yields
-
-        \begin{equation}
-            \frac{\partial^2\Pi(x, t)}{\partial x^2} = -(p-s)f_{Q(t)}(x) - h\mathbb E_{B, L}\times \left[\int_{\max\{t, B\}}^{B+L}f_{Q(t) - Q(\tau) | B, L}(x)\dd \tau\right]
-        \end{equation}
-
-    \end{frame}
-
-    \begin{frame}
-        \frametitle{\textsc{Proof of proposition 2}}
-
-        By optimality and the envelop theorem, we have
-
-        \begin{equation}
-            \left\{
-            \begin{aligned}
-                \frac{\partial \Pi(x^*(t^*), t^*)}{\partial x} &= 0 \\
-                \frac{\dd\Pi(x^*(t^*), t^*)}{\dd x} &= \frac{\partial \Pi(x^*(t^*), t^*)}{\partial t} = 0 \\
-            \end{aligned}
-            \right.
-        \end{equation}
-
-        $\mathbb E_{Q, B, L}\left[\int_{\max\{t, B\}}^{B+L} I(\tau; x, t)\dd \tau\right]$ can be rewritten as:
-
-        \begin{equation}
-            \begin{aligned}
-            \mathbb E_{Q, B, L}\left[\int_{\max\{t, B\}}^{B+L} I(\tau; x, t)\dd \tau\right] =& \mathbb E_{Q, B, L}\left[\int_B^{B+L} I(\tau; x, t)\dd \tau\middle| B > t\right]\mathbb P(B > t) + \\
-            & \mathbb E_{Q, B, L}\left[\int_t^{B+L} I(\tau; x, t)\dd \tau\middle| B \leq t\right]\mathbb P(B \leq t)
-            \end{aligned}
-        \end{equation}
-
-    \end{frame}
-
-    \begin{frame}
-        \frametitle{\textsc{Proof of proposition 2}}
-
-        First-order partial derivative of $\Pi(x, t)$ with respect to $t$ can be written as
-
-        \begin{equation}
-            \begin{aligned}
-                \frac{\partial \Pi(x, t)}{\partial t} =& -(p-s)\mathbb E_{Q, B, L}\left[D(t) | Q(t)\leq x\right]\mathbb P(Q(t)\leq x) \\
-                &+ hx\mathbb P(t < B + L) - h\mathbb E_{B, L} \\
-                &\times \left[\int_t^{B+L} \mathbb E_Q\left[D(t) | Q(t) - Q(\tau)\leq x, B\leq t, L\right]\right. \\
-                &\times\left.\vphantom{\int_t^{B+L}}\mathbb P(Q(t) - Q(\tau)\leq x, B\leq t)\dd \tau\right]
-            \end{aligned}
-        \end{equation}
-
-    \end{frame}
-
-    \begin{frame}
-        \frametitle{\textsc{Proof of lemma 1}}
-
-        \begin{equation}
-            \begin{aligned}
-                \frac{\partial ^2\Pi(x, t)}{\partial x\partial t} =
-                & -(p-s)\mathbb E_{Q, B, L}\left[D(t)|Q(t)\leq x\right]f_{Q(t)}(x) \\
-                & + h\mathbb P(t < B + L) - h\mathbb E_{B, L} \\
-                & \times \left[\int_{t}^\mathbb{B+L}\mathbb E_Q\left[D(t)|Q(t) - Q(\tau)\leq x, B\leq t, L\right]\right. \\
-                & \times \left.\vphantom{\int_t^{B+L}} f_{Q(t) - Q(\tau) | B\leq t}(x)\mathbb P(B\leq t)\dd \tau\right]
-            \end{aligned}
-        \end{equation}
-
-    \end{frame}
-
-    \begin{frame}
-        \frametitle{\textsc{Proof of proposition 3}}
-
-        \begin{equation}
-            \begin{aligned}
-                &\frac{\dd \mathcal L(x^*(t), t)}{\dd t} \\
-                =& \mathbb E_{Q, B, L}\left[D'(t)\right] + \mathbb{E}_{Q, B, L}\left[(D(t) - (x^*(t))')1_{\{Q(t) > x^*(t)\}}\right] \\
-                =& \mathbb E_{Q, B, L}\left[D(t)1_{\{Q(t)\leq x^*(t)\}}\right] - (x^*(t))'\mathbb E_{Q, B, L}\left[1_{\{Q(t)>x^*(t)\}}\right] \\
-                =& \mathbb E_{Q, B, L}\left[D(t) | Q(t)\leq x^*(t)\right]\mathbb P(Q(t)\leq x^*(t)) - (x^*(t))'\mathbb P(Q(t) > x^*(t))
-            \end{aligned}
-        \end{equation}
-
-    \end{frame}
-
-    \begin{frame}
-        \frametitle{\textsc{Proof of proposition 4}}
-
-        \begin{columns}
-            \begin{column}{0.5\linewidth}
-                \begin{figure}[h]
-                    \includegraphics[width=\linewidth]{imgs/gp01-5.png}
-                \end{figure}
-            \end{column}
-            \begin{column}{0.5\linewidth}
-                \begin{figure}[h]
-                    \includegraphics[width=\linewidth]{imgs/gp01-6.png}
-                \end{figure}
-            \end{column}
-        \end{columns}
-
-    \end{frame}
-
-    \begin{frame}
-        \frametitle{\textsc{Proof of proposition 5}}
-
-        \begin{columns}
-            \begin{column}{0.5\linewidth}
-                \begin{figure}[h]
-                    \includegraphics[width=\linewidth]{imgs/gp01-7.png}
-                \end{figure}
-            \end{column}
-            \begin{column}{0.5\linewidth}
-                \begin{figure}[h]
-                    \includegraphics[width=\linewidth]{imgs/gp01-8.png}
-                \end{figure}
-            \end{column}
-        \end{columns}
-
-    \end{frame}
 \end{document}
