@@ -1,0 +1,260 @@
+\documentclass{../notes}
+
+\title{组合数学 HW04}
+
+\begin{document}
+    \maketitle
+
+    \paragraph*{3.4}
+
+    \begin{subquestions}
+        \item 等式\eqnref{eq:3.4.1}的左边为：从$n$个不同元素中取出$k$个元素，其中必含有$m$个特定元素的方案数。首先，将$n$个元素依次编号为$N = \left\{R_1, \cdots, R_m, R_{m+1}, \cdots, R_n\right\}$，其中$M = \left\{R_1, \cdots, R_m\right\}$为对应的$m$个特定元素。以下考虑等式右边的组合意义：
+
+        \begin{equation}
+            \binom{n-m}{n-k} = \sum_{l=0}^m(-1)^l \binom{m}{l}\binom{n-l}{k}
+            \label{eq:3.4.1}
+        \end{equation}
+
+        设$M_l = \{A | A\subseteq M, |A| = l\}$，则$|M_l| = \binom{m}{l}$，即$M$的所有子集中元素数量为$l$的集合数量，亦即从$m$个特定元素中取出$l$个元素的方案数。
+
+        设$A\in M_l, (N\backslash A)_{k} = \{B|B\subseteq (N\backslash A), |B| = k\}$，则$\left|(N\backslash A)_{k}\right| = \binom{n-l}{k}$。即对于$A\in M_l$，从集合$N\backslash A$中取出$k$个元素的方案数为$\binom{n-l}{k}$。而由于$|M_l| = \binom{m}{l}$，从而$\binom{m}{l}\binom{n-l}{k}$的组合意义可以表示为
+
+        \begin{quote}
+            \textit{
+            从$n$个元素的$m$个给定元素中抽取出$l$个，再从剩下的全部元素中选取$k$个元素的方案数。
+            }
+        \end{quote}
+
+        根据$R_m$是否属于抽取方案，将所有的抽取方案转化为带有$m$个特征的元素：若$R_i$属于某个抽取方案，则认为该抽取方案具备特征$i$。设所有的抽取方案集合为$S$，\textbf{不}具备特征$i$的抽取方案集合记为$X_i$，则必含有$R_1, \cdots, R_m$个特定元素的方案为$\bigcap_{i=1}^mX_i^C$。根据集合的容斥原理，有
+
+        \begin{equation}
+            \left|\bigcap_{i=1}^mX_i^C\right| = |S| - \sum_{i=1}^m\left|X_i\right| + \sum_{i=1}^m\sum_{j\not = i}\left|X_i\cap X_j\right| - \cdots + (-1)^m\left|\bigcap_{i=1}^m X_i\right|
+            \label{eq:3.4.2}
+        \end{equation}
+
+        \begin{enumerate}
+            \item $|S|$为从$n$个元素中抽取$k$个的总方案数，即$\binom{n}{k}$或者也可写作$\binom{m}{l}\binom{n-l}{k}$，式中$l = 0$
+            \item $\left|\bigcap_{i\in\{i_1, \cdots, i_l\}} X_i\right|$为不包含特征$\{i_1, \cdots, i_l\}$的所有抽取方案数。也即先从$N$中抽取出$\{i_1, \cdots, i_l\}$后的剩余元素组成的所有抽取方案数。根据如上对抽取过程的分析，有
+
+            \begin{equation*}
+                \sum_{i_{1}=1}^m\sum_{i_{2}\not\in \{i_1\}}\cdots\sum_{i_{l}\not\in \{i_1, \cdots, i_{l-1}\}}\left|\bigcap_{i\in\{i_1, \cdots, i_l\}} X_i^C\right| = \binom{m}{l}\binom{n-l}{k}
+            \end{equation*}
+        \end{enumerate}
+
+        根据如上分析，并将$\binom{m}{l}\binom{n-l}{k}$代入\eqnref{eq:3.4.2}，即可得到\eqnref{eq:3.4.1}
+
+        \item
+
+        \begin{quote}
+            \it
+            本题等式有误，等式右侧的求和上标应为$n - m - 1$，否则当$j = n - m$时，等式右边的求和项
+
+            \begin{equation*}
+                \binom{n - m - j + l - 1}{l} = \binom{l - 1}{l}
+            \end{equation*}
+            无意义。
+
+            从组合意义上考虑，$\binom{n - m}{j}$从$n - m$个不同的盒子中选取$j$个，$\binom{n-m-j+l-1}{l}$将相同的$l$个球放入剩下的$n - m - j$个盒子中并允许空盒。而不能没有盒子，从而$n - m - j$显然不能为$0$。
+        \end{quote}
+
+        令$n-m=k$，原式变换为\eqnref{eq:3.4.3}
+
+        \begin{equation}
+            \binom{l-1}{k-1} = \sum_{j=0}^{k}(-1)^j\binom{k}{j}\binom{k-j+l-1}{l}
+            \label{eq:3.4.3}
+        \end{equation}
+
+        等式左边的组合意义为将$l$个相同的球放入$k$个不同的盒子中，并且不允许出现空盒。以下考虑等式右边的组合意义：
+
+        \begin{enumerate}
+            \item $\binom{k}{j}$的组合意义为从$k$个不同的盒子中选取$j$个，剩余$k-j$个盒子
+            \item $\binom{k-j+l-1}{l}$的组合意义为将$l$个相同的球放入$k-j$个不同的盒子中，允许出现空盒
+        \end{enumerate}
+
+        将$k$个盒子按照$A_1, \cdots, A_k$依次进行编号，根据$A_i$盒子是否非空，将所有的抽取方案转化为带有$k$个特征的元素：若$A_i$非空，则认为该抽取方案具备特征$i$。设所有的抽取方案集合为$S$，\textbf{不}具备特征$i$的抽取方案集合记为$X_i$，则具备所有特征（即，满足所有盒子非空的抽取方案）的方案为$\bigcap_{i=1}^k X_i^C$。根据集合的容斥原理，有
+
+        \begin{equation}
+            \left|\bigcap_{i=1}^kX_i^C\right| = |S| - \sum_{i=1}^m\left|X_i\right| + \sum_{i=1}^k\sum_{j\not = i}\left|X_i\cap X_j\right| - \cdots + (-1)^k\left|\bigcap_{i=1}^k X_i\right|
+            \label{eq:3.4.4}
+        \end{equation}
+
+        \begin{enumerate}
+            \item $|S|$为将$l$个相同的球放入$k$个不同的盒子中，允许出现空盒的所有方案数
+            \item $\left|\bigcap_{i\in\{i_1, \cdots, i_j\}}X_i\right|$为不包含特征$\{i_1, \cdots, i_j\}$的所有抽取方案数。即$A_{i_1}, \cdots, A_{i_j}$为空的所有抽取方案数；该抽取过程等价于先从所有盒子中划分出$A_{i_1}, \cdots, A_{i_j}$，将$l$个球放入剩余的$k-j$个盒子中并允许出现空盒。根据如上对抽取过程的分析，有
+
+            \begin{equation*}
+                \sum_{i_{1}=1}^k\sum_{i_{2}\not\in \{i_1\}}\cdots\sum_{i_{l}\not\in \{i_1, \cdots, i_{l-1}\}}\left|\bigcap_{i\in\{i_1, \cdots, i_l\}} X_i^C\right| = \binom{k}{j}\binom{k-j+l-1}{l}
+            \end{equation*}
+
+            \item 由于每个球至少放入一个盒子，因此不可能所有盒子为空，$j$最大可取至$k-1$
+        \end{enumerate}
+
+        根据如上分析，并将$\binom{k}{j}\binom{k-j+l-1}{l}$代入\eqnref{eq:3.4.4}，即可得到\eqnref{eq:3.4.3}
+
+    \end{subquestions}
+
+    \paragraph*{3.20}
+
+    \begin{subquestions}
+        \item 根据排列是否出现形如$aaa, bbb, ccc$即相邻三个元素相同，将所有的排列方案转化为带有3个特征的元素，$R_A, R_B, R_C$分别表示出现相邻$aaa, bbb, ccc$的排列。则不存在相邻三个元素相同的排列数为$\left|R_A^C\cap R_B^C\cap R_C^C\right|$，根据集合的容斥原理，有
+
+        \begin{equation}
+            \left|R_A^C\cap R_B^C\cap R_C^C\right| = |S| - \sum_{i\in \{A,B,C\}}|R_i| + \sum_{i, j\in \{A,B,C\}, i\not = j}|R_i\cap R_j| - |R_A\cap R_B\cap R_C|
+        \end{equation}
+
+        由于$a, b, c$三种元素相互等价，因此只需考虑其中的一种组合即可。
+
+        \begin{enumerate}
+            \item[$|S|$] 参与排列的元素共有9个，总的排列数为$9! / (3!)^3 = 1680$
+            \item[$|R_A|$] 将三个$a$视为整体，参与排列的元素共有7个，总的排列数为$7! / \left(3!\times 3!\right) = 140$
+            \item[$|R_A\cap R_B|$] 将三个$a$、三个$b$视为整体，参与排列的元素共有5个，总的排列数为$5! / 3! = 20$
+            \item[$|R_A\cap R_B\cap R_C|$] 参与排列的元素共有3个，总的排列数为$3!=6$
+        \end{enumerate}
+
+        因此符合条件的排列数量为
+
+        \begin{equation*}
+            1680 - 3\times 140 + 3\times 20 - 6 = 1314
+        \end{equation*}
+
+        \item 将排列按照1-3, 4-6, 7-9位划分为三组，则满足相邻两元素不相同的排列需要同时满足如下条件
+
+        \begin{enumerate}
+            \item 组内不存在相邻两元素相同的情况
+            \item 两组相邻的两个元素不相同
+        \end{enumerate}
+
+        首先考虑组内元素的排列情况，存在两种情况的分组
+
+        \begin{enumerate}
+            \item ABA型，即分组的第1、3个元素相同，符合该类型的共有aba, aca, bab, bcb, cac, cbc共6种组合。
+            \item ABC型，即分组的所有元素均不相同，符合该类型的组合即为abc的全排列，共6个。
+        \end{enumerate}
+
+        可以通过反证法证明，2个ABC类型与1个ABA类型无法构成满足题意的排列。满足题意的排列共有3种情况，即3个ABC类型、3个ABA类型、2个ABA类型与1个ABC类型。以下根据不同的排列类型分类讨论
+
+        \begin{enumerate}
+            \item \textbf{3个ABC类型：} 首先考虑第二个分组，共有$3!=6$种选择方案。再依次选取第二个分组前后的两个分组。由于两组相邻的两个元素需要不相同。因此前后两组可能选取的方案数为$3!-2! = 4$种。因此3个ABC类型对应的排列数为$6\times 4^2 = 96$。\textit{例：abc/bca/cab}
+
+            \begin{quote}
+                \textit{
+                    设第二个分组的第一个元素为$i\in \{a,b,c\}$，则第一个分组的最后一个元素不能是$i$。而最后一个元素是$i$的排列数为$2!$，因此第一个分组的排列数为$3!-2!$。同理，第三个分组的排列数为$3!-2!$。
+                }
+            \end{quote}
+
+            \item \textbf{3个ABA类型：}满足题意的ABA类型共有两种，即\textbf{(1)}aba, bcb, cac与\textbf{(2)}aca, bab, cbc两种情况。每种情况的三个分组可以以任意的顺序组合，因此3个ABA类型对应的排列数为$2\times 3! = 12$。\textit{例：aba/bcb/cac}
+
+            \item \textbf{2个ABA类型与1个ABC类型：}满足题意的两个ABA分组只能为\{aba, cbc\}、$\{\mathrm{aca, bcb}\}$、$\{\mathrm {bab, cac}\}$共三种情况。考虑ABC分组的位置。
+
+            当ABC分组是第一个分组时，两个ABA分组的顺序可以自由确定，共有$3\times 2 = 6$种排列。由于第一个ABC的分组最后一个元素不能与后续分组的第一个元素相同，共有$3!-2!=4$种可行的ABC分组，排列数为$6\times 4 = 24$种。\textit{例：abc/aba/cbc}
+
+            当ABC分组是最后一个分组时，与ABC分组位于第一个的情况相同，排列数同样为$24$种。\textit{例：aba/cbc/abc}
+
+            当ABC分组是第二个分组时，ABA分组的排列数仍为$3\times 2 = 6$种，ABC分组需满足和其他两个分组相邻元素不相同，共有$3!-2\times 2!+1=3$种情况，排列数为$6\times 3=18$种。\textit{例：cbc/abc/aba}
+
+            2个ABA类型与1个ABC类型对应的排列数为$24\times 2 + 18 = 66$种。
+        \end{enumerate}
+
+        符合题意的排列数为$96 + 12 + 66 = 174$。
+    \end{subquestions}
+
+    \paragraph*{3.23} 作变换$y_1 = x_1 - 6, y_2 = x_2 - 5, y_3 = x_3 - 10$，原方程化为
+
+    \begin{equation}
+        \begin{aligned}
+            &y_1+y_2+y_3 = 19 \\
+            s.t. &\left\{
+            \begin{aligned}
+                &0\leq y_1\leq 9 \\
+                &0\leq y_2\leq 15 \\
+                &0\leq y_3\leq 15 \\
+            \end{aligned}
+            \right.
+        \end{aligned}
+    \end{equation}
+
+    当不考虑任何约束时方程$y_1+y_2+y_3 = 19$的非负整数解的个数为$\binom{21}{19} = 210$种，设解集为$A$，$|A|=210$，使用$y$表示$y_1, y_2, y_3$组成的三元组$\langle y_1, y_2, y_3\rangle$。
+
+    求解当其中一条约束不满足、忽略其他约束时方程的非负整数解的个数
+
+    \begin{enumerate}
+        \item 当$y_1 \geq 10$时，令$z_1 = y_1 - 10$，转化为$z_1 + y_2 + y_3 = 9$，其非负整数解的个数为$\binom{11}{9}=55$。即$A_{\{1\}} = \{y|y\in A, y_1 > 10\}, |A_{\{1\}}| = 55$
+        \item 当$y_2 \geq 16$时，令$z_2 = y_2 - 16$，转化为$y_1 + z_2 + y_3 = 3$，其非负整数解的个数为$\binom{5}{3}=10$。即$A_{\{2\}} = \{y|y\in A, y_2 > 15\}, |A_{\{2\}}| = 10$
+        \item 当$y_3 \geq 16$时，令$z_3 = y_3 - 16$，转化为$y_1 + y_2 + z_3 = 3$，其非负整数解的个数为$\binom{5}{3}=10$。即$A_{\{3\}} = \{y|y\in A, y_3 > 15\}, |A_{\{3\}}| = 10$
+    \end{enumerate}
+
+    同理，当其中两条约束不满足时，有
+
+    \begin{enumerate}
+        \item $A_{\{1, 2\}} = A_{\{1\}}\cap A_{\{2\}} = \{y|y\in A, y_1 > 10, y_2 > 15\}, |A_{\{1, 2\}}| = 0$
+        \item $A_{\{1, 3\}} = A_{\{1\}}\cap A_{\{3\}} = \{y|y\in A, y_1 > 10, y_3 > 15\}, |A_{\{1, 3\}}| = 0$
+        \item $A_{\{2, 3\}} = A_{\{2\}}\cap A_{\{3\}} = \{y|y\in A, y_2 > 15, y_3 > 15\}, |A_{\{2, 3\}}| = 0$
+    \end{enumerate}
+
+    当三条约束均不满足时，有$A_{\{1,2,3\}} = A_{\{1\}}\cap A_{\{2\}}\cap A_{\{3\}} = \varnothing$。因此，三条约束均满足的解集$A_\varnothing$满足
+
+    \begin{derive}[|A_\varnothing|]
+        &= |A_{\{1\}}^C\cap A_{\{2\}}^C\cap A_{\{3\}}^C| \\
+        &= |A| - |A_{\{1\}}| - |A_{\{2\}}| - |A_{\{3\}}| + |A_{\{1, 2\}}| + |A_{\{1, 3\}}| + |A_{\{2, 3\}}| - |A_{\{1,2,3\}}| \\
+        &= 210-55-10-10 \\
+        &= 135
+    \end{derive}
+
+    \paragraph*{3.30} 式\eqnref{eq:3.30.1}左边的组合意义为将相同的$r$个球放入不同的$n$个盒子中，并且不允许出现空盒的方案数。以下考虑式\eqnref{eq:3.30.1}右边的的组合意义。
+
+    \begin{equation}
+        \binom{r-1}{n-1} = \sum_{i=0}^{n-1}(-1)^i \binom{n}{i} \binom{n + r - i - 1}{r}
+        \label{eq:3.30.1}
+    \end{equation}
+
+    \begin{enumerate}
+        \item $\binom{n}{i}$的组合意义为从$n$个不同的盒子中选出$i$个的组合总数。
+        \item $\binom{n - i + r - 1}{r}$的组合意义为将$r$个无区别的球放入$n - i$个有区别的盒子中，并且允许出现空盒的情形。
+    \end{enumerate}
+
+    将盒子编号$1, \cdots, n$，将所有的放置方案转化为带有$n$个特征的元素：若第$j$个盒子非空，则该放置方案具备特征$j$。设允许空盒存在时的所有放置方案集合为$S$，\textbf{不}具备特征$j$的放置方案集合记为$X_j$，则具备特征$j$的放置方案集合为$X_j^C$，具备所有特征（即满足所有盒子非空）的放置方案为$\bigcap_{j=1}^n X_j^C$。由于特征$1, \cdots, n$相互独立，根据集合的容斥原理，有
+
+    \begin{equation}
+        \left|\bigcap_{j=1}^n X_j^C\right| = |S| - \sum_{j=1}^n\left|X_j\right| + \sum_{j=1}^n\sum_{k\not = j}\left|X_j\cap X_k\right| - \cdots + (-1)^n\left|\bigcap_{j=1}^n X_j\right|
+        \label{eq:3.30.2}
+    \end{equation}
+
+    式中
+
+    \begin{enumerate}
+        \item |S|为将$r$个相同的球放入$n$个不同的盒子，允许出现空盒的方案数，为$\binom{n + r - 1}{r}$，也可写作$\binom{n}{i}\binom{n - i + r - 1}{r}, i = 0$
+        \item $\left|\bigcap_{j\in\{j_1, \cdots, j_i\}}X_j\right|$为不包含特征$\{j_1, \cdots, j_i\}$的所有抽取方案数。即$j_1, \cdots, j_i$为空的所有抽取方案数；该抽取过程等价于先从所有盒子中划分出$j_1, \cdots, j_i$，将$l$个球放入剩余的$k-i$个盒子中并允许出现空盒。有
+
+        \begin{equation*}
+            \sum_{j_{1}=1}^k\sum_{j_{2}\not\in \{j_1\}}\cdots\sum_{j_{i}\not\in \{j_1, \cdots, j_{i-1}\}}\left|\bigcap_{j\in\{j_1, \cdots, j_i\}} X_j\right| = \binom{n}{i}\binom{n-i+r-1}{r}
+        \end{equation*}
+
+        \item 由于每个球至少放入一个盒子，因此不可能所有盒子为空，$i$最大可取至$n-1$
+    \end{enumerate}
+
+    将如上结果代入\eqnref{eq:3.30.2}，即可得到$\left|\bigcap_{j=1}^n X_j^C\right| = \sum_{i=0}^{n-1}(-1)^i \binom{n}{i} \binom{n + r - i - 1}{r}$，等式左右两边有相同的组合意义，因此等式成立。
+
+    该分析过程与$\textbf{3.4 (b)}$相同。事实上，替换式\eqnref{eq:3.4.3}的部分变量即可得到式\eqnref{eq:3.30.1}。
+
+    \paragraph*{3.63} 首先，考虑每列，由于每列中有$m + 1$个格点涂上$m$种颜色，根据鸽巢原理，至少有两个格点被涂上相同的颜色。考虑涂色的方案总数，将该问题转化为放球问题。
+
+    \begin{enumerate}
+        \item 第一步，将$m$个不同颜色的球放入$m$个不同的盒子中，每个盒子一个球，共有$m!$种放置方案数；
+        \item 第二步，另从$m$种不同颜色的球中取一个，放在两个盒子之间。选取球的颜色共有$m$中选择，两个盒子之间共有$m + 1$个空隙，因此对于每个排列，都有$m(m + 1)$种放置方案；
+        \item 第三步，由于相同颜色的球（格点）没有区别，因此需要除以两个相同颜色小球的排列数，即$2! = 2$。
+    \end{enumerate}
+
+    综上所述，为$m + 1$行格点涂上$m$种颜色的方案总数为
+
+        \begin{equation}
+            m! \times m(m+1)\times \frac{1}{2} = \frac{m(m+1)!}{2}
+        \end{equation}
+
+    因此，当存在$m(m+1)!/2+1$行格点时，可以满足至少两列的涂色方案完全相同，且这两列中分别存在两行的颜色相同。这四个格点构成满足题意的四角相同颜色的格子。
+
+    \paragraph*{3.67} 考虑$a, b$模10的余数$\alpha, \beta$，不妨设$\alpha\geq \beta$。当$a+b$被10除尽时，有$\alpha+\beta = 10$或$\alpha + \beta = 0$，当$a - b$被10除尽时，有$\alpha-\beta = 0$。因此，原问题转化为从$0, 1,\cdots ,9$中任取7个整数，其中至少存在两个整数$a, b$满足$a + b = 10$或$a - b = 0$。
+
+    对于取值范围$[0, 9]\cap \N$的正整数$x$，$10-x\in [1, 10]\cap \N$。因此考虑两者的并集，即$[0,10]\cap \N$。将该集合分为$\{0, 10\}, \{1, 9\}, \{2, 8\}, \{3, 7\}, \{4, 6\}, \{5\}$共6个分组。则当两个整数$a, b$属于同一个分组时，根据分组规则必有$a + b = 10$或$a = b$之一成立。
+
+    根据鸽巢原理，当有7个整数、6个分组时，至少有一个分组中有两个或以上的整数。即至少有两个整数$a, b$满足$a + b = 10$或$a = b$。
+\end{document}
