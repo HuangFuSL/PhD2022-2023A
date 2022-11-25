@@ -1,0 +1,87 @@
+\documentclass{../notes}
+
+\title{应用随机过程 HW10}
+
+\begin{document}
+    \maketitle
+
+    \paragraph*{4.3} 记$T_b\land n = \min\{T_b, n\}$
+
+    \begin{subquestions}
+        \item 根据\textbf{4.1}，有$U_n= X_n - n(p - q)$是鞅，根据停时定理，有$EU_{T_b\land n} = EU_{0} = 0$，因此$E\left[X_{T_b\land n} - (p - q)\cdot (T_b\land n)\right]$，有
+
+        \begin{equation}
+            EX_{T_b\land n} = (p-q)E(T_b\land n)
+            \label{eq:4.3.1}
+        \end{equation}
+
+        根据$T_b$的定义，有$X_{T_b\land n}\leq b$，即$E(T_b\land n) \leq b/(p - q)$
+
+        根据强大数律，有$X_n/n\xrightarrow{a.s.} p - q > 0$，则$X_n\xrightarrow{a.s.} +\infty$，有$P(T_b < +\infty) = 1$，即$T_b$收敛。当$n\rightarrow +\infty$时，有$ET_b = \lim_{n\rightarrow\infty}E(T_b\land n) \leq b/(p-q)$。
+
+        而$\left|X_{T_b\land n}\right|\leq \left|T_b\land n\right|\leq T_b$，根据控制收敛定理，有$\lim_{n\rightarrow \infty}EX_{T_b\land n} = E\lim_{n\rightarrow \infty}X_{T_b\land n} = EX_{T_b}$，根据$T_b$定义，$X_{T_b} = b$。代入\eqnref{eq:4.3.1}，有
+
+        \begin{equation}
+            ET_b = \lim_{n\rightarrow\infty}E(T_b\land n) = \frac{\lim_{n\rightarrow\infty }X_{T_b\land n}}{p-q} = \frac{b}{p-q}
+        \end{equation}
+        \setcounter{enumi}{2}
+        \item 根据\textbf{4.1}，有$W_n = U_n^2 - n\left[1 - (p - q)^2\right]$是鞅，根据停时定理，有$EW_{T_b\land n} = EW_0 = 0$，将$EW_{T_b\land n}$展开，有
+
+        \begin{derive}[EW_{T_b\land n}]
+            &= E\left[(X_{T_b\land n} - (p - q)(T_b\land n))^2 - 4pq\cdot T_b\land n\right] \\
+            &= E\left[X^2_{T_b\land n} + (p-q)^2(T_b\land n)^2 - 2(p-q)X_{T_b\land n}\cdot (T_b\land n) - 4pq\cdot (T_b\land n)\right]
+        \end{derive}
+
+        从而
+
+        \begin{equation}
+            E[X^2_{T_b\land n}] + (p-q)^2E[(T_b\land n)^2] = 2(p-q)E[X_{T_b\land n}\cdot (T_b\land n)] + 4pqE[T_b\land n]
+            \label{eq:4.3.2}
+        \end{equation}
+
+        根据$T_b$的定义，有$X_{T_b\land n}\leq b\leq T_b\land n\leq n$，则
+
+        \begin{equation}
+            \begin{aligned}
+                \left|X_{T_b\land n}\cdot (T_b\land n)\right| &\leq \left(T_b\land n\right)^2 \leq n^2 \\
+                X^2_{T_b\land n} &\leq \left(T_b\land n\right)^2 \leq n^2
+            \end{aligned}
+        \end{equation}
+
+        代入\eqnref{eq:4.3.2}，有$2(p-q)E[X_{T_b\land n}\cdot (T_b\land n)] + 4pqE[T_b\land n]\leq 2(p-q)bET_b + 4pqET_b$，而由于$E[X^2_{T_b\land n}]\geq 0$，有$E[X^2_{T_b\land n}] + (p-q)^2E[(T_b\land n)^2]\geq (p-q)^2E[(T_b\land n)^2]$，因此$ET_b^2 = \lim_{n\rightarrow \infty}E\left[(T_b\land n)^2\right] < \infty$，从而
+
+        \begin{equation}
+            \begin{aligned}
+                X_{T_b\land n}^2&\leq (T_b\land n)^2\leq T_b^2 \\
+                \left|X_{T_b\land n}\cdot (T_b\land n)\right|&\leq (T_b\land n)^2\leq T_b^2 \\
+            \end{aligned}
+        \end{equation}
+
+        与\textbf{(a)}同理，有
+
+        \begin{equation}
+            \begin{aligned}
+                b^2 + (p-q)^2 ET_b^2 &= 2(p-q)bET_b + 4pqET_b \\
+                ET_b^2 &= \frac{b^2}{(p-q)^2} + \frac{4pqb}{(p-q)^3}
+            \end{aligned}
+        \end{equation}
+
+        则
+
+        \begin{equation}
+            DT_b = ET_b^2 - E^2T_b = \frac{b[1 - (p-q)^2]}{(p-q)^3}
+        \end{equation}
+    \end{subquestions}
+
+    \paragraph*{4.7} 记
+
+    \begin{equation}
+        \tilde{S_n} = \sum_{k=1}^n \frac{X_k}{n} = \frac{S_n}{n}
+    \end{equation}
+
+    考虑$D\left[X_k / n\right] = DX_k / n^2$，由于$EX_n^2 \leq k$且由\textbf{4.6}可知$EX_k = 0$，故由切比雪夫不等式，有
+
+    \begin{equation}
+        \lim_{n\rightarrow \infty} P\left(\left|\frac{S_n}{n}\right| > \varepsilon\right) = \lim_{n\rightarrow \infty} P\left(\left|\tilde S_n\right| > \varepsilon\right) \leq \lim_{n\rightarrow \infty}\frac{n}{\varepsilon^2}\cdot \frac{k}{n^2} = 0
+    \end{equation}
+\end{document}
