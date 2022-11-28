@@ -294,3 +294,5 @@ TSWLatexianTemp*
 node_modules/
 package-lock.json
 build/
+*.xz
+*.pt
