@@ -11,6 +11,7 @@
 \RequirePackage{enumitem}
 \RequirePackage{hyperref}
 \RequirePackage{color}
+\RequirePackage[sort&compress]{gbt7714}
 
 \linespread{1.5}
 
@@ -107,6 +108,7 @@
 \newtheorem{proof}{证明}[subsection]
 \newtheorem{lemma}{引理}[subsection]
 \newtheorem{example}{例}[subsection]
+\newtheorem{hypothesis}{假设}[section]
 
 % Tikz settings
 
