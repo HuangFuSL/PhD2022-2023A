@@ -1,0 +1,80 @@
+\documentclass{../notes}
+
+\title{决策理论 HW08}
+
+\begin{document}
+    \paragraph*{1}
+
+    \begin{subquestions}
+        \item 设状态$S = \{0, 1, 2, \cdots, r-1, r\}$为家中伞的数量
+
+        \begin{itemize}
+            \item 当家中有0把伞时，当且仅当下午下雨时，家中会多一把伞，否则不会多伞。即$p_{00} = 1-p, p_{01} = p$。
+            \item 当家中有$1\leq i\leq r-1$把伞时，当上午下雨、下午不下雨时，家中会少一把伞；下午下雨、上午不下雨时，家中会多一把伞；上午、下午均下雨或均不下雨时，家中伞的数量不变，则$p_{i, i-1} = p_{i, i+1} = p(1-p), p_{ii} = p^2 + (1-p)^2$。
+            \item 当家中有$r$把伞时，当且仅当上午下雨且下午不下雨时，家中会少一把伞，否则伞的数量不变，即$p_{r, r-1} = p(1-p), p_{rr} = 1 - p + p^2$
+        \end{itemize}
+
+        转移概率矩阵为
+
+        \begin{equation}
+            \bs P = \begin{bmatrix}
+                1 - p & p & 0 & 0 & \cdots & 0 \\
+                p(1-p) & p^2 + (1-p)^2 & p(1-p) & 0 & \cdots & 0 \\
+                0 & p(1-p) & p^2 + (1-p)^2 & p(1-p) & \cdots & 0 \\
+                \vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\
+                0 & 0 & \cdots & 0 & p(1-p) & 1 - p + p^2
+            \end{bmatrix}_{(r+1, r+1)}
+        \end{equation}
+
+        \item 该过程为生灭过程，存在平稳分布：
+
+        \begin{derive}[p_0]
+            &= \left(1 + \sum_{k=1}^r\frac{p_{01}p_{12}\cdots p_{k-1, k}}{p_{10}p_{21}\cdots p_{k, k-1}}\right)^{-1} \\
+            &= \left(1 + \sum_{k=1}^r\frac{p_{01}}{p_{10}}\right) \\
+            &= \frac{1-p}{1-p+r}
+        \end{derive}
+
+        对于$1\leq i\leq r$，有
+
+        \begin{equation}
+            p_i = \frac{p_{01}}{p_{10}}p_0 = \frac{1}{1-p+r}
+        \end{equation}
+
+        \item 当淋湿时，有
+
+        \begin{enumerate}
+            \item 上午下雨且所有雨伞都在办公室，即$p\cdot p_0$
+            \item 下午下雨且所有雨伞都在家，即$(1-p)p\cdot p_r$
+        \end{enumerate}
+
+        总的概率为
+
+        \begin{equation}
+            P = p\cdot p_0 + p(1-p)\cdot p_r = \frac{2p(1-p)}{1-p+r}
+        \end{equation}
+    \end{subquestions}
+
+    \paragraph*{2} 由于非周期不可约的有限状态马氏链存在平稳分布，考虑两种策略的收益：
+
+    \begin{subquestions}
+        \item 解方程$\bs \pi_1\bs P_1 = \bs\pi_1$，解得
+        \begin{equation}
+            \bs \pi_1 = \begin{bmatrix}
+                \frac{49}{90} & \frac{25}{90} & \frac{16}{90}
+            \end{bmatrix}
+        \end{equation}
+
+        期望收益为$1000\times \bs\pi_{11} - 90 = 454.4$
+
+        \item 解方程$\bs \pi_2\bs P_2 = \bs\pi_2$，解得
+        \begin{equation}
+            \bs \pi_2 = \begin{bmatrix}
+                \frac{1}{2} & \frac{2}{7} & \frac{3}{14}
+            \end{bmatrix}
+        \end{equation}
+
+        期望收益为$1000\times \bs\pi_{21} - 30 = 470$
+    \end{subquestions}
+
+    因此选择方案2。
+\end{document}
