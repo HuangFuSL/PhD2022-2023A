@@ -11,6 +11,7 @@
 \RequirePackage{enumitem}
 \RequirePackage{hyperref}
 \RequirePackage{color}
+\RequirePackage{diagbox}
 \RequirePackage[sort&compress]{gbt7714}
 
 \linespread{1.5}

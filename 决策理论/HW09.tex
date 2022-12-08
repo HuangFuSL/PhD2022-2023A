@@ -1,0 +1,56 @@
+\documentclass{../notes}
+
+\title{决策理论 HW09}
+
+\loadgeometry{word-moderate}
+
+\begin{document}
+    \maketitle
+
+    支付矩阵列于表\ref{tbl:1}中。根据支付矩阵可知不存在纯策略Nash均衡。设Army 1以$p_i$的概率攻击地区$i$。则Army 1攻击各个地区的期望收益为
+
+    \begin{equation}
+        \begin{bmatrix}
+            p_2v_2 + p_3v_3 \\
+            p_1v_1 + p_3v_3 \\
+            p_1v_1 + p_2v_2 \\
+        \end{bmatrix}
+    \end{equation}
+
+    均衡下，Army 1供攻击各个地区的期望收益应当相等，则
+
+    \begin{equation}
+        \begin{aligned}
+            p_1v_1 + p_2v_2 &= p_2v_2 + p_3v_3 \\
+            p_1v_1 + p_2v_2 &= p_1v_1 + p_3v_3 \\
+            p_1 + p_2 + p_3 &= 1
+        \end{aligned}
+    \end{equation}
+
+    解得
+
+    \begin{equation}
+        \left\{
+        \begin{aligned}
+            p_1 &= \frac{v_2v_3}{v_1v_2 + v_2v_3 + v_1v_3} \\
+            p_2 &= \frac{v_1v_3}{v_1v_2 + v_2v_3 + v_1v_3} \\
+            p_3 &= \frac{v_1v_2}{v_1v_2 + v_2v_3 + v_1v_3}
+        \end{aligned}
+        \right.
+    \end{equation}
+
+    \begin{table}[h]
+        \centering
+        \caption{支付矩阵}
+        \begin{tabular}{|c|ccc|}
+            \hline
+            \diagbox{Army 1}{Army 2} & 1 & 2 & 3 \\
+            \hline
+            1 & $0$ & $v_1$ & $v_1$ \\
+            2 & $v_2$ & $0$ & $v_2$ \\
+            3 & $v_3$ & $v_3$ & $0$ \\
+            \hline
+        \end{tabular}
+        \label{tbl:1}
+    \end{table}
+\end{document}
