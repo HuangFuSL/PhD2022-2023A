@@ -1,0 +1,78 @@
+\documentclass{../notes}
+
+\title{应用随机过程 HW12}
+
+\begin{document}
+    \maketitle
+
+    \paragraph*{5.4} 设$B(t)$的概率密度函数为$f(x;t)$，概率分布函数为$F(x;t)$，则$f(x;t) = f(-x;t)$，以下计算$|B(t)|$的概率分布函数，设为$F_1(x;t)$，则$x < 0$时，有$F_1(x;t) = 0$，当$x\geq 0$时，有
+
+    \begin{derive}[F_1(x;t)]
+        &= P(|B(t)| \leq x) \\
+        &= P(-x \leq B(t)\leq x) \\
+        &= F(x) - F(-x) \\
+        &= \int_{-x}^x f(u;t) \dd u \\
+        &= 2\int_{0}^x f(u;t) \dd u \\
+        &= 2\int_{0}^x \frac{1}{\sqrt{2\pi t}}e^{-\frac{u^2}{2t}}\dd u
+    \end{derive}
+
+    以下计算$\left|\min\limits_{0\leq s\leq t} B(s)\right|$的概率分布
+
+    \begin{derive}[P\left(\left|\min\limits_{0\leq s\leq t} B(s)\right| \geq x\right)]
+        &= P\left(-x\geq \min\limits_{0\leq s\leq t} B(s)\right) \\
+        &= P\left(x\leq \max\limits_{0\leq s\leq t} B(s)\right)
+    \end{derive}
+
+    因此$\left|\min\limits_{0\leq s\leq t} B(s)\right|$与$\max\limits_{0\leq s\leq t} B(s)$同分布，而
+
+    \begin{equation}
+        \begin{aligned}
+            & P\left(x\leq \max\limits_{0\leq s\leq t} B(s)\right) \\
+            =&P(T_x\leq t) \\
+            =&P(T_x\leq t, B(t)\geq x) + P(T_x\leq t, B(t) > x) \\
+            =&P(B(t)\geq x) + P(T_x\leq t, B(t) > x) \\
+            =& 2P(B(t)\geq x)
+        \end{aligned}
+    \end{equation}
+
+    从而$P\left(\max\limits_{0\leq s\leq t} B(s)\leq x\right) = 2P(B(t)\leq x) = P(|B(t)|\leq x)$，即$|B(t)|$与$\max\limits_{0\leq s\leq t} B(s)$同分布。
+
+    以下计算$\delta (t) = M(t) - B(t)$的分布
+
+    \begin{derive}[\delta(t)]
+        &= \left(\max\limits_{0\leq s\leq t} B(s)\right) - B(t) \\
+        &= \max\limits_{0\leq s\leq t} \left[B(s) - B(t)\right] \\
+        &= \max\limits_{0\leq s\leq t} -B(t - s) \\
+        &= \max\limits_{0\leq s\leq t} B(t - s) \\
+        &=\max\limits_{0\leq s\leq t} B(s) \\
+    \end{derive}
+
+    因此$\delta(t)$与$\max\limits_{0\leq s\leq t} B(s)$同分布。
+    \paragraph*{5.9}
+
+    \begin{derive}[\alpha(x)]
+        &= \lim_{h\rightarrow 0}\frac{E[\eta (t+h) - \eta(t)|\eta(t) = x]}{h} \\
+        &= \lim_{h\rightarrow 0}\frac{E\left[\eta(t)\left(\eta(h) - 1\right)|\eta(t) = x\right]}{h} \\
+        &=x\lim_{h\rightarrow 0}\frac{E\left(\eta(h) - 1\right)}{h} \\
+        &=x\lim_{h\rightarrow 0}\frac{e^{\frac{1}{2}h} - 1}{h} = \frac{x}{2}
+    \end{derive}
+
+    \begin{derive}[\beta(x)]
+        &= \lim_{h\rightarrow 0}\frac{E[[\eta (t+h) - \eta(t)]^2|\eta(t) = x]}{h} \\
+        &= x^2\lim_{h\rightarrow 0}\frac{E[(\eta(h)-1)^2]}{h} \\
+        &= x^2\lim_{h\rightarrow 0}\frac{E(\eta(h)^2 - 2\eta(h) + 1)}{h} \\
+        &= x^2\lim_{h\rightarrow 0}\frac{e^{2h} - 2e^{h/2} + 1}{h} \\
+        &= x^2
+    \end{derive}
+    \paragraph*{5.16}
+
+    根据全概率公式，有
+
+    \begin{equation}
+        P(T_1 < T_{-1} < T_2) = P(T_1 < T_{-1}) - P(T_1 < T_{-1}， T_2 < T_{-1})
+    \end{equation}
+
+    根据布朗运动的对称性，有$P(T_1 < T_{-1}) = 1/2, P(T_1 < T_{-1}, T_2 < T_{-1}) = P(T_1 < T_2 < T_{-1})=P(T_2 < T_{-1})$。
+
+    根据停时定理，有$P(T_2 < T_{-1}) = 1/3$，因此$P(T_1 < T_{-1} < T_2) = 1/2 - 1/3 = 1/6$
+\end{document}

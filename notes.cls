@@ -3,6 +3,7 @@
 
 \RequirePackage{amsmath}
 \RequirePackage{amssymb}
+\RequirePackage{extarrows}
 \RequirePackage{geometry}
 \RequirePackage{tikz}
 \RequirePackage{pgfplots}
